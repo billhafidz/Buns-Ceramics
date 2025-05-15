@@ -1,0 +1,1 @@
+'mia cruda sorte'

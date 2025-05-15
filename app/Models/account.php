@@ -4,11 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class account extends Model
+class Account extends Model
 {
     protected $table = 'account';
 
     protected $fillable = [
-        'username', 'password', 'role'
+        'username', 'email', 'password', 'role'
     ];
 }

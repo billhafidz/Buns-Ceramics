@@ -18,7 +18,7 @@
                 <li><a href="{{ route('admin.gallery') }}" class="block p-2 hover:bg-gray-200 rounded">📷 Gallery</a></li>
                 <li><a href="{{ route('admin.users') }}" class="block p-2 hover:bg-gray-200 rounded">👥 Users</a></li>
                 <li><a href="{{ route('admin.members') }}" class="block p-2 hover:bg-gray-200 rounded">💳 Members</a></li>
-                <li><a href="{{ route('adminbuns.classes.index') }}" class="block p-2 hover:bg-gray-200 rounded">📚 Classes</a></li>
+                <li><a href="{{ route('admin-buns.classes.index') }}" class="block p-2 hover:bg-gray-200 rounded">📚 Classes</a></li>
                 <li>
                     <form method="POST" action="{{ route('admin.logout') }}">
                         @csrf

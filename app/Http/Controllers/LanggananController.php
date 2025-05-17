@@ -2,28 +2,48 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Http\Requests\StoreLanggananRequest;
+use App\Http\Requests\UpdateLanggananRequest;
 use App\Models\Langganan;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\Request;
 
 class LanggananController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $langganans = Langganan::all();
-        return view('adminbuns.classes.index', compact('langganans'));
+        $search = $request->input('search');
+    
+        $langganans = Langganan::when($search, function($query) use ($search) {
+            return $query->where('pilihan_subs', 'like', '%'.$search.'%')
+                        ->orWhere('penjelasan_subs', 'like', '%'.$search.'%')
+                        ->orWhere('harga_subs', 'like', '%'.$search.'%')
+                        ->orWhereJsonContains('benefit_subs', $search);
+        })
+        ->paginate(1)
+        ->appends(['search' => $search]);
+
+        return view('adminbuns.classes.index', compact('langganans', 'search'));
     }
 
-    public function store(Request $request)
+    public function store(StoreLanggananRequest $request)
     {
-        $request->validate([
-            'pilihan_subs' => 'required|string|max:255',
-            'penjelasan_subs' => 'required|string',
-            'harga_subs' => 'required|numeric',
-        ]);
+        $data = $request->validated();
+        $data['benefit_subs'] = json_encode($data['benefit_subs']);
 
-        Langganan::create($request->all());
+        if ($request->hasFile('gambar_subs')) {
+            $imagePath = $request->file('gambar_subs')->store('langganan_images', 'public');
+            $data['gambar_subs'] = basename($imagePath);
+        }
 
-        return redirect()->route('adminbuns.classes.index')->with('success', 'Kelas berhasil ditambahkan.');
+        Langganan::create($data);
+
+        if ($request->ajax()) {
+            session()->flash('success', 'Kelas berhasil ditambahkan.');
+            return response()->json([
+                'redirect' => route('adminbuns.classes.index')
+            ]);
+        }
     }
 
     public function edit($id)
@@ -32,23 +52,53 @@ class LanggananController extends Controller
         return view('adminbuns.classes.edit', compact('langganan'));
     }
 
-    public function update(Request $request, $id)
+    public function update(UpdateLanggananRequest $request, $id)
     {
-        $request->validate([
-            'pilihan_subs' => 'required|string|max:255',
-            'penjelasan_subs' => 'required|string',
-            'harga_subs' => 'required|numeric',
-        ]);
-
         $langganan = Langganan::findOrFail($id);
-        $langganan->update($request->all());
+        $data = $request->validated();
+        $data['benefit_subs'] = json_encode($data['benefit_subs']);
 
-        return redirect()->route('adminbuns.classes.index')->with('success', 'Kelas berhasil diperbarui.');
+        // Handle image removal
+        if ($request->has('remove_image') && $request->remove_image == '1') {
+            // Delete existing image if any
+            if ($langganan->gambar_subs) {
+                Storage::delete('public/langganan_images/'.$langganan->gambar_subs);
+                $data['gambar_subs'] = null;
+            }
+        }
+
+        // Handle new image upload
+        if ($request->hasFile('gambar_subs')) {
+            // Delete existing image if any
+            if ($langganan->gambar_subs) {
+                Storage::delete('public/langganan_images/'.$langganan->gambar_subs);
+            }
+            
+            $imagePath = $request->file('gambar_subs')->store('langganan_images', 'public');
+            $data['gambar_subs'] = basename($imagePath);
+        }
+
+        $langganan->update($data);
+
+        if ($request->ajax()) {
+            session()->flash('success', 'Kelas berhasil diperbarui.');
+            return response()->json([
+                'redirect' => route('adminbuns.classes.index')
+            ]);
+        }
+
+        return redirect()->route('adminbuns.classes.index')
+                       ->with('success', 'Kelas berhasil diperbarui.');
     }
 
     public function destroy($id)
     {
         $langganan = Langganan::findOrFail($id);
+        
+        if ($langganan->gambar_subs) {
+            Storage::delete('public/langganan_images/'.$langganan->gambar_subs);
+        }
+        
         $langganan->delete();
 
         return redirect()->route('adminbuns.classes.index')->with('success', 'Kelas berhasil dihapus.');

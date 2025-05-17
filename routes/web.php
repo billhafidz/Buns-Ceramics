@@ -47,3 +47,4 @@ Route::post('/adminbuns/classes', [LanggananController::class, 'store'])->name('
 Route::get('/adminbuns/classes/edit/{id}', [LanggananController::class, 'edit'])->name('adminbuns.classes.edit');
 Route::post('/adminbuns/classes/update/{id}', [LanggananController::class, 'update'])->name('adminbuns.classes.update');
 Route::delete('/adminbuns/classes/delete/{id}', [LanggananController::class, 'destroy'])->name('adminbuns.classes.destroy');
+Route::get('/adminbuns/classes', [LanggananController::class, 'index'])->name('adminbuns.classes.index');

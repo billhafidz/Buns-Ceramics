@@ -29,7 +29,7 @@
         </div>
 
 
-        <div class="flex-1 p-6">
+        <div class="flex-1 p-6 overflow-y-auto h-screen">
             @yield('content')
         </div>
     </div>

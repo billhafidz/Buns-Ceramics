@@ -14,8 +14,10 @@ return new class extends Migration
         Schema::create('langganans', function (Blueprint $table) {
             $table->id('id_langganan');
             $table->string('pilihan_subs');
-            $table->string('penjelasan_subs');
+            $table->text('penjelasan_subs');
+            $table->json('benefit_subs');
             $table->decimal('harga_subs', 8, 2);
+            $table->string('gambar_subs')->nullable();
             $table->timestamps();
         });
     }

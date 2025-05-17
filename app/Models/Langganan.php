@@ -14,6 +14,20 @@ class Langganan extends Model
     protected $fillable = [
         'pilihan_subs',
         'penjelasan_subs',
-        'harga_subs'
+        'benefit_subs',
+        'harga_subs',
+        'gambar_subs'
     ];
+
+    protected $casts = [
+        'benefit_subs' => 'array',
+    ];
+
+    // Accessor untuk URL gambar lengkap
+    public function getGambarSubsUrlAttribute()
+    {
+        return $this->gambar_subs 
+            ? asset('storage/langganan_images/'.$this->gambar_subs)
+            : null;
+    }
 }

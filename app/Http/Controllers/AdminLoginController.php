@@ -11,7 +11,7 @@ class AdminLoginController extends Controller
 {
     public function showLoginForm()
     {
-        return view('adminbuns.login');
+        return view('admin-buns.login');
     }
 
     public function login(Request $request)

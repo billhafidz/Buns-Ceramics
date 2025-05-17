@@ -25,7 +25,7 @@ Route::post('/logout', function () {
     return redirect('/');
 })->name('logout');
 
-Route::post('/adminbuns/logout', function () {
+Route::post('/admin-buns/logout', function () {
     session()->forget('admin_logged_in');
     session()->forget('admin_nama');
     return redirect('/');
@@ -35,16 +35,16 @@ Route::get('/register', [RegisterController::class, 'show'])->name('register.sho
 Route::post('/register', [RegisterController::class, 'store'])->name('register.store');
 Route::post('/login', [LoginController::class, 'authenticate'])->name('login');
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
-Route::get('/adminbuns/index', [AdminLoginController::class, 'showLoginForm'])->name('admin.login');
-Route::post('/adminbuns/index', [AdminLoginController::class, 'login'])->name('admin.login.submit');
-Route::redirect('/adminbuns', '/adminbuns/index');
-Route::get('/adminbuns/dashboard', [DashAdminController::class, 'dashboard'])->name('admin.dashboard');
-Route::get('/adminbuns/gallery', fn() => view('adminbuns.gallery'))->name('admin.gallery');
-Route::get('/adminbuns/users', fn() => view('adminbuns.users'))->name('admin.users');
-Route::get('/adminbuns/members', fn() => view('adminbuns.members'))->name('admin.members');
-Route::get('/adminbuns/classes', [LanggananController::class, 'index'])->name('adminbuns.classes.index');
-Route::post('/adminbuns/classes', [LanggananController::class, 'store'])->name('adminbuns.classes.store');
-Route::get('/adminbuns/classes/edit/{id}', [LanggananController::class, 'edit'])->name('adminbuns.classes.edit');
-Route::post('/adminbuns/classes/update/{id}', [LanggananController::class, 'update'])->name('adminbuns.classes.update');
-Route::delete('/adminbuns/classes/delete/{id}', [LanggananController::class, 'destroy'])->name('adminbuns.classes.destroy');
-Route::get('/adminbuns/classes', [LanggananController::class, 'index'])->name('adminbuns.classes.index');
+Route::get('/admin-buns/index', [AdminLoginController::class, 'showLoginForm'])->name('admin.login');
+Route::post('/admin-buns/index', [AdminLoginController::class, 'login'])->name('admin.login.submit');
+Route::redirect('/admin-buns', '/admin-buns/index');
+Route::get('/admin-buns/dashboard', [DashAdminController::class, 'dashboard'])->name('admin.dashboard');
+Route::get('/admin-buns/gallery', fn() => view('admin-buns.gallery'))->name('admin.gallery');
+Route::get('/admin-buns/users', fn() => view('admin-buns.users'))->name('admin.users');
+Route::get('/admin-buns/members', fn() => view('admin-buns.members'))->name('admin.members');
+Route::get('/admin-buns/classes', [LanggananController::class, 'index'])->name('admin-buns.classes.index');
+Route::post('/admin-buns/classes', [LanggananController::class, 'store'])->name('admin-buns.classes.store');
+Route::get('/admin-buns/classes/edit/{id}', [LanggananController::class, 'edit'])->name('admin-buns.classes.edit');
+Route::post('/admin-buns/classes/update/{id}', [LanggananController::class, 'update'])->name('admin-buns.classes.update');
+Route::delete('/admin-buns/classes/delete/{id}', [LanggananController::class, 'destroy'])->name('admin-buns.classes.destroy');
+Route::get('/admin-buns/classes', [LanggananController::class, 'index'])->name('admin-buns.classes.index');

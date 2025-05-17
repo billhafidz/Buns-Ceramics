@@ -6,7 +6,7 @@
         <h2 class="text-3xl font-bold text-gray-800">Edit Kelas</h2>
     </div>
 
-    <form action="{{ route('adminbuns.classes.update', $langganan->id_langganan) }}" method="POST" id="editClassForm" enctype="multipart/form-data" novalidate>
+    <form action="{{ route('admin-buns.classes.update', $langganan->id_langganan) }}" method="POST" id="editClassForm" enctype="multipart/form-data" novalidate>
         @csrf
         
         <div class="bg-white rounded-lg shadow-md overflow-hidden mb-1">
@@ -133,7 +133,7 @@
 
         <!-- Action Buttons -->
         <div class="flex justify-between items-center pt-4">
-            <a href="{{ route('adminbuns.classes.index') }}" class="px-4 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600 focus:outline-none focus:ring-0 transition-transform duration-200">
+            <a href="{{ route('admin-buns.classes.index') }}" class="px-4 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600 focus:outline-none focus:ring-0 transition-transform duration-200">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
                 </svg>
@@ -247,15 +247,15 @@ document.getElementById('editClassForm').addEventListener('submit', function(e) 
                     });
                 } else if (data.success) {
                     // Success - redirect to index page
-                    window.location.href = "{{ route('adminbuns.classes.index') }}";
+                    window.location.href = "{{ route('admin-buns.classes.index') }}";
                 } else {
                     // Fallback for other JSON responses - assume success
-                    window.location.href = "{{ route('adminbuns.classes.index') }}";
+                    window.location.href = "{{ route('admin-buns.classes.index') }}";
                 }
             });
         } else {
             // Non-JSON response (e.g. HTML redirect) - assume success
-            window.location.href = "{{ route('adminbuns.classes.index') }}";
+            window.location.href = "{{ route('admin-buns.classes.index') }}";
             return null;
         }
     })

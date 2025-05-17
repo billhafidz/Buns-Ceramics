@@ -35,7 +35,7 @@
             <div class="text-4xl mb-2">💳</div>
             <h3 class="text-lg font-semibold">Members</h3>
         </a>
-        <a href="{{ route('adminbuns.classes.index') }}" class="bg-gray-50 hover:bg-gray-100 p-6 rounded-lg shadow text-center">
+        <a href="{{ route('admin-buns.classes.index') }}" class="bg-gray-50 hover:bg-gray-100 p-6 rounded-lg shadow text-center">
             <div class="text-4xl mb-2">📚</div>
             <h3 class="text-lg font-semibold">Classes</h3>
         </a>

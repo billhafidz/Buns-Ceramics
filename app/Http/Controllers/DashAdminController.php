@@ -19,6 +19,6 @@ class DashAdminController extends Controller
         $totalMember = Account::where('role', 'Member')->count();
         $totalNonMember = Account::where('role', 'Non Member')->count();
 
-        return view('adminbuns.dashboard', compact('totalUangMasuk', 'totalMember', 'totalNonMember'));
+        return view('admin-buns.dashboard', compact('totalUangMasuk', 'totalMember', 'totalNonMember'));
     }
 }

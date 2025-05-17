@@ -25,61 +25,6 @@
             font-family: 'Itim', cursive, sans-serif;
             letter-spacing: 2px;
         }
-        .auth-panel {
-            transition: transform 0.5s ease;
-        }
-        .modal-box.shifted .left-panel {
-            transform: translateX(100%);
-        }
-        .modal-box.shifted .right-panel {
-            transform: translateX(-100%);
-        }
-        .hero-banner {
-            position: relative;
-            display: flex;
-            align-items: center;
-            min-height: 650px;
-            justify-content: center;
-            background-image: url('{{ asset('images/banner.png') }}');
-            background-size: cover;
-            background-position: center;
-        }
-        .hero-banner::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: rgba(0, 0, 0, 0.4);
-            transition: all 0.3s ease;
-        }
-        .hero-content {
-            font-family: 'Nico Moji', cursive, sans-serif;
-            letter-spacing: 10px;
-            position: relative;
-            z-index: 1;
-            color: white;
-            text-align: center;
-            width: 100%;
-        }
-        .buns-text {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            opacity: 0;
-            width: 100%;
-            transition: all 0.3s ease;
-            font-size: 4.5rem;
-            line-height: 1;
-        }
-        .hero-banner:hover .buns-text {
-            opacity: 1;
-        }
-        .hero-banner:hover::before {
-            background-color: rgba(0, 0, 0, 0.6);
-        }
         #mobileMenu {
             overflow-y: auto;
             -webkit-overflow-scrolling: touch;
@@ -92,8 +37,9 @@
 </head>
 <body class="min-h-screen bg-cover bg-center">
     <!-- Navbar -->
-    <header class="flex justify-between items-center py-6 px-6 md:px-20 bg-[#212529] fixed top-0 left-0 w-full z-50">
-        <div class="text-4xl font-black tracking-wider text-white logo">BUNS</div>
+     <header class="flex justify-between items-center py-6 px-6 md:px-20 bg-[#212529] fixed top-0 left-0 w-full z-50">
+    {{-- <header class="flex justify-between items-center py-8 px-20 bg-[#212529] bg-opacity-90 shadow-md"> --}}
+        <div class="text-4xl font-black tracking-wider text-white logo-font logo">BUNS</div>
 
         <!-- Hamburger Menu -->
         <button id="hamburgerBtn" class="hamburger lg:hidden text-white z-60">
@@ -102,10 +48,9 @@
             </svg>
         </button>
 
-        <!-- Desktop Navigation -->
         <nav class="nav-center hidden lg:flex items-center gap-10">
             <a href="{{ route('index') }}" class="font-bold text-lg text-white relative hover:after:content-[''] hover:after:absolute hover:after:-bottom-1 hover:after:left-0 hover:after:w-full hover:after:h-0.5 hover:after:bg-[#7D3E35]">Home</a>
-            <a href="#class" class="font-bold text-lg text-white relative hover:after:content-[''] hover:after:absolute hover:after:-bottom-1 hover:after:left-0 hover:after:w-full hover:after:h-0.5 hover:after:bg-[#7D3E35]">Class</a>
+            <a href="#" class="font-bold text-lg text-white relative hover:after:content-[''] hover:after:absolute hover:after:-bottom-1 hover:after:left-0 hover:after:w-full hover:after:h-0.5 hover:after:bg-[#7D3E35]">Class</a>
             <a href="{{ route('gallery') }}" class="font-bold text-lg text-white relative hover:after:content-[''] hover:after:absolute hover:after:-bottom-1 hover:after:left-0 hover:after:w-full hover:after:h-0.5 hover:after:bg-[#7D3E35]">Gallery</a>
             <a href="{{ route('contact') }}" class="font-bold text-lg text-white relative hover:after:content-[''] hover:after:absolute hover:after:-bottom-1 hover:after:left-0 hover:after:w-full hover:after:h-0.5 hover:after:bg-[#7D3E35]">Contact</a>
         </nav>
@@ -150,7 +95,7 @@
             @endif
         </div>
     </header>
-        
+
     <!-- Mobile Navigation Menu -->
     <div id="mobileMenu" class="fixed top-0 left-0 w-full h-screen bg-[#212529] z-40 transform -translate-x-full pt-24 px-8">
         <nav class="flex flex-col space-y-6">
@@ -168,136 +113,57 @@
             @endif
         </nav>
     </div>
-        
+
     <!-- Mobile Menu Overlay -->
     <div class="fixed inset-0 bg-black bg-opacity-50 z-30 hidden backdrop-blur-sm" id="mobileMenuOverlay"></div>
 
-    <!-- Banner -->
-    <div class="hero-banner">
-        <div class="hero-content">
-            <h1 class="font-black buns-text text-4xl md:text-5xl lg:text-6xl">Buns Ceramics</h1>
-        </div>
-    </div>
-    
-    <!-- Main Content -->
-    <main class="container mx-auto px-6 md:px-20 py-12 md:py-16">
-    
-        <!-- About -->
-        <div class="mb-16 md:mb-24 text-center" id="about">
-            <h2 class="text-3xl md:text-4xl font-bold mb-6 md:mb-8">WHAT IS BUNS CERAMICS?</h2>
-            <p class="text-lg md:text-xl max-w-4xl mx-auto">
-                Buns Ceramics adalah salah satu tempat kerajinan tanah liat di Bandung yang menyediakan layanan seperti wheel throwing, handbuilding, dan painting.
-            </p>
-        </div>
-    
-        <!-- Class Section -->
-        <div class="mb-16 md:mb-24">
-            <h2 class="text-3xl md:text-4xl font-bold mb-8 md:mb-12 text-center" id="class">CLASS</h2>
+    <!-- Contact Content -->
+    {{-- <main class="container mx-auto px-20 py-8 m-8"> --}}
+    <main class="container mx-auto px-4 md:px-20 py-8 mt-20 pt-20 mb-10 pb-10">
+        <h1 class="text-3xl text-center font-bold mb-8">Contact Us</h1>
         
-            <!-- Wheel Throwing Class -->
-            <div class="flex flex-wrap items-center mb-12 md:mb-16">
-                <div class="w-full md:w-1/2 mb-6 md:mb-0">
-                    <img src="{{ asset('images/banner.png') }}" alt="Wheel Throwing" class="rounded-lg shadow-lg mx-auto" />
-                </div>
-                <div class="w-full md:w-1/2 px-4 md:px-6">
-                    <h3 class="text-2xl md:text-3xl font-bold mb-3 md:mb-4">Wheel Throwing</h3>
-                    <p class="text-base md:text-lg mb-4 md:mb-6">
-                        Wheel throwing adalah teknik dalam pembuatan kerajinan tanah liat yang menggunakan roda putar (wheel) untuk membentuk benda.
-                    </p>
-                    <a href="#" class="bg-[#592727] text-white px-6 md:px-8 py-2 md:py-3 rounded-lg font-bold inline-block hover:bg-[#662f28] transition-all">
-                        DETAIL
-                    </a>
-                </div>
+        <div class="flex flex-col lg:flex-row gap-8">
+            <!-- Map -->
+            <div class="w-full lg:w-1/2 h-96 bg-gray-100 rounded-lg overflow-hidden shadow-md">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3960.671827156563!2d107.5924892750438!3d-6.929772293070052!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e68e900f1bf11cd%3A0x2264f939b55bcda6!2sBuns%20Ceramics%20Home%20Studio!5e0!3m2!1sid!2sid!4v1747137595664!5m2!1sid!2sid" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
             </div>
-        
-            <!-- Handbuilding Class -->
-            <div class="flex flex-wrap md:flex-row-reverse items-center mb-12 md:mb-16">
-                <div class="w-full md:w-1/2 mb-6 md:mb-0">
-                    <img src="{{ asset('images/banner.png') }}" alt="Transformasi Kilat" class="rounded-lg shadow-lg mx-auto" />
-                </div>
-                <div class="w-full md:w-1/2 px-4 md:px-6">
-                    <h3 class="text-2xl md:text-3xl font-bold mb-3 md:mb-4">Handbuilding</h3>
-                    <p class="text-base md:text-lg mb-4 md:mb-6">
-                        Hand building adalah teknik pembuatan kerajinan tanah liat yang dilakukan secara manual tanpa penggunaan roda putar.
-                    </p>
-                    <a href="#" class="bg-[#592727] text-white px-6 md:px-8 py-2 md:py-3 rounded-lg font-bold inline-block hover:bg-[#662f28] transition-all">
-                        DETAIL
-                    </a>
-                </div>
-            </div>
-        
-            <!-- Painting Class -->
-            <div class="flex flex-wrap items-center mb-12 md:mb-16">
-                <div class="w-full md:w-1/2 mb-6 md:mb-0">
-                    <img src="{{ asset('images/banner.png') }}" alt="Transformasi Kilat" class="rounded-lg shadow-lg mx-auto" />
-                </div>
-                <div class="w-full md:w-1/2 px-4 md:px-6">
-                    <h3 class="text-2xl md:text-3xl font-bold mb-3 md:mb-4">Painting</h3>
-                    <p class="text-base md:text-lg mb-4 md:mb-6">
-                        Painting adalah teknik dalam pembuatan kerajinan tanah liat yang berfokus pada proses melukis dan memberikan warna pada objek keramik setelah pembentukan dan pembakaran awal.
-                    </p>
-                    <a href="#" class="bg-[#592727] text-white px-6 md:px-8 py-2 md:py-3 rounded-lg font-bold inline-block hover:bg-[#662f28] transition-all">
-                        DETAIL
-                    </a>
-                </div>
-            </div>
-        </div>
-    
-       <!-- Master Keramik Section -->
-        <div class="relative mb-12 md:mb-16">
-            <div class="flex flex-col md:flex-row items-center">
-                <div class="relative z-10 w-full md:w-2/5 mb-6 md:mb-0 md:mr-[-50px]">
-                    <div class="bg-[#592727] text-white p-6 md:p-8 shadow-lg" style="box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3); border: 1px solid #5c2c27;">
-                        <h3 class="text-xl md:text-2xl font-bold mb-3">Dibimbing Master Keramik Gokil!</h3>
-                        <p class="mb-2 text-sm md:text-base">Belajar dari suhu yang seru dan asik!</p>
-                        <p class="mb-2 text-sm md:text-base">Mereka siap membongkar rahasia teknik keramik dan memberikan trik jitu.</p>
-                        <p class="text-sm md:text-base">Semua pertanyaan diterima, yang ada hanya semangat membara!</p>
-                    </div>
-                </div>
-                
-                <div class="w-full md:w-3/5">
-                    <img src="{{ asset('images/banner.png') }}" alt="Pottery Class" class="w-full h-full object-cover" />
-                </div>
-            </div>
-        </div>
-        
-        <!-- Transformasi Kilat Section -->
-        <div class="relative mb-12 md:mb-16">
-            <div class="flex flex-col-reverse md:flex-row items-center">
-                <div class="w-full md:w-3/5">
-                    <img src="{{ asset('images/banner.png') }}" alt="Hands with Clay" class="w-full h-full object-cover" />
-                </div>
-                
-                <div class="relative z-10 w-full md:w-2/5 mb-6 md:mb-0 md:ml-[-50px]">
-                    <div class="bg-[#592727] text-white p-6 md:p-8 shadow-lg" style="box-shadow: -5px 5px 15px rgba(0, 0, 0, 0.3); border: 1px solid #5c2c27;">
-                        <h3 class="text-xl md:text-2xl font-bold mb-3">Transformasi Kilat Jadi Seniman Keramik!</h3>
-                        <p class="mb-2 text-sm md:text-base">Nggak perlu bertahun-tahun untuk jadi ahli!</p>
-                        <p class="mb-2 text-sm md:text-base">Di bootcamp ini, kamu akan belajar teknik penting dengan cepat dan efektif.</p>
-                        <p class="text-sm md:text-base">Siap-siap takjub dengan perkembangan diri dan karya-karya keren yang akan kamu ciptakan!</p>
-                    </div>
-                </div>
-            </div>
-        </div>
 
-        <!-- Master Keramik Section -->
-        <div class="relative mb-12 md:mb-16">
-            <div class="flex flex-col md:flex-row items-center">
-                <div class="relative z-10 w-full md:w-2/5 mb-6 md:mb-0 md:mr-[-50px]">
-                    <div class="bg-[#592727] text-white p-6 md:p-8 shadow-lg" style="box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3); border: 1px solid #5c2c27;">
-                        <h3 class="text-xl md:text-2xl font-bold mb-3">Gabung Geng Kreatif Penuh Inspirasi!</h3>
-                        <p class="mb-2 text-sm md:text-base">Bukan cuma belajar, tapi juga dapat teman seperjuangan!</p>
-                        <p class="mb-2 text-sm md:text-base">Di sini, kamu bisa kolaborasi, tukar ide gila, daan saling dukung buat jadi yang terbaik.</p>
-                        <p class="text-sm md:text-base">Siap-siap terinspirasi dan termotivasi setiap hari!</p>
+            <!-- Contact Info -->
+            <div class="w-full lg:w-1/2 space-y-4">
+                <div class="p-4 border-b border-gray-200">
+                    <div class="flex items-center gap-3 mb-1">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-red-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                        </svg>
+                        <h3 class="font-bold text-gray-800">Email</h3>
                     </div>
+                    <p class="text-gray-600 ml-8 text-sm">buns.ceramics@gmail.com</p>
                 </div>
-                
-                <div class="w-full md:w-3/5">
-                    <img src="{{ asset('images/banner.png') }}" alt="Pottery Class" class="w-full h-full object-cover" />
+
+                <div class="p-4 border-b border-gray-200">
+                    <div class="flex items-center gap-3 mb-1">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-red-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                        </svg>
+                        <h3 class="font-bold text-gray-800">WhatsApp</h3>
+                    </div>
+                    <p class="text-gray-600 ml-8 text-sm">wa.me/62812345678910</p>
+                </div>
+
+                <div class="p-4">
+                    <div class="flex items-center gap-3 mb-1">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-red-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                        </svg>
+                        <h3 class="font-bold text-gray-800">Address</h3>
+                    </div>
+                    <p class="text-gray-600 ml-8 text-sm">Gg. Babakan Asih Dalam, Babakan Asih, Kec. Bojongloa Kaler, Kota Bandung, Jawa Barat</p>
                 </div>
             </div>
         </div>
-
     </main>
+
 
     <!-- Login/Register Modal -->
     <div id="authModal" class="fixed hidden inset-0 z-50 bg-black bg-opacity-50 backdrop-blur-sm items-center justify-center">
@@ -438,18 +304,18 @@
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
                 
                 <div>
-                    <a href="#about" class="block mb-4 hover:text-red-400">About us</a>
-                    <a href="#class" class="block mb-4 hover:text-red-400">Class</a>
+                    <a href="#" class="block mb-4 hover:text-red-400">About us</a>
+                    <a href="#" class="block mb-4 hover:text-red-400">Class</a>
                     <a href="#" class="block mb-4 hover:text-red-400">Testimoni</a>
                 </div>
             
                 <div>
                     <a href="{{ route('index') }}" class="block mb-4 hover:text-red-400">Home</a>
-                    <a href="#class" class="block mb-4 hover:text-red-400">Class</a>
+                    <a href="#" class="block mb-4 hover:text-red-400">Class</a>
                     <a href="#" class="block mb-4 hover:text-red-400">Gallery</a>
                     <a href="{{ route('contact') }}" class="block mb-4 hover:text-red-400">Contact</a>
                 </div>
-            
+
                 <div>
                     <div class="flex items-center gap-3 mb-4">
                         <div class="flex-shrink-0 w-6">

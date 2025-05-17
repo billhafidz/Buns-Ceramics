@@ -7,11 +7,17 @@ use App\Http\Controllers\AdminLoginController;
 use App\Http\Controllers\DashAdminController;
 use App\Http\Controllers\LanggananController;
 
-
-
 Route::get('/', function () {
     return view('index');
 })->name('index');
+
+Route::get('/gallery', function () {
+    return view('gallery');
+})->name('gallery');
+
+Route::get('/contact', function () {
+    return view('contact');
+})->name('contact');
 
 Route::get('/member/dashboard', function () {
     if (!session('user')) {
@@ -35,6 +41,7 @@ Route::get('/register', [RegisterController::class, 'show'])->name('register.sho
 Route::post('/register', [RegisterController::class, 'store'])->name('register.store');
 Route::post('/login', [LoginController::class, 'authenticate'])->name('login');
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+
 Route::get('/admin-buns/index', [AdminLoginController::class, 'showLoginForm'])->name('admin.login');
 Route::post('/admin-buns/index', [AdminLoginController::class, 'login'])->name('admin.login.submit');
 Route::redirect('/admin-buns', '/admin-buns/index');

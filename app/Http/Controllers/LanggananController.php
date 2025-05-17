@@ -23,7 +23,7 @@ class LanggananController extends Controller
         ->paginate(1)
         ->appends(['search' => $search]);
 
-        return view('adminbuns.classes.index', compact('langganans', 'search'));
+        return view('admin-buns.classes.index', compact('langganans', 'search'));
     }
 
     public function store(StoreLanggananRequest $request)
@@ -41,7 +41,7 @@ class LanggananController extends Controller
         if ($request->ajax()) {
             session()->flash('success', 'Kelas berhasil ditambahkan.');
             return response()->json([
-                'redirect' => route('adminbuns.classes.index')
+                'redirect' => route('admin-buns.classes.index')
             ]);
         }
     }
@@ -49,7 +49,7 @@ class LanggananController extends Controller
     public function edit($id)
     {
         $langganan = Langganan::findOrFail($id);
-        return view('adminbuns.classes.edit', compact('langganan'));
+        return view('admin-buns.classes.edit', compact('langganan'));
     }
 
     public function update(UpdateLanggananRequest $request, $id)
@@ -83,11 +83,11 @@ class LanggananController extends Controller
         if ($request->ajax()) {
             session()->flash('success', 'Kelas berhasil diperbarui.');
             return response()->json([
-                'redirect' => route('adminbuns.classes.index')
+                'redirect' => route('admin-buns.classes.index')
             ]);
         }
 
-        return redirect()->route('adminbuns.classes.index')
+        return redirect()->route('admin-buns.classes.index')
                        ->with('success', 'Kelas berhasil diperbarui.');
     }
 
@@ -101,6 +101,6 @@ class LanggananController extends Controller
         
         $langganan->delete();
 
-        return redirect()->route('adminbuns.classes.index')->with('success', 'Kelas berhasil dihapus.');
+        return redirect()->route('admin-buns.classes.index')->with('success', 'Kelas berhasil dihapus.');
     }
 }

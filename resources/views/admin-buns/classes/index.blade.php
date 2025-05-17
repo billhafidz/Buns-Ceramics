@@ -20,7 +20,7 @@
         </button>
         <!-- Spacer fleksibel -->
         <div class="flex-1 flex justify-center">
-            <form method="GET" action="{{ route('adminbuns.classes.index') }}" class="flex">
+            <form method="GET" action="{{ route('admin-buns.classes.index') }}" class="flex">
                 <input type="text" name="search" placeholder="Cari Kelas..." 
                     value="{{ request('search') }}"
                     class="w-96 border p-2 rounded-l focus:outline-none focus:ring-0 focus:ring-gray-300">
@@ -74,12 +74,12 @@
                         <hr class="border-t border-gray-500 my-1">
                         <div class="flex items-center gap-2 mt-2">
                             <!-- Tombol Edit -->
-                            <a href="{{ route('adminbuns.classes.edit', $langganan->id_langganan) }}"
+                            <a href="{{ route('admin-buns.classes.edit', $langganan->id_langganan) }}"
                                 class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-transform duration-200 transform hover:-translate-y-1">
                                 Edit
                             </a>
                             <!-- Tombol Hapus -->
-                            <form action="{{ route('adminbuns.classes.destroy', $langganan->id_langganan) }}" method="POST" class="inline">
+                            <form action="{{ route('admin-buns.classes.destroy', $langganan->id_langganan) }}" method="POST" class="inline">
                                 @csrf
                                 @method('DELETE')
                                 <button type="button" onclick="showDeleteConfirmation(this)"
@@ -139,7 +139,7 @@
         </div>
         
         <div>
-            <form action="{{ route('adminbuns.classes.store') }}" method="POST" id="classForm" enctype="multipart/form-data">
+            <form action="{{ route('admin-buns.classes.store') }}" method="POST" id="classForm" enctype="multipart/form-data">
                 @csrf
                 <div class="space-y-4 max-h-[60vh] overflow-y-auto px-2">
                     <!-- Nama Kelas -->

@@ -40,7 +40,7 @@
             align-items: center;
             min-height: 650px;
             justify-content: center;
-            background-image: url('{{ asset('images/banner.png') }}');
+            background-image: url('images/banner.png');
             background-size: cover;
             background-position: center;
         }
@@ -117,9 +117,10 @@
                     {{ strtoupper(session('user')->role) }}
                 </div>
                 <div class="user-menu group relative">
-                    <img src="{{ asset('images/user-icon.png') }}" alt="User Icon" class="w-10 h-10 rounded-full cursor-pointer border-2 border-white object-cover transition duration-300 transform group-hover:scale-110">
+                    <img 
+    src="{{ $member && $member->foto_profil ? asset('storage/' . $member->foto_profil) : asset('images/user-icon.png') }}"  alt="User Icon" class="w-10 h-10 rounded-full cursor-pointer border-2 border-white object-cover transition duration-300 transform group-hover:scale-110">
                     <div class="dropdown-content hidden absolute top-12 right-0 bg-white rounded-lg py-3 px-4 min-w-[220px] shadow-lg group-hover:block">
-                        <a href="#" class="flex items-center gap-2 py-2 px-2 text-black hover:bg-[#662f28] hover:text-white hover:rounded transition-all duration-200">
+                        <a href="{{route('account.profile')}}" class="flex items-center gap-2 py-2 px-2 text-black hover:bg-[#662f28] hover:text-white hover:rounded transition-all duration-200">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                             </svg>
@@ -200,15 +201,34 @@
                     <img src="{{ asset('images/banner.png') }}" alt="Wheel Throwing" class="rounded-lg shadow-lg mx-auto" />
                 </div>
                 <div class="w-full md:w-1/2 px-4 md:px-6">
-                    <h3 class="text-2xl md:text-3xl font-bold mb-3 md:mb-4">Wheel Throwing</h3>
+                    <h3 class="text-2xl md:text-3xl font-bold mb-3 md:mb-4">{{ $wheelThrowing->pilihan_subs }}</h3>
                     <p class="text-base md:text-lg mb-4 md:mb-6">
-                        Wheel throwing adalah teknik dalam pembuatan kerajinan tanah liat yang menggunakan roda putar (wheel) untuk membentuk benda.
+                        {{ $wheelThrowing->penjelasan_subs }}
                     </p>
-                    <a href="#" class="bg-[#592727] text-white px-6 md:px-8 py-2 md:py-3 rounded-lg font-bold inline-block hover:bg-[#662f28] transition-all">
-                        DETAIL
-                    </a>
+                    <a href="#"
+                    class="bg-[#592727] text-white px-6 md:px-8 py-2 md:py-3 rounded-lg font-bold inline-block hover:bg-[#662f28] transition-all"
+                    data-langganan='@json($wheelThrowing)'
+                 onclick="showDetailModal(this)">
+                          DETAIL
+            </a>
+
                 </div>
             </div>
+
+<div id="detailModal" class="fixed inset-0 hidden bg-black bg-opacity-50 justify-center items-center z-50">
+    <div class="bg-white w-11/12 md:w-2/3 lg:w-1/2 p-6 rounded-lg shadow-xl relative">
+        <button onclick="closeDetailModal()" class="absolute top-2 right-3 text-gray-600 hover:text-red-600 text-2xl">&times;</button>
+        <h2 id="modalTitle" class="text-2xl font-bold mb-2"></h2>
+        <img id="modalImage" src="" alt="Image" class="rounded-md mb-4 w-full max-h-64 object-cover">
+        <p id="modalDesc" class="mb-3 text-base"></p>
+        <ul id="modalBenefits" class="mb-3 list-disc list-inside text-sm text-gray-700"></ul>
+        <p id="modalPrice" class="font-bold text-lg"></p>
+        <a href="{{ route('subscribe') }}" class="mt-4 bg-[#592727] text-white px-6 py-2 rounded-lg font-bold inline-block hover:bg-[#662f28] transition-all">
+            Subscribe
+        </a>
+    </div>
+</div>
+
         
             <!-- Handbuilding Class -->
             <div class="flex flex-wrap md:flex-row-reverse items-center mb-12 md:mb-16">
@@ -561,6 +581,38 @@
             mobileMenuOverlay.addEventListener('click', toggleMobileMenu);
         }
     });
+
+
+    function showDetailModal(element) {
+        const data = JSON.parse(element.getAttribute('data-langganan'));
+
+        document.getElementById('modalTitle').innerText = data.pilihan_subs;
+        document.getElementById('modalImage').src = `/storage/langganan_images/${data.gambar_subs}`;
+        document.getElementById('modalDesc').innerText = data.penjelasan_subs;
+
+        const benefitList = document.getElementById('modalBenefits');
+        benefitList.innerHTML = '';
+        try {
+            const benefits = JSON.parse(data.benefit_subs);
+            benefits.forEach(benefit => {
+                const li = document.createElement('li');
+                li.textContent = benefit;
+                benefitList.appendChild(li);
+            });
+        } catch (e) {
+            benefitList.innerHTML = '<li>Tidak ada benefit tersedia</li>';
+        }
+
+        document.getElementById('modalPrice').innerText = `Harga: Rp${parseInt(data.harga_subs).toLocaleString()}`;
+        document.getElementById('detailModal').classList.remove('hidden');
+        document.getElementById('detailModal').classList.add('flex');
+    }
+
+    function closeDetailModal() {
+        document.getElementById('detailModal').classList.add('hidden');
+    }
+
+
     </script>
 </body>
 </html>

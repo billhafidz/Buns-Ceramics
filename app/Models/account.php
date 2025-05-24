@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Account extends Model
 {
     protected $table = 'account';
+    protected $primaryKey = 'id_account';
 
     protected $fillable = [
         'username', 'email', 'password', 'role'

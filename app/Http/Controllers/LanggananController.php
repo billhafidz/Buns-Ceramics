@@ -12,6 +12,13 @@ class LanggananController extends Controller
 {
     public function index(Request $request)
     {
+        if(session('user')) {
+          redirect('/')->with('error', 'nyasar bang?');
+        }
+        if(!session('admin_logged_in')) {
+          return redirect('/')->with('error', 'Mau ngapain bang');
+        }
+        
         $search = $request->input('search');
     
         $langganans = Langganan::when($search, function($query) use ($search) {

@@ -6,11 +6,12 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\AdminLoginController;
 use App\Http\Controllers\DashAdminController;
 use App\Http\Controllers\LanggananController;
+use App\Http\Controllers\MainPageController;
+use App\Http\Controllers\SubscriptionController;
+use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\AccountController;
 
-Route::get('/', function () {
-    return view('index');
-})->name('index');
-
+Route::get('/', [MainPageController::class, 'index'])->name('index');
 Route::get('/gallery', function () {
     return view('gallery');
 })->name('gallery');
@@ -37,6 +38,10 @@ Route::post('/admin-buns/logout', function () {
     return redirect('/');
 })->name('admin.logout');
 
+Route::get('/account/profile', [AccountController::class, 'showProfile'])->name('account.profile');
+Route::post('/account/profile/update', [AccountController::class, 'updateProfile'])->name('account.profile.update');
+
+
 Route::get('/register', [RegisterController::class, 'show'])->name('register.show');
 Route::post('/register', [RegisterController::class, 'store'])->name('register.store');
 Route::post('/login', [LoginController::class, 'authenticate'])->name('login');
@@ -55,3 +60,12 @@ Route::get('/admin-buns/classes/edit/{id}', [LanggananController::class, 'edit']
 Route::post('/admin-buns/classes/update/{id}', [LanggananController::class, 'update'])->name('admin-buns.classes.update');
 Route::delete('/admin-buns/classes/delete/{id}', [LanggananController::class, 'destroy'])->name('admin-buns.classes.destroy');
 Route::get('/admin-buns/classes', [LanggananController::class, 'index'])->name('admin-buns.classes.index');
+Route::get('/subscribe', [SubscriptionController::class, 'showForm'])->name('subscribe');
+Route::post('/subscribe', [SubscriptionController::class, 'store'])->name('subscribe.store');
+Route::get('/payment/index', [PaymentController::class, 'showPaymentForm'])->name('payment.form');
+Route::post('/payment', [PaymentController::class, 'processPayment'])->name('payment.process');
+Route::get('/payment/success', [PaymentController::class, 'paymentSuccess'])->name('payment.success');
+Route::get('/payment/failure', [PaymentController::class, 'paymentFailure'])->name('payment.failure');
+
+
+

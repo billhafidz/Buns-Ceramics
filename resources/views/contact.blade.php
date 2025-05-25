@@ -137,7 +137,7 @@
                         </svg>
                         <h3 class="font-bold text-gray-800">Email</h3>
                     </div>
-                    <p class="text-gray-600 ml-8 text-sm">buns.ceramics@gmail.com</p>
+                    <p class="text-gray-600 ml-8 text-sm">bunsstudio239@gmail.com</p>
                 </div>
 
                 <div class="p-4 border-b border-gray-200">
@@ -147,7 +147,7 @@
                         </svg>
                         <h3 class="font-bold text-gray-800">WhatsApp</h3>
                     </div>
-                    <p class="text-gray-600 ml-8 text-sm">wa.me/62812345678910</p>
+                    <p class="text-gray-600 ml-8 text-sm">wa.me/+62 821-2925-9982</p>
                 </div>
 
                 <div class="p-4">
@@ -158,7 +158,7 @@
                         </svg>
                         <h3 class="font-bold text-gray-800">Address</h3>
                     </div>
-                    <p class="text-gray-600 ml-8 text-sm">Gg. Babakan Asih Dalam, Babakan Asih, Kec. Bojongloa Kaler, Kota Bandung, Jawa Barat</p>
+                    <p class="text-gray-600 ml-8 text-sm">Gang Bbk Asih No. 376/198A, Kota Bandung, Jawa Barat 40232, Indonesia</p>
                 </div>
             </div>
         </div>
@@ -169,7 +169,7 @@
     <div id="authModal" class="fixed hidden inset-0 z-50 bg-black bg-opacity-50 backdrop-blur-sm items-center justify-center">
         <div class="relative w-full max-w-2xl mx-auto bg-white rounded-xl overflow-hidden shadow-xl">
             <!-- Modal Close Button -->
-            <button class="absolute top-3 right-3 z-50 text-gray-400 hover:text-gray-600" onclick="closeModal()">
+            <button class="absolute top-4 right-4 z-50 text-gray-500 hover:text-[#7D3E35] hover:bg-gray-100 rounded-full p-1 transition-colors duration-200" onclick="closeModal()">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                 </svg>
@@ -183,9 +183,9 @@
             </button>
         
             <!-- Login Panel -->
-            <div id="loginPanel" class="flex min-h-[330px] opacity-100 transition-opacity duration-500">
+            <div id="loginPanel" class="flex flex-col sm:flex-row min-h-[330px] opacity-100 transition-opacity duration-500">
                 <!-- Left Side - Image with Text -->
-                <div class="bg-cover bg-center w-0 sm:w-1/2 flex items-center justify-center text-white p-6" style="background-image: url('images/banner.png');">
+                <div class="bg-cover bg-center w-full sm:w-1/2 flex items-center justify-center text-white p-4 sm:p-6" style="background-image: url('images/banner.png');">
                     <div class="bg-black bg-opacity-40 p-4 rounded">
                         <h3 class="text-xl mb-2">Hello...</h3>
                         <p class="text-sm">Enter your personal details and start journey with us</p>
@@ -195,8 +195,8 @@
                     </div>
                 </div>
             
-                <!-- Right Side - Login Form -->
-                <div class="w-full sm:w-1/2 p-6">
+                <!-- Login Form -->
+                <div class="w-full sm:w-1/2 p-4 sm:p-6">
                     <h2 class="text-xl font-bold text-center mb-6">Welcome To Buns</h2>
                 
                     <form method="POST" action="{{ route('login') }}" class="space-y-4">
@@ -207,7 +207,7 @@
                                     <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
                                 </svg>
                             </div>
-                            <input type="text" name="username" placeholder="Username" class="flex-1 p-2 outline-none" required>
+                            <input type="text" id="loginUsername" name="username" placeholder="Username" class="flex-1 p-2 outline-none" required>
                         </div>
                     
                         <div class="flex border rounded-lg overflow-hidden">
@@ -235,9 +235,9 @@
             </div>
         
             <!-- Register Panel (Hidden by Default) -->
-            <div id="registerPanel" class="flex hidden">
+            <div id="registerPanel" class="flex hidden flex-col sm:flex-row">
                 <!-- Left Side - Register Form -->
-                <div class="w-full sm:w-1/2 p-6">
+                <div class="w-full sm:w-1/2 p-4 sm:p-6">
                     <h2 class="text-xl font-bold text-center mb-6">Register</h2>
                 
                     <form method="POST" action="{{ route('register.store') }}" class="space-y-4">
@@ -248,7 +248,7 @@
                                     <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
                                 </svg>
                             </div>
-                            <input type="text" name="username" placeholder="Username" class="flex-1 p-2 outline-none" required>
+                            <input type="text" id="registerUsername" name="username" placeholder="Username" class="flex-1 p-2 outline-none" required>
                         </div>
                     
                         <div class="flex border rounded-lg overflow-hidden">
@@ -285,7 +285,7 @@
                 </div>
             
                 <!-- Right Side - Image with Text -->
-                <div class="bg-cover bg-center w-0 sm:w-1/2 flex items-center justify-center text-white p-6" style="background-image: url('images/banner.png');">
+                <div class="bg-cover bg-center w-full sm:w-1/2 flex items-center justify-center text-white p-4 sm:p-6" style="background-image: url('images/banner.png');">
                     <div class="bg-black bg-opacity-40 p-4 rounded">
                         <h3 class="text-xl mb-2">Hello...</h3>
                         <p class="text-sm">Let's start the journey</p>
@@ -345,13 +345,14 @@
     </footer>
 
     <script>
-    // Modal functionality for login and registration
+    // Modal for login and registration
     document.addEventListener('DOMContentLoaded', function() {
         // Open modal function
         window.openModal = function() {
             document.getElementById('authModal').classList.remove('hidden');
             document.getElementById('authModal').classList.add('flex');
             showLogin();
+            document.getElementById('loginUsername').focus();
         };
 
         // Close modal function
@@ -365,6 +366,7 @@
             document.getElementById('loginPanel').classList.remove('hidden');
             document.getElementById('registerPanel').classList.add('hidden');
             document.getElementById('backButton').classList.add('hidden');
+            document.getElementById('loginUsername').focus();
         };
 
         // Show register panel
@@ -372,6 +374,7 @@
             document.getElementById('loginPanel').classList.add('hidden');
             document.getElementById('registerPanel').classList.remove('hidden');
             document.getElementById('backButton').classList.remove('hidden');
+            document.getElementById('registerUsername').focus();
         };
 
         // Close modal when clicking outside

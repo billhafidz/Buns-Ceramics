@@ -11,6 +11,13 @@ class AdminLoginController extends Controller
 {
     public function showLoginForm()
     {
+
+        if (Session::has('admin_logged_in')) {
+            return redirect()->route('admin.dashboard');
+        }
+        if (Session::has('user')) {
+            return redirect('/')->with('error', 'nyasar bang?');
+        }
         return view('admin-buns.login');
     }
 

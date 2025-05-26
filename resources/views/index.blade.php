@@ -110,7 +110,10 @@
 <body class="min-h-screen bg-cover bg-center">
     <!-- Navbar -->
     <header class="flex justify-between items-center py-6 px-6 md:px-20 bg-[#212529] fixed top-0 left-0 w-full z-50">
-        <div class="text-4xl font-black tracking-wider text-white logo">BUNS</div>
+        <a href="{{ route('index') }}" class="text-4xl font-black tracking-wider text-white logo
+        cursor-pointer hover:opacity-80 transition-opacity">
+            BUNS
+        </a>
 
         <!-- Hamburger Menu -->
         <button id="hamburgerBtn" class="hamburger lg:hidden text-white z-60">
@@ -315,9 +318,9 @@
         <!-- Master Keramik Section -->
         <div class="relative mb-12 md:mb-16">
             <div class="flex flex-col md:flex-row items-center">
-                <div class="relative z-10 w-full md:w-2/5 mb-6 md:mb-0 md:mr-[-50px]">
+                <div class="relative z-20 w-full md:w-2/5 mb-6 md:mb-0 md:mr-[-30px]">
                     <div class="bg-[#592727] text-white p-6 md:p-8 shadow-lg"
-                        style="box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3); border: 1px solid #5c2c27;">
+                        style="box-shadow: 8px 8px 0px rgba(0, 0, 0, 0.3);">
                         <h3 class="text-xl md:text-2xl font-bold mb-3">Dibimbing Master Keramik Gokil!</h3>
                         <p class="mb-2 text-sm md:text-base">Belajar dari suhu yang seru dan asik!</p>
                         <p class="mb-2 text-sm md:text-base">Mereka siap membongkar rahasia teknik keramik dan
@@ -326,9 +329,10 @@
                     </div>
                 </div>
 
-                <div class="w-full md:w-3/5">
-                    <img src="{{ asset('images/banner.png') }}" alt="Pottery Class"
-                        class="w-full h-full object-cover" />
+                <div class="w-full md:w-3/5 relative z-10">
+                    <img src="{{ asset('images/content1.jpg') }}" alt="Pottery Class"
+                        class="w-full h-auto max-h-[430px] object-cover" />
+                        <div class="absolute inset-0 bg-black bg-opacity-20"></div>
                 </div>
             </div>
         </div>
@@ -336,14 +340,15 @@
         <!-- Transformasi Kilat Section -->
         <div class="relative mb-12 md:mb-16">
             <div class="flex flex-col-reverse md:flex-row items-center">
-                <div class="w-full md:w-3/5">
-                    <img src="{{ asset('images/banner.png') }}" alt="Hands with Clay"
-                        class="w-full h-full object-cover" />
+                <div class="w-full md:w-3/5 relative z-10">
+                    <img src="{{ asset('images/content2.jpg') }}" alt="Hands with Clay"
+                        class="w-full h-auto max-h-[400px] object-cover" />
+                        <div class="absolute inset-0 bg-black bg-opacity-20"></div>
                 </div>
 
-                <div class="relative z-10 w-full md:w-2/5 mb-6 md:mb-0 md:ml-[-50px]">
+                <div class="relative z-20 w-full md:w-2/5 mb-6 md:mb-0 md:ml-[-30px]">
                     <div class="bg-[#592727] text-white p-6 md:p-8 shadow-lg"
-                        style="box-shadow: -5px 5px 15px rgba(0, 0, 0, 0.3); border: 1px solid #5c2c27;">
+                        style="box-shadow: 8px 8px 0px rgba(0, 0, 0, 0.3);">
                         <h3 class="text-xl md:text-2xl font-bold mb-3">Transformasi Kilat Jadi Seniman Keramik!</h3>
                         <p class="mb-2 text-sm md:text-base">Nggak perlu bertahun-tahun untuk jadi ahli!</p>
                         <p class="mb-2 text-sm md:text-base">Di bootcamp ini, kamu akan belajar teknik penting dengan
@@ -355,12 +360,12 @@
             </div>
         </div>
 
-        <!-- Master Keramik Section -->
+        <!-- Gabung Geng Kreatif Section -->
         <div class="relative mb-12 md:mb-16">
             <div class="flex flex-col md:flex-row items-center">
-                <div class="relative z-10 w-full md:w-2/5 mb-6 md:mb-0 md:mr-[-50px]">
+                <div class="relative z-20 w-full md:w-2/5 mb-6 md:mb-0 md:mr-[-30px]">
                     <div class="bg-[#592727] text-white p-6 md:p-8 shadow-lg"
-                        style="box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3); border: 1px solid #5c2c27;">
+                        style="box-shadow: 8px 8px 0px rgba(0, 0, 0, 0.3);">
                         <h3 class="text-xl md:text-2xl font-bold mb-3">Gabung Geng Kreatif Penuh Inspirasi!</h3>
                         <p class="mb-2 text-sm md:text-base">Bukan cuma belajar, tapi juga dapat teman seperjuangan!
                         </p>
@@ -370,9 +375,10 @@
                     </div>
                 </div>
 
-                <div class="w-full md:w-3/5">
-                    <img src="{{ asset('images/banner.png') }}" alt="Pottery Class"
-                        class="w-full h-full object-cover" />
+                <div class="w-full md:w-3/5 relative z-10">
+                    <img src="{{ asset('images/content3.jpg') }}" alt="Creative Group"
+                        class="w-full h-auto max-h-[430px] object-cover" />
+                        <div class="absolute inset-0 bg-black bg-opacity-20"></div>
                 </div>
             </div>
         </div>
@@ -384,7 +390,7 @@
         class="fixed hidden inset-0 z-50 bg-black bg-opacity-50 backdrop-blur-sm items-center justify-center">
         <div class="relative w-full max-w-2xl mx-auto bg-white rounded-xl overflow-hidden shadow-xl">
             <!-- Modal Close Button -->
-            <button class="absolute top-4 right-4 z-50 text-gray-500 hover:text-[#7D3E35] hover:bg-gray-100 rounded-full p-1 transition-colors duration-200" onclick="closeModal()">
+            <button class="absolute top-4 right-4 z-50 text-gray-800 hover:text-[#7D3E35] hover:bg-gray-200 rounded-full p-1 transition-colors duration-200" onclick="closeModal()">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
                     stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
@@ -392,7 +398,7 @@
             </button>
 
             <!-- Back button for Register view -->
-            <button id="backButton" class="absolute top-3 left-3 z-50 text-gray-500 hover:text-[#7D3E35] hover:bg-gray-100 rounded-full p-1 transition-colors duration-200 hidden"
+            <button id="backButton" class="absolute top-3 left-3 z-50 text-gray-800 hover:text-[#7D3E35] hover:bg-gray-200 rounded-full p-1 transition-colors duration-200 hidden"
                 onclick="showLogin()">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
                     stroke="currentColor">
@@ -405,7 +411,7 @@
                 class="flex flex-col sm:flex-row min-h-[330px] opacity-100 transition-opacity duration-500">
                 <!-- Left Side - Image with Text -->
                 <div class="bg-cover bg-center w-full sm:w-1/2 flex items-center justify-center text-white p-4 sm:p-6"
-                    style="background-image: url('images/banner.png');">
+                    style="background-image: url('images/login.png');">
                     <div class="bg-black bg-opacity-40 p-4 rounded">
                         <h3 class="text-xl mb-2">Hello...</h3>
                         <p class="text-sm">Enter your personal details and start journey with us</p>
@@ -525,7 +531,7 @@
 
                 <!-- Right Side - Image with Text -->
                 <div class="bg-cover bg-center w-full sm:w-1/2 flex items-center justify-center text-white p-4 sm:p-6"
-                    style="background-image: url('images/banner.png');">
+                    style="background-image: url('images/login.png');">
                     <div class="bg-black bg-opacity-40 p-4 rounded">
                         <h3 class="text-xl mb-2">Hello...</h3>
                         <p class="text-sm">Let's start the journey</p>

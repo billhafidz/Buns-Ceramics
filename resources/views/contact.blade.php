@@ -39,7 +39,10 @@
     <!-- Navbar -->
      <header class="flex justify-between items-center py-6 px-6 md:px-20 bg-[#212529] fixed top-0 left-0 w-full z-50">
     {{-- <header class="flex justify-between items-center py-8 px-20 bg-[#212529] bg-opacity-90 shadow-md"> --}}
-        <div class="text-4xl font-black tracking-wider text-white logo-font logo">BUNS</div>
+        <a href="{{ route('index') }}" class="text-4xl font-black tracking-wider text-white logo
+        cursor-pointer hover:opacity-80 transition-opacity">
+            BUNS
+        </a>
 
         <!-- Hamburger Menu -->
         <button id="hamburgerBtn" class="hamburger lg:hidden text-white z-60">
@@ -169,14 +172,14 @@
     <div id="authModal" class="fixed hidden inset-0 z-50 bg-black bg-opacity-50 backdrop-blur-sm items-center justify-center">
         <div class="relative w-full max-w-2xl mx-auto bg-white rounded-xl overflow-hidden shadow-xl">
             <!-- Modal Close Button -->
-            <button class="absolute top-4 right-4 z-50 text-gray-500 hover:text-[#7D3E35] hover:bg-gray-100 rounded-full p-1 transition-colors duration-200" onclick="closeModal()">
+            <button class="absolute top-4 right-4 z-50 text-gray-800 hover:text-[#7D3E35] hover:bg-gray-200 rounded-full p-1 transition-colors duration-200" onclick="closeModal()">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                 </svg>
             </button>
         
             <!-- Back button for Register view -->
-            <button id="backButton" class="absolute top-3 left-3 z-50 text-gray-400 hover:text-gray-600 hidden" onclick="showLogin()">
+            <button id="backButton" class="absolute top-3 left-3 z-50 text-gray-800 hover:text-[#7D3E35] hover:bg-gray-200 rounded-full p-1 transition-colors duration-200 hidden" onclick="showLogin()">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
                 </svg>
@@ -185,7 +188,7 @@
             <!-- Login Panel -->
             <div id="loginPanel" class="flex flex-col sm:flex-row min-h-[330px] opacity-100 transition-opacity duration-500">
                 <!-- Left Side - Image with Text -->
-                <div class="bg-cover bg-center w-full sm:w-1/2 flex items-center justify-center text-white p-4 sm:p-6" style="background-image: url('images/banner.png');">
+                <div class="bg-cover bg-center w-full sm:w-1/2 flex items-center justify-center text-white p-4 sm:p-6" style="background-image: url('images/login.png');">
                     <div class="bg-black bg-opacity-40 p-4 rounded">
                         <h3 class="text-xl mb-2">Hello...</h3>
                         <p class="text-sm">Enter your personal details and start journey with us</p>
@@ -285,7 +288,7 @@
                 </div>
             
                 <!-- Right Side - Image with Text -->
-                <div class="bg-cover bg-center w-full sm:w-1/2 flex items-center justify-center text-white p-4 sm:p-6" style="background-image: url('images/banner.png');">
+                <div class="bg-cover bg-center w-full sm:w-1/2 flex items-center justify-center text-white p-4 sm:p-6" style="background-image: url('images/login.png');">
                     <div class="bg-black bg-opacity-40 p-4 rounded">
                         <h3 class="text-xl mb-2">Hello...</h3>
                         <p class="text-sm">Let's start the journey</p>

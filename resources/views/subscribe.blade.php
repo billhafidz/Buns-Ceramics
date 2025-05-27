@@ -100,8 +100,8 @@
             </div>
 
             <div class="mb-4">
-                <label for="id_account" class="block text-sm font-medium text-gray-700">ID Account</label>
-                <input type="text" name="id_account" id="id_account" value="{{ $data['id_account'] }}" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500" readonly>
+                
+                <input type="hidden" name="id_account" id="id_account" value="{{ $data['id_account'] }}" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500" >
             </div>
 
             <div class="mb-4">

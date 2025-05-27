@@ -104,6 +104,20 @@
         #menuToggle {
             z-index: 60;
         }
+
+        @keyframes fade-in-up {
+    0% {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+.animate-fade-in-up {
+    animation: fade-in-up 0.4s ease-out;
+}
     </style>
 </head>
 
@@ -138,10 +152,9 @@
         <div class="hidden lg:block">
             @if (session('user'))
                 <div class="user-menu-wrapper flex items-center gap-3 order-1 lg:order-2">
-                    <div
-                        class="role-badge bg-[#212529] bg-opacity-90 shadow-md border-white border-2 text-white px-4 py-1 rounded-full font-bold text-sm hidden md:block">
-                        {{ strtoupper(session('user')->role) }}
-                    </div>
+                    <span class="role-badge bg-[#212529] bg-opacity-90 shadow-md border-white border-2 text-white px-4 py-1 rounded-full font-bold text-sm cursor-pointer" onclick="showMemberInfo()">
+                            {{ strtoupper(session('user')->role) }}
+                        </span>
                     <div class="user-menu group relative">
                         <img src="{{ $member && $member->foto_profil ? asset('storage/' . $member->foto_profil) : asset('images/user-icon.png') }}"
                             alt="User Icon"
@@ -190,6 +203,34 @@
         </div>
     </header>
 
+     <!-- Member Info Modal -->
+    @if (session('user') && $member)
+    <div id="memberInfoModal" class="fixed hidden inset-0 z-50 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center">
+    <div class="relative w-full max-w-sm bg-gradient-to-br from-[#4B5563] to-[#1F2937] rounded-2xl shadow-2xl overflow-hidden text-white p-6">
+        <button class="absolute top-4 right-4 text-white hover:text-red-400 transition duration-200" onclick="closeMemberInfo()">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+        </button>
+
+        <div class="text-center">
+            <div class="relative">
+                <img src="{{ $member->foto_profil ? asset('storage/' . $member->foto_profil) : asset('images/user-icon.png') }}" alt="Profile Picture"
+                     class="w-28 h-28 rounded-full border-4 border-white mx-auto mb-4 shadow-md object-cover">
+            </div>
+            <h2 class="text-xl font-bold uppercase tracking-wide">{{ $member->nama_member }}</h2>
+            <p class="text-sm text-gray-300 mb-2">{{ $member->email_member }}</p>
+            <div class="border-t border-gray-500 mt-4 pt-4 text-left space-y-2 text-sm">
+                <p><span class="font-semibold text-white">Alamat:</span> {{ $member->alamat_member }}</p>
+                <p><span class="font-semibold text-white">No. Telp:</span> {{ $member->no_telp }}</p>
+                <p><span class="font-semibold text-white">Status:</span> Member Aktif</p>
+            </div>
+        </div>
+    </div>
+</div>
+@endif
+
+
     <!-- Mobile Navigation Menu -->
     <div id="mobileMenu"
         class="fixed top-0 left-0 w-full h-screen bg-[#212529] z-40 transform -translate-x-full pt-24 px-6 md:px-8">
@@ -237,83 +278,55 @@
         <div class="mb-16 md:mb-24">
             <h2 class="text-3xl md:text-4xl font-bold mb-8 md:mb-12 text-center" id="class">RECOMENDED CLASS</h2>
 
-            <!-- Wheel Throwing Class -->
-            <div class="flex flex-wrap items-center mb-12 md:mb-16">
+            <!-- Rekomendasi Class -->
+            @foreach ($langganans as $index => $langganan)
+              <div class="flex flex-wrap {{ $index % 2 == 1 ? 'md:flex-row-reverse' : '' }} items-center mb-12 md:mb-16">
                 <div class="w-full md:w-1/2 mb-6 md:mb-0">
-                    <img src="{{ asset('images/banner.png') }}" alt="Wheel Throwing"
-                        class="rounded-lg shadow-lg mx-auto" />
-                </div>
-                <div class="w-full md:w-1/2 px-4 md:px-6">
-                    <h3 class="text-2xl md:text-3xl font-bold mb-3 md:mb-4">{{ $wheelThrowing->pilihan_subs }}</h3>
-                    <p class="text-base md:text-lg mb-4 md:mb-6">
-                        {{ $wheelThrowing->penjelasan_subs }}
-                    </p>
-                    <a href="#"
-                        class="bg-[#592727] text-white px-6 md:px-8 py-2 md:py-3 rounded-lg font-bold inline-block hover:bg-[#662f28] transition-all"
-                        data-langganan='@json($wheelThrowing)' onclick="showDetailModal(this)">
-                        DETAIL
-                    </a>
-                </div>
+        <img src="{{ asset('storage/langganan_images/' . $langganan->gambar_subs) }}" alt="{{ $langganan->pilihan_subs }}"
+            class="rounded-lg shadow-lg mx-auto" />
+         </div>
+            <div class="w-full md:w-1/2 px-4 md:px-6">
+        <h3 class="text-2xl md:text-3xl font-bold mb-3 md:mb-4">{{ $langganan->pilihan_subs }}</h3>
+        <p class="text-base md:text-lg mb-4 md:mb-6">{{ $langganan->penjelasan_subs }}</p>
+        <a href="#"
+           class="bg-[#592727] text-white px-6 md:px-8 py-2 md:py-3 rounded-lg font-bold inline-block hover:bg-[#662f28] transition-all"
+           data-langganan='@json($langganan)' onclick="showDetailModal(this)">
+            DETAIL
+        </a>
             </div>
+       </div>
+           @endforeach
 
-            <div id="detailModal" class="fixed inset-0 hidden bg-black bg-opacity-50 backdrop-blur-sm justify-center items-center z-50">
-                <div class="relative bg-white w-11/12 md:w-2/3 lg:w-1/2 p-6 rounded-lg shadow-xl">
-                    <button class="absolute top-4 right-4 z-50 text-gray-500 hover:text-[#7D3E35] hover:bg-gray-100 rounded-full p-1 transition-colors duration-200" onclick="closeDetailModal()">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                        </svg>
-                    </button>
-                    <h2 id="modalTitle" class="text-2xl font-bold mb-2"></h2>
-                    <img id="modalImage" src="" alt="Image"
-                        class="rounded-md mb-4 w-full max-h-64 object-cover">
-                    <p id="modalDesc" class="mb-3 text-base"></p>
-                    <ul id="modalBenefits" class="mb-3 list-disc list-inside text-sm text-gray-700"></ul>
-                    <p id="modalPrice" class="font-bold text-lg"></p>
-                    <a href="{{ route('subscribe') }}"
-                        class="mt-4 bg-[#592727] text-white px-6 py-2 rounded-lg font-bold inline-block hover:bg-[#662f28] transition-all">
-                        Subscribe
-                    </a>
-                </div>
-            </div>
+<!-- Detail Modal -->
+    <div id="detailModal" class="fixed inset-0 hidden bg-black bg-opacity-50 backdrop-blur-sm justify-center items-center z-50">
+    <div class="relative bg-white rounded-2xl shadow-2xl w-11/12 md:w-3/4 lg:w-1/2 max-h-[90vh] overflow-y-auto p-6 animate-fade-in-up">
+        <!-- Tombol Close -->
+        <button onclick="closeDetailModal()" class="absolute top-4 right-4 text-gray-500 hover:text-red-600 hover:bg-gray-100 rounded-full p-1 transition">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+            </svg>
+        </button>
 
-            <!-- Handbuilding Class -->
-            <div class="flex flex-wrap md:flex-row-reverse items-center mb-12 md:mb-16">
-                <div class="w-full md:w-1/2 mb-6 md:mb-0">
-                    <img src="{{ asset('images/banner.png') }}" alt="Transformasi Kilat"
-                        class="rounded-lg shadow-lg mx-auto" />
-                </div>
-                <div class="w-full md:w-1/2 px-4 md:px-6">
-                    <h3 class="text-2xl md:text-3xl font-bold mb-3 md:mb-4">Handbuilding</h3>
-                    <p class="text-base md:text-lg mb-4 md:mb-6">
-                        Hand building adalah teknik pembuatan kerajinan tanah liat yang dilakukan secara manual tanpa
-                        penggunaan roda putar.
-                    </p>
-                    <a href="#"
-                        class="bg-[#592727] text-white px-6 md:px-8 py-2 md:py-3 rounded-lg font-bold inline-block hover:bg-[#662f28] transition-all">
-                        DETAIL
-                    </a>
-                </div>
-            </div>
+        <!-- Isi Modal -->
+        <img id="modalImage" src="" alt="Langganan Image" class="w-full h-60 object-cover rounded-xl mb-4 shadow-md" />
+        
+        <h2 id="modalTitle" class="text-3xl font-bold text-gray-800 mb-2"></h2>
 
-            <!-- Painting Class -->
-            <div class="flex flex-wrap items-center mb-12 md:mb-16">
-                <div class="w-full md:w-1/2 mb-6 md:mb-0">
-                    <img src="{{ asset('images/banner.png') }}" alt="Transformasi Kilat"
-                        class="rounded-lg shadow-lg mx-auto" />
-                </div>
-                <div class="w-full md:w-1/2 px-4 md:px-6">
-                    <h3 class="text-2xl md:text-3xl font-bold mb-3 md:mb-4">Painting</h3>
-                    <p class="text-base md:text-lg mb-4 md:mb-6">
-                        Painting adalah teknik dalam pembuatan kerajinan tanah liat yang berfokus pada proses melukis
-                        dan memberikan warna pada objek keramik setelah pembentukan dan pembakaran awal.
-                    </p>
-                    <a href="#"
-                        class="bg-[#592727] text-white px-6 md:px-8 py-2 md:py-3 rounded-lg font-bold inline-block hover:bg-[#662f28] transition-all">
-                        DETAIL
-                    </a>
-                </div>
+        <p id="modalDesc" class="text-gray-600 text-base mb-4 leading-relaxed"></p>
+
+        <div class="mb-4">
+            <h4 class="text-lg font-semibold text-gray-800 mb-2">Fasilitas Termasuk:</h4>
+            <div id="modalBenefits" class="flex flex-wrap gap-2">
             </div>
         </div>
+
+        <p id="modalPrice" class="text-xl font-bold text-[#7D3E35] mb-4"></p>
+
+        <a href="{{ route('subscribe') }}" class="inline-block bg-[#592727] text-white px-6 py-2 rounded-full font-semibold hover:bg-[#662f28] transition">
+            Subscribe Sekarang
+        </a>
+    </div>
+</div>
 
         <!-- Master Keramik Section -->
         <div class="relative mb-12 md:mb-16">
@@ -694,16 +707,18 @@
 
             const benefitList = document.getElementById('modalBenefits');
             benefitList.innerHTML = '';
-            try {
-                const benefits = JSON.parse(data.benefit_subs);
-                benefits.forEach(benefit => {
-                    const li = document.createElement('li');
-                    li.textContent = benefit;
-                    benefitList.appendChild(li);
-                });
-            } catch (e) {
-                benefitList.innerHTML = '<li>Tidak ada benefit tersedia</li>';
-            }
+      try {
+      const benefits = JSON.parse(data.benefit_subs);
+      benefits.forEach(benefit => {
+        const span = document.createElement('span');
+        span.className = 'px-3 py-1 bg-gray-100 text-sm text-gray-800 rounded-full shadow';
+        span.textContent = benefit;
+        benefitList.appendChild(span);
+    });
+    } catch (e) {
+    benefitList.innerHTML = '<span class="text-sm text-gray-500">Tidak ada benefit tersedia</span>';
+  }
+
 
             document.getElementById('modalPrice').innerText = `Harga: Rp${parseInt(data.harga_subs).toLocaleString()}`;
             document.getElementById('detailModal').classList.remove('hidden');
@@ -718,6 +733,20 @@
         document.getElementById('detailModal').addEventListener('click', function(event) {
             if (event.target === this) {
                 closeDetailModal();
+            }
+        });
+
+        function showMemberInfo() {
+            document.getElementById('memberInfoModal').classList.remove('hidden');
+            document.getElementById('memberInfoModal').classList.add('flex');
+        }
+        function closeMemberInfo() {
+            document.getElementById('memberInfoModal').classList.add('hidden');
+            document.getElementById('memberInfoModal').classList.remove('flex');
+        }
+        document.getElementById('memberInfoModal').addEventListener('click', function(event) {
+            if (event.target === this) {
+                closeMemberInfo();
             }
         });
     </script>

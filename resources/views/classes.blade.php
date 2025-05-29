@@ -130,10 +130,9 @@
     <div class="fixed inset-0 bg-black bg-opacity-50 z-30 hidden backdrop-blur-sm" id="mobileMenuOverlay"></div>
 
     <!-- Classes Content -->
-    <!-- Search and Filter Section -->
      <div class="container mx-auto px-4 sm:px-6 lg:px-20 pt-32 pb-6 bg-white z-40">
         <div class="flex items-center justify-between gap-4 mb-6">
-            <!-- Search Input -->
+
             <div class="flex-1 relative min-w-0">
                 <input type="text" id="searchInput" placeholder="Cari kelas berdasarkan Nama Kelas, Deskripsi, Harga, atau Benefit..." 
                        class="w-full p-3 pl-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#f3f4f6] text-sm sm:text-base">
@@ -142,7 +141,6 @@
                 </svg>
             </div>
             
-            <!-- Filter Dropdown -->
             <div class="relative flex-shrink-0">
                 <button id="filterButton" class="flex items-center gap-2 bg-white border border-gray-300 rounded-lg px-4 py-3 hover:bg-gray-50">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -201,7 +199,6 @@
             </div>
         </div>
         
-        <!-- Active Filter Indicator -->
         <div id="activeFilterIndicator" class="hidden mb-4">
             <div class="inline-flex items-center bg-gray-100 rounded-full px-3 py-1 text-sm">
                 <span id="activeFilterText"></span>
@@ -223,7 +220,7 @@
                  data-description="{{ strtolower($langganan->penjelasan_subs) }}" 
                  data-price="{{ $langganan->harga_subs }}" 
                  data-benefits="{{ strtolower(implode(',', json_decode($langganan->benefit_subs, true) ?? [])) }}">
-                <!-- Class Image -->
+
                 <div class="h-64 overflow-hidden bg-gray-100 flex items-center justify-center">
                     @if($langganan->gambar_subs)
                         <img src="{{ asset('storage/langganan_images/' . $langganan->gambar_subs) }}" 
@@ -238,21 +235,17 @@
                 
                 <!-- Class Content -->
                 <div class="p-6">
-                    <!-- Nama Class -->
                     <h3 class="text-2xl font-bold text-gray-800 mb-2">{{ $langganan->pilihan_subs }}</h3>
-                    <!-- Penjelasan Kelas -->
                     {{-- <p class="text-gray-600 mb-4 line-clamp-3 text-justify">{{ $langganan->penjelasan_subs }}</p> --}}
                     
-                    <!-- Harga -->
                     <div class="flex items-center justify-between mb-4">
                         <span class="text-xl font-bold text-[#7D3E35]">Rp. {{ number_format($langganan->harga_subs, 0, ',', '.') }}</span>
                         <button onclick="showClassDetail({{ $langganan->id_langganan }})" 
-                                class="px-4 py-2 bg-[#592727] text-white rounded-lg hover:bg-[#662f28] transition-colors">
-                            Details
+                                class="bg-[#592727] text-white px-4 md:px-6 py-2 md:py-3 rounded-lg font-bold inline-block hover:bg-[#662f28] transition-all">
+                            Detail
                         </button>
                     </div>
                     
-                    <!-- Benefit -->
                     <div class="border-t border-gray-200 pt-4">
                         <h4 class="text-sm font-semibold text-gray-700 mb-2">Includes:</h4>
                         <ul class="space-y-1">
@@ -274,7 +267,6 @@
             @endforeach
         </div>
         
-        <!-- Empty State -->
         <div id="emptyState" class="hidden text-center py-12">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 mx-auto text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -290,15 +282,16 @@
     <!-- Class Detail Modal -->
     <div id="classDetailModal" class="fixed inset-0 z-50 hidden bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center p-4">
         <div class="relative bg-white rounded-lg shadow-2xl w-full max-w-4xl mx-4" style="max-height: 90vh;">
+
             <!-- Close Button -->
             <button onclick="closeClassDetail()" class="absolute top-4 right-4 text-gray-500 hover:text-gray-700 transition-colors rounded-full w-8 h-8 flex items-center justify-center bg-white hover:bg-gray-100">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                 </svg>
             </button>
+
             <!-- Modal Content -->
             <div class="grid grid-cols-1 lg:grid-cols-2 h-full max-h-[90vh] overflow-y-auto scrollbar-hide">
-                <!-- Image Section -->
                 <div class="h-64 lg:h-auto bg-gray-100 flex items-center justify-center relative overflow-hidden rounded-l-lg">
                     <img id="detailClassImage" src="" alt="Class Image" class="hidden absolute inset-0 w-full h-full object-cover">
                     <svg id="detailClassImagePlaceholder" xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -306,7 +299,6 @@
                     </svg>
                 </div>
             
-                <!-- Text Section -->
                 <div class="p-6 md:p-8 flex flex-col rounded-r-lg" style="max-height: calc(90vh - 1px);">
                     <div class="flex-grow overflow-y-auto scrollbar-hide">
                         <h2 id="detailClassName" class="text-3xl font-bold text-gray-800 mb-2"></h2>
@@ -326,11 +318,11 @@
                         <div class="flex justify-center">
                             @if(session('user'))
                                 <a href="{{ route('subscribe') }}" class="w-full md:w-auto px-8 py-3 bg-[#592727] text-white rounded-lg font-bold hover:bg-[#662f28] transition-colors text-center">
-                                    Langganan Sekarang
+                                    Subscribe Now
                                 </a>
                             @else
                                 <button onclick="openModal(); closeClassDetail();" class="w-full md:w-auto px-8 py-3 bg-[#592727] text-white rounded-lg font-bold hover:bg-[#662f28] transition-colors">
-                                    Langganan Sekarang
+                                    Subscribe Now
                                 </button>
                             @endif
                         </div>
@@ -722,7 +714,6 @@
                 }
             });
             
-            // Show empty state if no classes match
             if (visibleCount === 0) {
                 document.getElementById('emptyState').classList.remove('hidden');
             } else {
@@ -749,10 +740,8 @@
                 }
             });
             
-            // Re-append sorted cards
             classCards.forEach(card => container.appendChild(card));
-            
-            // Update active filter indicator
+
             document.getElementById('activeFilterIndicator').classList.remove('hidden');
             let filterText = '';
             

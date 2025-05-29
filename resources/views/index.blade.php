@@ -289,7 +289,7 @@
             <div class="w-full md:w-1/2 px-4 md:px-6">
         <h3 class="text-2xl md:text-3xl font-bold mb-3 md:mb-4">{{ $langganan->pilihan_subs }}</h3>
         <p class="text-base md:text-lg mb-4 md:mb-6">{{ $langganan->penjelasan_subs }}</p>
-        <a href="#"
+        <a
            class="bg-[#592727] text-white px-6 md:px-8 py-2 md:py-3 rounded-lg font-bold inline-block hover:bg-[#662f28] transition-all"
            data-langganan='@json($langganan)' onclick="showDetailModal(this)">
             DETAIL
@@ -316,16 +316,26 @@
         <p id="modalDesc" class="text-gray-600 text-base mb-4 leading-relaxed"></p>
 
         <div class="mb-4">
-            <h4 class="text-lg font-semibold text-gray-800 mb-2">Fasilitas Termasuk:</h4>
+            <h4 class="text-lg font-semibold text-gray-800 mb-2">Facilities Included:</h4>
             <div id="modalBenefits" class="flex flex-wrap gap-2">
             </div>
         </div>
 
         <p id="modalPrice" class="text-xl font-bold text-[#7D3E35] mb-4"></p>
 
-        <a href="{{ route('subscribe') }}" class="inline-block bg-[#592727] text-white px-6 py-2 rounded-full font-semibold hover:bg-[#662f28] transition">
-            Subscribe Sekarang
-        </a>
+        @if(session('user'))
+            <a href="{{ route('subscribe') }}" class="w-full md:w-auto px-8 py-3 bg-[#592727] text-white rounded-lg font-bold hover:bg-[#662f28] transition-colors text-center">
+                Subscribe Now
+            </a>
+            @else
+            <button onclick="openModal(); closeClassDetail();" class="w-full md:w-auto px-8 py-3 bg-[#592727] text-white rounded-lg font-bold hover:bg-[#662f28] transition-colors">
+                Subscribe Now
+            </button>
+        @endif
+
+        {{-- <a href="{{ route('subscribe') }}" class="inline-block bg-[#592727] text-white px-6 py-2 rounded-full font-semibold hover:bg-[#662f28] transition">
+            Subscribe Now
+        </a> --}}
     </div>
 </div>
 

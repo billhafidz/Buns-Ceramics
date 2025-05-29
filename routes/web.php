@@ -10,6 +10,7 @@ use App\Http\Controllers\MainPageController;
 use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\AccountController;
+use App\Http\Controllers\ClassController;
 
 Route::get('/', [MainPageController::class, 'index'])->name('index');
 Route::get('/gallery', function () {
@@ -19,6 +20,10 @@ Route::get('/gallery', function () {
 Route::get('/contact', function () {
     return view('contact');
 })->name('contact');
+
+Route::get('/class', function () {
+    return view('classes');
+})->name('class');
 
 Route::get('/member/dashboard', function () {
     if (!session('user')) {
@@ -66,6 +71,7 @@ Route::get('/payment/index', [PaymentController::class, 'showPaymentForm'])->nam
 Route::post('/payment', [PaymentController::class, 'processPayment'])->name('payment.process');
 Route::get('/payment/success', [PaymentController::class, 'paymentSuccess'])->name('payment.success');
 Route::get('/payment/failure', [PaymentController::class, 'paymentFailure'])->name('payment.failure');
+Route::get('/class', [ClassController::class, 'index'])->name('class');
 
 
 

@@ -53,7 +53,7 @@
 
         <nav class="nav-center hidden lg:flex items-center gap-10">
             <a href="{{ route('index') }}" class="font-bold text-lg text-white relative hover:after:content-[''] hover:after:absolute hover:after:-bottom-1 hover:after:left-0 hover:after:w-full hover:after:h-0.5 hover:after:bg-[#7D3E35]">Home</a>
-            <a href="#" class="font-bold text-lg text-white relative hover:after:content-[''] hover:after:absolute hover:after:-bottom-1 hover:after:left-0 hover:after:w-full hover:after:h-0.5 hover:after:bg-[#7D3E35]">Class</a>
+            <a href="{{ route('class') }}" class="font-bold text-lg text-white relative hover:after:content-[''] hover:after:absolute hover:after:-bottom-1 hover:after:left-0 hover:after:w-full hover:after:h-0.5 hover:after:bg-[#7D3E35]">Class</a>
             <a href="{{ route('gallery') }}" class="font-bold text-lg text-white relative hover:after:content-[''] hover:after:absolute hover:after:-bottom-1 hover:after:left-0 hover:after:w-full hover:after:h-0.5 hover:after:bg-[#7D3E35]">Gallery</a>
             <a href="{{ route('contact') }}" class="font-bold text-lg text-white relative hover:after:content-[''] hover:after:absolute hover:after:-bottom-1 hover:after:left-0 hover:after:w-full hover:after:h-0.5 hover:after:bg-[#7D3E35]">Contact</a>
         </nav>
@@ -103,7 +103,7 @@
     <div id="mobileMenu" class="fixed top-0 left-0 w-full h-screen bg-[#212529] z-40 transform -translate-x-full pt-24 px-8">
         <nav class="flex flex-col space-y-6">
             <a href="{{ route('index') }}" class="nav-item font-bold text-xl text-white py-2 border-b border-gray-700">HOME</a>
-            <a href="#class" class="nav-item font-bold text-xl text-white py-2 border-b border-gray-700">CLASS</a>
+            <a href="{{ route('class') }}" class="nav-item font-bold text-xl text-white py-2 border-b border-gray-700">CLASS</a>
             <a href="{{ route('gallery') }}" class="nav-item font-bold text-xl text-white py-2 border-b border-gray-700">GALLERY</a>
             <a href="{{ route('contact') }}" class="nav-item font-bold text-xl text-white py-2 border-b border-gray-700">CONTACT</a>
 
@@ -308,13 +308,13 @@
                 
                 <div>
                     <a href="#" class="block mb-4 hover:text-red-400">About us</a>
-                    <a href="#" class="block mb-4 hover:text-red-400">Class</a>
+                    <a href="{{ route('class') }}" class="block mb-4 hover:text-red-400">Class</a>
                     <a href="#" class="block mb-4 hover:text-red-400">Testimoni</a>
                 </div>
             
                 <div>
                     <a href="{{ route('index') }}" class="block mb-4 hover:text-red-400">Home</a>
-                    <a href="#" class="block mb-4 hover:text-red-400">Class</a>
+                    <a href="{{ route('class') }}" class="block mb-4 hover:text-red-400">Class</a>
                     <a href="#" class="block mb-4 hover:text-red-400">Gallery</a>
                     <a href="{{ route('contact') }}" class="block mb-4 hover:text-red-400">Contact</a>
                 </div>

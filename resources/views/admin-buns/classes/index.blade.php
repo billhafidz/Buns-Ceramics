@@ -259,6 +259,7 @@
 <script>
 // Benefit Management
 function addBenefit() {
+    // Menambahkan input benefit baru
     const container = document.getElementById('benefitList');
     const div = document.createElement('div');
     div.classList.add('flex', 'items-center', 'gap-2', 'mb-2');
@@ -275,10 +276,10 @@ function addBenefit() {
 }
 
 function removeBenefit(button) {
+    // Menghapus input benefit
     const container = document.getElementById('benefitList');
     const benefitItems = container.querySelectorAll('div.flex.items-center');
-    
-    // Don't allow removal if it's the last item
+
     if (benefitItems.length > 1) {
         button.parentNode.remove();
     }
@@ -343,7 +344,7 @@ document.getElementById('classForm').addEventListener('submit', function(e) {
                         submitButton.innerText = 'Simpan';
                     }
                     
-                    // Display validation errors
+                    // Menampilkan pesan error validasi
                     Object.keys(data.errors).forEach(field => {
                         const errorElement = document.getElementById('error-' + field);
                         if (errorElement) {
@@ -351,7 +352,7 @@ document.getElementById('classForm').addEventListener('submit', function(e) {
                         }
                     });
                 } else if (data.success) {
-                    // Success - Close modal then reload page
+                    // Jika sukses - Tutup modal dan reload halaman
                     closeModal(modalId);
                     window.location.reload();
                 
@@ -375,8 +376,7 @@ document.getElementById('classForm').addEventListener('submit', function(e) {
             submitButton.disabled = false;
             submitButton.innerText = 'Simpan';
         }
-        
-        // Even on error, we'll close the modal as the server might have processed the data
+                
         closeModal(modalId);
         window.location.reload();
     });
@@ -396,7 +396,7 @@ function openModal(id) {
     // Reset the form
     document.getElementById('classForm').reset();
     
-    // Clear all error messages
+    // Menghapus semua pesan error
     document.querySelectorAll('.error-msg').forEach(function(el) {
         el.textContent = '';
     });
@@ -423,15 +423,18 @@ function openModal(id) {
 let currentForm = null;
 
 function showDeleteConfirmation(button) {
+    // Menyimpan form yang akan dihapus dan menampilkan modal konfirmasi
     currentForm = button.closest('form');
     document.getElementById('deleteModal').classList.remove('hidden');
 }
 
 function hideDeleteConfirmation() {
+    // Menyembunyikan modal konfirmasi hapus
     document.getElementById('deleteModal').classList.add('hidden');
 }
 
 document.getElementById('confirmDelete').addEventListener('click', function() {
+    // Jika dikonfirmasi, submit form hapus
     if (currentForm) {
         currentForm.submit();
     }

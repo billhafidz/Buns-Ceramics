@@ -259,7 +259,6 @@
 <script>
 // Benefit Management
 function addBenefit() {
-    // Menambahkan input benefit baru
     const container = document.getElementById('benefitList');
     const div = document.createElement('div');
     div.classList.add('flex', 'items-center', 'gap-2', 'mb-2');
@@ -276,7 +275,6 @@ function addBenefit() {
 }
 
 function removeBenefit(button) {
-    // Menghapus input benefit
     const container = document.getElementById('benefitList');
     const benefitItems = container.querySelectorAll('div.flex.items-center');
 
@@ -296,10 +294,9 @@ document.getElementById('classForm').addEventListener('submit', function(e) {
     
     // Create form data for submission
     const formData = new FormData(this);
-    const modalId = 'createModal'; // Modal ID hardcoded to ensure it matches
+    const modalId = 'createModal';
     const form = this;
     
-    // Process benefit inputs
     const benefitInputs = document.querySelectorAll('.benefit-input');
     let benefits = [];
     
@@ -308,13 +305,11 @@ document.getElementById('classForm').addEventListener('submit', function(e) {
             benefits.push(input.value.trim());
         }
     });
-    
-    // Add benefits to formData
+
     benefits.forEach((benefit, index) => {
         formData.append(`benefit_subs[${index}]`, benefit);
     });
     
-    // Disable submit button to prevent double submission
     const submitButton = form.querySelector('button[type="submit"]');
     if (submitButton) {
         submitButton.disabled = true;
@@ -332,19 +327,15 @@ document.getElementById('classForm').addEventListener('submit', function(e) {
         credentials: 'same-origin'
     })
     .then(response => {
-        // Check if it's JSON response
         const contentType = response.headers.get('content-type');
         if (contentType && contentType.includes('application/json')) {
             return response.json().then(data => {
-                // JSON response handling
                 if (data.errors) {
-                    // Re-enable submit button
                     if (submitButton) {
                         submitButton.disabled = false;
                         submitButton.innerText = 'Simpan';
                     }
                     
-                    // Menampilkan pesan error validasi
                     Object.keys(data.errors).forEach(field => {
                         const errorElement = document.getElementById('error-' + field);
                         if (errorElement) {
@@ -352,18 +343,15 @@ document.getElementById('classForm').addEventListener('submit', function(e) {
                         }
                     });
                 } else if (data.success) {
-                    // Jika sukses - Tutup modal dan reload halaman
                     closeModal(modalId);
                     window.location.reload();
                 
                 } else {
-                    // Fallback for other JSON responses - assume success and reload
                     closeModal(modalId);
                     window.location.reload();
                 }
             });
         } else {
-            // Non-JSON response (e.g. HTML redirect) - assume success
             closeModal(modalId);
             window.location.reload();
             return null;
@@ -371,7 +359,6 @@ document.getElementById('classForm').addEventListener('submit', function(e) {
     })
     .catch(error => {
         console.error('Error:', error);
-        // Re-enable submit button on error
         if (submitButton) {
             submitButton.disabled = false;
             submitButton.innerText = 'Simpan';
@@ -382,9 +369,7 @@ document.getElementById('classForm').addEventListener('submit', function(e) {
     });
 });
 
-// Client-side form validation
 function validateForm() {
-    // For backward compatibility
     return true;
 }
 
@@ -415,7 +400,6 @@ function openModal(id) {
         </div>
     `;
     
-    // Reset image upload
     removeImage();
 }
 
@@ -423,18 +407,15 @@ function openModal(id) {
 let currentForm = null;
 
 function showDeleteConfirmation(button) {
-    // Menyimpan form yang akan dihapus dan menampilkan modal konfirmasi
     currentForm = button.closest('form');
     document.getElementById('deleteModal').classList.remove('hidden');
 }
 
 function hideDeleteConfirmation() {
-    // Menyembunyikan modal konfirmasi hapus
     document.getElementById('deleteModal').classList.add('hidden');
 }
 
 document.getElementById('confirmDelete').addEventListener('click', function() {
-    // Jika dikonfirmasi, submit form hapus
     if (currentForm) {
         currentForm.submit();
     }
@@ -449,11 +430,9 @@ function closeModal(id) {
 document.getElementById('gambar_subs').addEventListener('change', function(e) {
     const fileInput = e.target;
     const fileName = fileInput.files[0] ? fileInput.files[0].name : 'No file chosen';
-    
-    // Update file name display
+
     document.getElementById('file-name').textContent = fileName;
-    
-    // Hide upload elements and show file info
+
     document.getElementById('uploadArea').classList.add('hidden');
     document.getElementById('fileInfoArea').classList.remove('hidden');
     
@@ -479,8 +458,7 @@ function removeImage() {
     document.getElementById('file-name').textContent = 'No file chosen';
     document.getElementById('imagePreviewContainer').classList.add('hidden');
     document.getElementById('imagePreview').src = '';
-    
-    // Show upload elements and hide file info
+
     document.getElementById('uploadArea').classList.remove('hidden');
     document.getElementById('fileInfoArea').classList.add('hidden');
 }

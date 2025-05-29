@@ -613,11 +613,9 @@
 
     // Class Detail Modal Functions
     function showClassDetail(classId) {
-        // Mengambil data kelas
         const classData = getClassData(classId);
         
         if (classData) {
-            // Menangani tampilan gambar
             const imageElement = document.getElementById('detailClassImage');
             const placeholderElement = document.getElementById('detailClassImagePlaceholder');
             
@@ -630,12 +628,10 @@
                 placeholderElement.classList.remove('hidden');
             }
             
-            // Mengisi data lainnya
             document.getElementById('detailClassName').textContent = classData.pilihan_subs;
             document.getElementById('detailClassPrice').textContent = `Rp. ${parseInt(classData.harga_subs).toLocaleString()}`;
             document.getElementById('detailClassDescription').textContent = classData.penjelasan_subs;
-            
-            // Mengisi Benefit
+
             const benefitsList = document.getElementById('detailClassBenefits');
             benefitsList.innerHTML = '';
             
@@ -661,8 +657,7 @@
             } catch (e) {
                 benefitsList.innerHTML = '<li class="text-gray-500">No benefits listed</li>';
             }
-            
-            // Show modal
+
             document.getElementById('classDetailModal').classList.remove('hidden');
             document.body.classList.add('overflow-hidden');
         }
@@ -672,14 +667,12 @@
         document.getElementById('classDetailModal').classList.add('hidden');
         document.body.classList.remove('overflow-hidden');
     }
-    
-    // Fungsi untuk mendapatkan data kelas
+
     function getClassData(classId) {
         const classes = @json($langganans);
         return classes.find(c => c.id_langganan == classId);
     }
-    
-    // Close modal when clicking outside
+
     document.getElementById('classDetailModal').addEventListener('click', function(e) {
         if (e.target === this) {
             closeClassDetail();
@@ -693,8 +686,7 @@
                 e.stopPropagation();
                 document.getElementById('filterDropdown').classList.toggle('hidden');
             });
-            
-            // Close filter dropdown when clicking outside
+
             document.addEventListener('click', function() {
                 document.getElementById('filterDropdown').classList.add('hidden');
             });

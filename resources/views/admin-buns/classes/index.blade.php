@@ -277,8 +277,7 @@ function addBenefit() {
 function removeBenefit(button) {
     const container = document.getElementById('benefitList');
     const benefitItems = container.querySelectorAll('div.flex.items-center');
-    
-    // Don't allow removal if it's the last item
+
     if (benefitItems.length > 1) {
         button.parentNode.remove();
     }
@@ -295,10 +294,9 @@ document.getElementById('classForm').addEventListener('submit', function(e) {
     
     // Create form data for submission
     const formData = new FormData(this);
-    const modalId = 'createModal'; // Modal ID hardcoded to ensure it matches
+    const modalId = 'createModal';
     const form = this;
     
-    // Process benefit inputs
     const benefitInputs = document.querySelectorAll('.benefit-input');
     let benefits = [];
     
@@ -307,13 +305,11 @@ document.getElementById('classForm').addEventListener('submit', function(e) {
             benefits.push(input.value.trim());
         }
     });
-    
-    // Add benefits to formData
+
     benefits.forEach((benefit, index) => {
         formData.append(`benefit_subs[${index}]`, benefit);
     });
     
-    // Disable submit button to prevent double submission
     const submitButton = form.querySelector('button[type="submit"]');
     if (submitButton) {
         submitButton.disabled = true;
@@ -331,19 +327,15 @@ document.getElementById('classForm').addEventListener('submit', function(e) {
         credentials: 'same-origin'
     })
     .then(response => {
-        // Check if it's JSON response
         const contentType = response.headers.get('content-type');
         if (contentType && contentType.includes('application/json')) {
             return response.json().then(data => {
-                // JSON response handling
                 if (data.errors) {
-                    // Re-enable submit button
                     if (submitButton) {
                         submitButton.disabled = false;
                         submitButton.innerText = 'Simpan';
                     }
                     
-                    // Display validation errors
                     Object.keys(data.errors).forEach(field => {
                         const errorElement = document.getElementById('error-' + field);
                         if (errorElement) {
@@ -351,18 +343,15 @@ document.getElementById('classForm').addEventListener('submit', function(e) {
                         }
                     });
                 } else if (data.success) {
-                    // Success - Close modal then reload page
                     closeModal(modalId);
                     window.location.reload();
                 
                 } else {
-                    // Fallback for other JSON responses - assume success and reload
                     closeModal(modalId);
                     window.location.reload();
                 }
             });
         } else {
-            // Non-JSON response (e.g. HTML redirect) - assume success
             closeModal(modalId);
             window.location.reload();
             return null;
@@ -370,21 +359,17 @@ document.getElementById('classForm').addEventListener('submit', function(e) {
     })
     .catch(error => {
         console.error('Error:', error);
-        // Re-enable submit button on error
         if (submitButton) {
             submitButton.disabled = false;
             submitButton.innerText = 'Simpan';
         }
-        
-        // Even on error, we'll close the modal as the server might have processed the data
+                
         closeModal(modalId);
         window.location.reload();
     });
 });
 
-// Client-side form validation
 function validateForm() {
-    // For backward compatibility
     return true;
 }
 
@@ -396,7 +381,7 @@ function openModal(id) {
     // Reset the form
     document.getElementById('classForm').reset();
     
-    // Clear all error messages
+    // Menghapus semua pesan error
     document.querySelectorAll('.error-msg').forEach(function(el) {
         el.textContent = '';
     });
@@ -415,7 +400,6 @@ function openModal(id) {
         </div>
     `;
     
-    // Reset image upload
     removeImage();
 }
 
@@ -446,11 +430,9 @@ function closeModal(id) {
 document.getElementById('gambar_subs').addEventListener('change', function(e) {
     const fileInput = e.target;
     const fileName = fileInput.files[0] ? fileInput.files[0].name : 'No file chosen';
-    
-    // Update file name display
+
     document.getElementById('file-name').textContent = fileName;
-    
-    // Hide upload elements and show file info
+
     document.getElementById('uploadArea').classList.add('hidden');
     document.getElementById('fileInfoArea').classList.remove('hidden');
     
@@ -476,8 +458,7 @@ function removeImage() {
     document.getElementById('file-name').textContent = 'No file chosen';
     document.getElementById('imagePreviewContainer').classList.add('hidden');
     document.getElementById('imagePreview').src = '';
-    
-    // Show upload elements and hide file info
+
     document.getElementById('uploadArea').classList.remove('hidden');
     document.getElementById('fileInfoArea').classList.add('hidden');
 }

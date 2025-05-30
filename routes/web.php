@@ -10,6 +10,7 @@ use App\Http\Controllers\MainPageController;
 use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\AccountController;
+use App\Http\Controllers\ClassController;
 use App\Http\Controllers\GalleryController;
 
 Route::get('/', [MainPageController::class, 'index'])->name('index');
@@ -20,6 +21,10 @@ Route::get('/gallery', function () {
 Route::get('/contact', function () {
     return view('contact');
 })->name('contact');
+
+Route::get('/class', function () {
+    return view('classes');
+})->name('class');
 
 Route::get('/member/dashboard', function () {
     if (!session('user')) {

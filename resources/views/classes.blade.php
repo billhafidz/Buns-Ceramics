@@ -33,6 +33,15 @@
         #menuToggle {
             z-index: 60;
         }
+        .scrollbar-hide::-webkit-scrollbar {
+        width: 0.5rem;
+        }
+        .scrollbar-hide::-webkit-scrollbar-thumb {
+        background-color: transparent;
+        }
+        .scrollbar-hide:hover::-webkit-scrollbar-thumb {
+        background-color: rgba(0, 0, 0, 0.2);
+        }
     </style>
 </head>
 <body class="min-h-screen bg-cover bg-center">
@@ -53,7 +62,7 @@
 
         <nav class="nav-center hidden lg:flex items-center gap-10">
             <a href="{{ route('index') }}" class="font-bold text-lg text-white relative hover:after:content-[''] hover:after:absolute hover:after:-bottom-1 hover:after:left-0 hover:after:w-full hover:after:h-0.5 hover:after:bg-[#7D3E35]">Home</a>
-            <a href="{{ route('class') }}" class="font-bold text-lg text-white relative hover:after:content-[''] hover:after:absolute hover:after:-bottom-1 hover:after:left-0 hover:after:w-full hover:after:h-0.5 hover:after:bg-[#7D3E35]">Class</a>
+            <a href="#" class="font-bold text-lg text-white relative hover:after:content-[''] hover:after:absolute hover:after:-bottom-1 hover:after:left-0 hover:after:w-full hover:after:h-0.5 hover:after:bg-[#7D3E35]">Class</a>
             <a href="{{ route('gallery') }}" class="font-bold text-lg text-white relative hover:after:content-[''] hover:after:absolute hover:after:-bottom-1 hover:after:left-0 hover:after:w-full hover:after:h-0.5 hover:after:bg-[#7D3E35]">Gallery</a>
             <a href="{{ route('contact') }}" class="font-bold text-lg text-white relative hover:after:content-[''] hover:after:absolute hover:after:-bottom-1 hover:after:left-0 hover:after:w-full hover:after:h-0.5 hover:after:bg-[#7D3E35]">Contact</a>
         </nav>
@@ -103,7 +112,7 @@
     <div id="mobileMenu" class="fixed top-0 left-0 w-full h-screen bg-[#212529] z-40 transform -translate-x-full pt-24 px-8">
         <nav class="flex flex-col space-y-6">
             <a href="{{ route('index') }}" class="nav-item font-bold text-xl text-white py-2 border-b border-gray-700">HOME</a>
-            <a href="{{ route('class') }}" class="nav-item font-bold text-xl text-white py-2 border-b border-gray-700">CLASS</a>
+            <a href="#class" class="nav-item font-bold text-xl text-white py-2 border-b border-gray-700">CLASS</a>
             <a href="{{ route('gallery') }}" class="nav-item font-bold text-xl text-white py-2 border-b border-gray-700">GALLERY</a>
             <a href="{{ route('contact') }}" class="nav-item font-bold text-xl text-white py-2 border-b border-gray-700">CONTACT</a>
 
@@ -120,53 +129,208 @@
     <!-- Mobile Menu Overlay -->
     <div class="fixed inset-0 bg-black bg-opacity-50 z-30 hidden backdrop-blur-sm" id="mobileMenuOverlay"></div>
 
-    <!-- Contact Content -->
-    {{-- <main class="container mx-auto px-20 py-8 m-8"> --}}
-    <main class="container mx-auto px-4 md:px-20 py-8 mt-20 pt-20 mb-10 pb-10">
-        <h1 class="text-3xl text-center font-bold mb-8">Contact Us</h1>
-        
-        <div class="flex flex-col lg:flex-row gap-8">
-            <!-- Map -->
-            <div class="w-full lg:w-1/2 h-96 bg-gray-100 rounded-lg overflow-hidden shadow-md">
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3960.671827156563!2d107.5924892750438!3d-6.929772293070052!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e68e900f1bf11cd%3A0x2264f939b55bcda6!2sBuns%20Ceramics%20Home%20Studio!5e0!3m2!1sid!2sid!4v1747137595664!5m2!1sid!2sid" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    <!-- Classes Content -->
+     <div class="container mx-auto px-4 sm:px-6 lg:px-20 pt-32 pb-6 bg-white z-40">
+        <div class="flex items-center justify-between gap-4 mb-6">
+
+            <div class="flex-1 relative min-w-0">
+                <input type="text" id="searchInput" placeholder="Cari kelas berdasarkan Nama Kelas, Deskripsi, Harga, atau Benefit..." 
+                       class="w-full p-3 pl-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#f3f4f6] text-sm sm:text-base">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400 absolute left-3 top-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
             </div>
-
-            <!-- Contact Info -->
-            <div class="w-full lg:w-1/2 space-y-4">
-                <div class="p-4 border-b border-gray-200">
-                    <div class="flex items-center gap-3 mb-1">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-red-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                        </svg>
-                        <h3 class="font-bold text-gray-800">Email</h3>
+            
+            <div class="relative flex-shrink-0">
+                <button id="filterButton" class="flex items-center gap-2 bg-white border border-gray-300 rounded-lg px-4 py-3 hover:bg-gray-50">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
+                    </svg>
+                    <span class="whitespace-nowrap">Filter</span>
+                </button>
+                
+                <div id="filterDropdown" class="hidden absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-lg z-10 border border-gray-200">
+                    <div class="p-2">
+                        <h4 class="text-sm font-semibold text-gray-700 px-2 py-1">Sort by</h4>
+                        <ul class="space-y-1">
+                            <li>
+                                <button onclick="sortClasses('name_asc')" class="w-full text-left px-3 py-2 text-sm hover:bg-gray-100 rounded flex items-center gap-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4h13M3 8h9m-9 4h9m5-4v12m0 0l-4-4m4 4l4-4" />
+                                    </svg>
+                                    Name (A-Z)
+                                </button>
+                            </li>
+                            <li>
+                                <button onclick="sortClasses('name_desc')" class="w-full text-left px-3 py-2 text-sm hover:bg-gray-100 rounded flex items-center gap-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4h13M3 8h9m-9 4h9m5-4v12m0 0l-4-4m4 4l4-4" />
+                                    </svg>
+                                    Name (Z-A)
+                                </button>
+                            </li>
+                            <li>
+                                <button onclick="sortClasses('price_asc')" class="w-full text-left px-3 py-2 text-sm hover:bg-gray-100 rounded flex items-center gap-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4h13M3 8h9m-9 4h9m5-4v12m0 0l-4-4m4 4l4-4" />
+                                    </svg>
+                                    Price (Low to High)
+                                </button>
+                            </li>
+                            <li>
+                                <button onclick="sortClasses('price_desc')" class="w-full text-left px-3 py-2 text-sm hover:bg-gray-100 rounded flex items-center gap-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4h13M3 8h9m-9 4h9m5-4v12m0 0l-4-4m4 4l4-4" />
+                                    </svg>
+                                    Price (High to Low)
+                                </button>
+                            </li>
+                        </ul>
                     </div>
-                    <p class="text-gray-600 ml-8 text-sm">bunsstudio239@gmail.com</p>
-                </div>
-
-                <div class="p-4 border-b border-gray-200">
-                    <div class="flex items-center gap-3 mb-1">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-red-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                        </svg>
-                        <h3 class="font-bold text-gray-800">WhatsApp</h3>
+                    <div class="border-t border-gray-200 p-2">
+                        <button onclick="resetFilters()" class="w-full text-left px-3 py-2 text-sm text-red-600 hover:bg-red-50 rounded flex items-center gap-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                            </svg>
+                            Reset Filters
+                        </button>
                     </div>
-                    <p class="text-gray-600 ml-8 text-sm">wa.me/+62 821-2925-9982</p>
-                </div>
-
-                <div class="p-4">
-                    <div class="flex items-center gap-3 mb-1">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-red-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                        </svg>
-                        <h3 class="font-bold text-gray-800">Address</h3>
-                    </div>
-                    <p class="text-gray-600 ml-8 text-sm">Gang Bbk Asih No. 376/198A, Kota Bandung, Jawa Barat 40232, Indonesia</p>
                 </div>
             </div>
         </div>
-    </main>
+        
+        <div id="activeFilterIndicator" class="hidden mb-4">
+            <div class="inline-flex items-center bg-gray-100 rounded-full px-3 py-1 text-sm">
+                <span id="activeFilterText"></span>
+                <button onclick="resetFilters()" class="ml-2 text-gray-500 hover:text-gray-700">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
 
+    <!-- Classes Section -->
+    <div class="container mx-auto px-6 md:px-20 pb-12 md:pb-16">
+        <div id="classesContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            @foreach($langganans as $langganan)
+            <div class="class-card bg-white rounded-xl shadow-lg overflow-hidden transition-transform duration-300 hover:shadow-xl hover:-translate-y-2" 
+                 data-name="{{ strtolower($langganan->pilihan_subs) }}" 
+                 data-description="{{ strtolower($langganan->penjelasan_subs) }}" 
+                 data-price="{{ $langganan->harga_subs }}" 
+                 data-benefits="{{ strtolower(implode(',', json_decode($langganan->benefit_subs, true) ?? [])) }}">
+
+                <div class="h-64 overflow-hidden bg-gray-100 flex items-center justify-center">
+                    @if($langganan->gambar_subs)
+                        <img src="{{ asset('storage/langganan_images/' . $langganan->gambar_subs) }}" 
+                             alt="{{ $langganan->pilihan_subs }}" 
+                             class="w-full h-full object-cover">
+                    @else
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                    @endif
+                </div>
+                
+                <!-- Class Content -->
+                <div class="p-6">
+                    <h3 class="text-2xl font-bold text-gray-800 mb-2">{{ $langganan->pilihan_subs }}</h3>
+                    {{-- <p class="text-gray-600 mb-4 line-clamp-3 text-justify">{{ $langganan->penjelasan_subs }}</p> --}}
+                    
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="text-xl font-bold text-[#7D3E35]">Rp. {{ number_format($langganan->harga_subs, 0, ',', '.') }}</span>
+                        <button onclick="showClassDetail({{ $langganan->id_langganan }})" 
+                                class="bg-[#592727] text-white px-4 md:px-6 py-2 md:py-3 rounded-lg font-bold inline-block hover:bg-[#662f28] transition-all">
+                            Detail
+                        </button>
+                    </div>
+                    
+                    <div class="border-t border-gray-200 pt-4">
+                        <h4 class="text-sm font-semibold text-gray-700 mb-2">Includes:</h4>
+                        <ul class="space-y-1">
+                            @foreach(array_slice(json_decode($langganan->benefit_subs, true), 0, 3) as $benefit)
+                                <li class="flex items-start">
+                                    <svg class="h-4 w-4 text-green-500 mt-1 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                    </svg>
+                                    <span class="text-sm text-gray-600">{{ $benefit }}</span>
+                                </li>
+                            @endforeach
+                            @if(count(json_decode($langganan->benefit_subs, true)) > 3)
+                                <li class="text-sm text-gray-500">+ {{ count(json_decode($langganan->benefit_subs, true)) - 3 }} more benefits</li>
+                            @endif
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            @endforeach
+        </div>
+        
+        <div id="emptyState" class="hidden text-center py-12">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 mx-auto text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <h3 class="mt-4 text-lg font-medium text-gray-900">Tidak ada kelas yang ditemukan</h3>
+            <p class="mt-1 text-gray-500">Coba sesuaikan pencarian atau filter Anda untuk menemukan apa yang Anda cari.</p>
+            <button onclick="resetFilters()" class="mt-4 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-[#592727] hover:bg-[#662f28] focus:outline-none">
+                Reset filters
+            </button>
+        </div>
+    </div>
+
+    <!-- Class Detail Modal -->
+    <div id="classDetailModal" class="fixed inset-0 z-50 hidden bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="relative bg-white rounded-lg shadow-2xl w-full max-w-4xl mx-4" style="max-height: 90vh;">
+
+            <!-- Close Button -->
+            <button onclick="closeClassDetail()" class="absolute top-4 right-4 text-gray-500 hover:text-gray-700 transition-colors rounded-full w-8 h-8 flex items-center justify-center bg-white hover:bg-gray-100">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+
+            <!-- Modal Content -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 h-full max-h-[90vh] overflow-y-auto scrollbar-hide">
+                <div class="h-64 lg:h-auto bg-gray-100 flex items-center justify-center relative overflow-hidden rounded-l-lg">
+                    <img id="detailClassImage" src="" alt="Class Image" class="hidden absolute inset-0 w-full h-full object-cover">
+                    <svg id="detailClassImagePlaceholder" xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    </svg>
+                </div>
+            
+                <div class="p-6 md:p-8 flex flex-col rounded-r-lg" style="max-height: calc(90vh - 1px);">
+                    <div class="flex-grow overflow-y-auto scrollbar-hide">
+                        <h2 id="detailClassName" class="text-3xl font-bold text-gray-800 mb-2"></h2>
+                        <p id="detailClassPrice" class="text-xl font-bold text-[#7D3E35] mb-4"></p>
+                    
+                        <div class="mb-6 text-justify">
+                            <p id="detailClassDescription" class="text-gray-700"></p>
+                        </div>
+                    
+                        <div class="mb-6">
+                            <h3 class="text-lg font-semibold text-gray-800 mb-3">Facilities Included:</h3>
+                            <ul id="detailClassBenefits" class="space-y-2"></ul>
+                        </div>
+                    </div>
+                
+                    <div class="mt-auto pt-4 min-h-[50px]">
+                        <div class="flex justify-center">
+                            @if(session('user'))
+                                <a href="{{ route('subscribe') }}" class="w-full md:w-auto px-8 py-3 bg-[#592727] text-white rounded-lg font-bold hover:bg-[#662f28] transition-colors text-center">
+                                    Subscribe Now
+                                </a>
+                            @else
+                                <button onclick="openModal(); closeClassDetail();" class="w-full md:w-auto px-8 py-3 bg-[#592727] text-white rounded-lg font-bold hover:bg-[#662f28] transition-colors">
+                                    Subscribe Now
+                                </button>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Login/Register Modal -->
     <div id="authModal" class="fixed hidden inset-0 z-50 bg-black bg-opacity-50 backdrop-blur-sm items-center justify-center">
@@ -405,6 +569,11 @@
             });
         }
 
+        function closeClassDetail() {
+            document.getElementById('classDetailModal').classList.add('hidden');
+            document.body.classList.remove('overflow-hidden');
+        }
+
         // Mobile menu functionality
         const hamburgerBtn = document.getElementById('hamburgerBtn');
         const mobileMenu = document.getElementById('mobileMenu');
@@ -433,6 +602,177 @@
             mobileMenuOverlay.addEventListener('click', toggleMobileMenu);
         }
     });
+
+    // Class Detail Modal Functions
+    function showClassDetail(classId) {
+        const classData = getClassData(classId);
+        
+        if (classData) {
+            const imageElement = document.getElementById('detailClassImage');
+            const placeholderElement = document.getElementById('detailClassImagePlaceholder');
+            
+            if (classData.gambar_subs) {
+                imageElement.src = `/storage/langganan_images/${classData.gambar_subs}`;
+                imageElement.classList.remove('hidden');
+                placeholderElement.classList.add('hidden');
+            } else {
+                imageElement.classList.add('hidden');
+                placeholderElement.classList.remove('hidden');
+            }
+            
+            document.getElementById('detailClassName').textContent = classData.pilihan_subs;
+            document.getElementById('detailClassPrice').textContent = `Rp. ${parseInt(classData.harga_subs).toLocaleString()}`;
+            document.getElementById('detailClassDescription').textContent = classData.penjelasan_subs;
+
+            const benefitsList = document.getElementById('detailClassBenefits');
+            benefitsList.innerHTML = '';
+            
+            try {
+                const benefits = JSON.parse(classData.benefit_subs);
+                benefits.forEach(benefit => {
+                    if (benefit && benefit.trim() !== '') {
+                        const li = document.createElement('li');
+                        li.className = 'flex items-start';
+                        li.innerHTML = `
+                            <svg class="h-5 w-5 text-green-500 mt-0.5 mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                            </svg>
+                            <span class="text-gray-700">${benefit}</span>
+                        `;
+                        benefitsList.appendChild(li);
+                    }
+                });
+                
+                if (benefitsList.children.length === 0) {
+                    benefitsList.innerHTML = '<li class="text-gray-500">No benefits listed</li>';
+                }
+            } catch (e) {
+                benefitsList.innerHTML = '<li class="text-gray-500">No benefits listed</li>';
+            }
+
+            document.getElementById('classDetailModal').classList.remove('hidden');
+            document.body.classList.add('overflow-hidden');
+        }
+    }
+    
+    function closeClassDetail() {
+        document.getElementById('classDetailModal').classList.add('hidden');
+        document.body.classList.remove('overflow-hidden');
+    }
+
+    function getClassData(classId) {
+        const classes = @json($langganans);
+        return classes.find(c => c.id_langganan == classId);
+    }
+
+    document.getElementById('classDetailModal').addEventListener('click', function(e) {
+        if (e.target === this) {
+            closeClassDetail();
+        }
+    });
+        
+        // Search and Filter Functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Toggle filter dropdown
+            document.getElementById('filterButton').addEventListener('click', function(e) {
+                e.stopPropagation();
+                document.getElementById('filterDropdown').classList.toggle('hidden');
+            });
+
+            document.addEventListener('click', function() {
+                document.getElementById('filterDropdown').classList.add('hidden');
+            });
+            
+            // Search functionality
+            document.getElementById('searchInput').addEventListener('input', function() {
+                filterClasses();
+            });
+        });
+        
+        function filterClasses() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const classCards = document.querySelectorAll('.class-card');
+            let visibleCount = 0;
+            
+            classCards.forEach(card => {
+                const name = card.dataset.name;
+                const description = card.dataset.description;
+                const price = card.dataset.price;
+                const benefits = card.dataset.benefits;
+                
+                const matchesSearch = searchTerm === '' || 
+                    name.includes(searchTerm) || 
+                    description.includes(searchTerm) || 
+                    price.includes(searchTerm) || 
+                    benefits.includes(searchTerm);
+                
+                if (matchesSearch) {
+                    card.classList.remove('hidden');
+                    visibleCount++;
+                } else {
+                    card.classList.add('hidden');
+                }
+            });
+            
+            if (visibleCount === 0) {
+                document.getElementById('emptyState').classList.remove('hidden');
+            } else {
+                document.getElementById('emptyState').classList.add('hidden');
+            }
+        }
+        
+        function sortClasses(sortType) {
+            const container = document.getElementById('classesContainer');
+            const classCards = Array.from(document.querySelectorAll('.class-card'));
+            
+            classCards.sort((a, b) => {
+                switch(sortType) {
+                    case 'name_asc':
+                        return a.dataset.name.localeCompare(b.dataset.name);
+                    case 'name_desc':
+                        return b.dataset.name.localeCompare(a.dataset.name);
+                    case 'price_asc':
+                        return parseFloat(a.dataset.price) - parseFloat(b.dataset.price);
+                    case 'price_desc':
+                        return parseFloat(b.dataset.price) - parseFloat(a.dataset.price);
+                    default:
+                        return 0;
+                }
+            });
+            
+            classCards.forEach(card => container.appendChild(card));
+
+            document.getElementById('activeFilterIndicator').classList.remove('hidden');
+            let filterText = '';
+            
+            switch(sortType) {
+                case 'name_asc':
+                    filterText = 'Sorted by: Name (A-Z)';
+                    break;
+                case 'name_desc':
+                    filterText = 'Sorted by: Name (Z-A)';
+                    break;
+                case 'price_asc':
+                    filterText = 'Sorted by: Price (Low to High)';
+                    break;
+                case 'price_desc':
+                    filterText = 'Sorted by: Price (High to Low)';
+                    break;
+            }
+            
+            document.getElementById('activeFilterText').textContent = filterText;
+            document.getElementById('filterDropdown').classList.add('hidden');
+        }
+        
+        function resetFilters() {
+            location.reload();
+            document.getElementById('searchInput').value = '';
+            document.querySelectorAll('.class-card').forEach(card => {
+                card.classList.remove('hidden');
+            });
+            document.getElementById('emptyState').classList.add('hidden');
+            document.getElementById('activeFilterIndicator').classList.add('hidden');
+        }
     </script>
 </body>
 </html>

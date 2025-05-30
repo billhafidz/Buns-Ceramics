@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,9 +12,11 @@
         body {
             font-family: 'Montserrat', sans-serif;
         }
+
         .logo {
             font-family: 'Nico Moji', cursive, sans-serif;
         }
+
         .nav-center {
             font-family: 'Itim', cursive, sans-serif;
             position: absolute;
@@ -21,33 +24,41 @@
             transform: translateX(-50%);
             letter-spacing: 2px;
         }
-        .nav-item, .role-badge {
+
+        .nav-item,
+        .role-badge {
             font-family: 'Itim', cursive, sans-serif;
             letter-spacing: 2px;
         }
+
         #mobileMenu {
             overflow-y: auto;
             -webkit-overflow-scrolling: touch;
             transition: transform 0.3s ease-in-out, backdrop-filter 0.3s ease-in-out;
         }
+
         #menuToggle {
             z-index: 60;
         }
+
         .scrollbar-hide::-webkit-scrollbar {
-        width: 0.5rem;
+            width: 0.5rem;
         }
+
         .scrollbar-hide::-webkit-scrollbar-thumb {
-        background-color: transparent;
+            background-color: transparent;
         }
+
         .scrollbar-hide:hover::-webkit-scrollbar-thumb {
-        background-color: rgba(0, 0, 0, 0.2);
+            background-color: rgba(0, 0, 0, 0.2);
         }
     </style>
 </head>
+
 <body class="min-h-screen bg-cover bg-center">
     <!-- Navbar -->
-     <header class="flex justify-between items-center py-6 px-6 md:px-20 bg-[#212529] fixed top-0 left-0 w-full z-50">
-    {{-- <header class="flex justify-between items-center py-8 px-20 bg-[#212529] bg-opacity-90 shadow-md"> --}}
+    <header class="flex justify-between items-center py-6 px-6 md:px-20 bg-[#212529] fixed top-0 left-0 w-full z-50">
+        {{-- <header class="flex justify-between items-center py-8 px-20 bg-[#212529] bg-opacity-90 shadow-md"> --}}
         <a href="{{ route('index') }}" class="text-4xl font-black tracking-wider text-white logo
         cursor-pointer hover:opacity-80 transition-opacity">
             BUNS
@@ -66,7 +77,7 @@
             <a href="{{ route('gallery') }}" class="font-bold text-lg text-white relative hover:after:content-[''] hover:after:absolute hover:after:-bottom-1 hover:after:left-0 hover:after:w-full hover:after:h-0.5 hover:after:bg-[#7D3E35]">Gallery</a>
             <a href="{{ route('contact') }}" class="font-bold text-lg text-white relative hover:after:content-[''] hover:after:absolute hover:after:-bottom-1 hover:after:left-0 hover:after:w-full hover:after:h-0.5 hover:after:bg-[#7D3E35]">Contact</a>
         </nav>
-        
+
         <div class="hidden lg:block">
             @if(session('user'))
             <div class="user-menu-wrapper flex items-center gap-3 order-1 lg:order-2">
@@ -117,9 +128,9 @@
             <a href="{{ route('contact') }}" class="nav-item font-bold text-xl text-white py-2 border-b border-gray-700">CONTACT</a>
 
             @if(!session('user'))
-            <button 
-            onclick="openModal(); toggleMobileMenu();" 
-            class="mt-4 bg-[#212529] bg-opacity-90 shadow-md border-white border-2 text-white px-8 py-3 rounded-full font-bold hover:bg-gradient-to-r hover:from-[#212529] hover:to-[#3a4148] transition-all duration-300">
+            <button
+                onclick="openModal(); toggleMobileMenu();"
+                class="mt-4 bg-[#212529] bg-opacity-90 shadow-md border-white border-2 text-white px-8 py-3 rounded-full font-bold hover:bg-gradient-to-r hover:from-[#212529] hover:to-[#3a4148] transition-all duration-300">
                 LOGIN
             </button>
             @endif
@@ -130,17 +141,17 @@
     <div class="fixed inset-0 bg-black bg-opacity-50 z-30 hidden backdrop-blur-sm" id="mobileMenuOverlay"></div>
 
     <!-- Classes Content -->
-     <div class="container mx-auto px-4 sm:px-6 lg:px-20 pt-32 pb-6 bg-white z-40">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-20 pt-32 pb-6 bg-white z-40">
         <div class="flex items-center justify-between gap-4 mb-6">
 
             <div class="flex-1 relative min-w-0">
-                <input type="text" id="searchInput" placeholder="Cari kelas berdasarkan Nama Kelas, Deskripsi, Harga, atau Benefit..." 
-                       class="w-full p-3 pl-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#f3f4f6] text-sm sm:text-base">
+                <input type="text" id="searchInput" placeholder="Cari kelas berdasarkan Nama Kelas, Deskripsi, Harga, atau Benefit..."
+                    class="w-full p-3 pl-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#f3f4f6] text-sm sm:text-base">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400 absolute left-3 top-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                 </svg>
             </div>
-            
+
             <div class="relative flex-shrink-0">
                 <button id="filterButton" class="flex items-center gap-2 bg-white border border-gray-300 rounded-lg px-4 py-3 hover:bg-gray-50">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -148,7 +159,7 @@
                     </svg>
                     <span class="whitespace-nowrap">Filter</span>
                 </button>
-                
+
                 <div id="filterDropdown" class="hidden absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-lg z-10 border border-gray-200">
                     <div class="p-2">
                         <h4 class="text-sm font-semibold text-gray-700 px-2 py-1">Sort by</h4>
@@ -198,7 +209,7 @@
                 </div>
             </div>
         </div>
-        
+
         <div id="activeFilterIndicator" class="hidden mb-4">
             <div class="inline-flex items-center bg-gray-100 rounded-full px-3 py-1 text-sm">
                 <span id="activeFilterText"></span>
@@ -215,50 +226,50 @@
     <div class="container mx-auto px-6 md:px-20 pb-12 md:pb-16">
         <div id="classesContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             @foreach($langganans as $langganan)
-            <div class="class-card bg-white rounded-xl shadow-lg overflow-hidden transition-transform duration-300 hover:shadow-xl hover:-translate-y-2" 
-                 data-name="{{ strtolower($langganan->pilihan_subs) }}" 
-                 data-description="{{ strtolower($langganan->penjelasan_subs) }}" 
-                 data-price="{{ $langganan->harga_subs }}" 
-                 data-benefits="{{ strtolower(implode(',', json_decode($langganan->benefit_subs, true) ?? [])) }}">
+            <div class="class-card bg-white rounded-xl shadow-lg overflow-hidden transition-transform duration-300 hover:shadow-xl hover:-translate-y-2"
+                data-name="{{ strtolower($langganan->pilihan_subs) }}"
+                data-description="{{ strtolower($langganan->penjelasan_subs) }}"
+                data-price="{{ $langganan->harga_subs }}"
+                data-benefits="{{ strtolower(implode(',', json_decode($langganan->benefit_subs, true) ?? [])) }}">
 
                 <div class="h-64 overflow-hidden bg-gray-100 flex items-center justify-center">
                     @if($langganan->gambar_subs)
-                        <img src="{{ asset('storage/langganan_images/' . $langganan->gambar_subs) }}" 
-                             alt="{{ $langganan->pilihan_subs }}" 
-                             class="w-full h-full object-cover">
+                    <img src="{{ asset('storage/langganan_images/' . $langganan->gambar_subs) }}"
+                        alt="{{ $langganan->pilihan_subs }}"
+                        class="w-full h-full object-cover">
                     @else
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                        </svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    </svg>
                     @endif
                 </div>
-                
+
                 <!-- Class Content -->
                 <div class="p-6">
                     <h3 class="text-2xl font-bold text-gray-800 mb-2">{{ $langganan->pilihan_subs }}</h3>
                     {{-- <p class="text-gray-600 mb-4 line-clamp-3 text-justify">{{ $langganan->penjelasan_subs }}</p> --}}
-                    
+
                     <div class="flex items-center justify-between mb-4">
                         <span class="text-xl font-bold text-[#7D3E35]">Rp. {{ number_format($langganan->harga_subs, 0, ',', '.') }}</span>
-                        <button onclick="showClassDetail({{ $langganan->id_langganan }})" 
-                                class="bg-[#592727] text-white px-4 md:px-6 py-2 md:py-3 rounded-lg font-bold inline-block hover:bg-[#662f28] transition-all">
+                        <button onclick="showClassDetail({{ $langganan->id_langganan }})"
+                            class="bg-[#592727] text-white px-4 md:px-6 py-2 md:py-3 rounded-lg font-bold inline-block hover:bg-[#662f28] transition-all">
                             Detail
                         </button>
                     </div>
-                    
+
                     <div class="border-t border-gray-200 pt-4">
                         <h4 class="text-sm font-semibold text-gray-700 mb-2">Includes:</h4>
                         <ul class="space-y-1">
                             @foreach(array_slice(json_decode($langganan->benefit_subs, true), 0, 3) as $benefit)
-                                <li class="flex items-start">
-                                    <svg class="h-4 w-4 text-green-500 mt-1 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                                    </svg>
-                                    <span class="text-sm text-gray-600">{{ $benefit }}</span>
-                                </li>
+                            <li class="flex items-start">
+                                <svg class="h-4 w-4 text-green-500 mt-1 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                </svg>
+                                <span class="text-sm text-gray-600">{{ $benefit }}</span>
+                            </li>
                             @endforeach
                             @if(count(json_decode($langganan->benefit_subs, true)) > 3)
-                                <li class="text-sm text-gray-500">+ {{ count(json_decode($langganan->benefit_subs, true)) - 3 }} more benefits</li>
+                            <li class="text-sm text-gray-500">+ {{ count(json_decode($langganan->benefit_subs, true)) - 3 }} more benefits</li>
                             @endif
                         </ul>
                     </div>
@@ -266,7 +277,7 @@
             </div>
             @endforeach
         </div>
-        
+
         <div id="emptyState" class="hidden text-center py-12">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 mx-auto text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -298,32 +309,32 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                     </svg>
                 </div>
-            
+
                 <div class="p-6 md:p-8 flex flex-col rounded-r-lg" style="max-height: calc(90vh - 1px);">
                     <div class="flex-grow overflow-y-auto scrollbar-hide">
                         <h2 id="detailClassName" class="text-3xl font-bold text-gray-800 mb-2"></h2>
                         <p id="detailClassPrice" class="text-xl font-bold text-[#7D3E35] mb-4"></p>
-                    
+
                         <div class="mb-6 text-justify">
                             <p id="detailClassDescription" class="text-gray-700"></p>
                         </div>
-                    
+
                         <div class="mb-6">
                             <h3 class="text-lg font-semibold text-gray-800 mb-3">Facilities Included:</h3>
                             <ul id="detailClassBenefits" class="space-y-2"></ul>
                         </div>
                     </div>
-                
+
                     <div class="mt-auto pt-4 min-h-[50px]">
                         <div class="flex justify-center">
                             @if(session('user'))
-                                <a href="{{ route('subscribe') }}" class="w-full md:w-auto px-8 py-3 bg-[#592727] text-white rounded-lg font-bold hover:bg-[#662f28] transition-colors text-center">
-                                    Subscribe Now
-                                </a>
+                            <a href="{{ route('subscribe') }}" class="w-full md:w-auto px-8 py-3 bg-[#592727] text-white rounded-lg font-bold hover:bg-[#662f28] transition-colors text-center">
+                                Subscribe Now
+                            </a>
                             @else
-                                <button onclick="openModal(); closeClassDetail();" class="w-full md:w-auto px-8 py-3 bg-[#592727] text-white rounded-lg font-bold hover:bg-[#662f28] transition-colors">
-                                    Subscribe Now
-                                </button>
+                            <button onclick="openModal(); closeClassDetail();" class="w-full md:w-auto px-8 py-3 bg-[#592727] text-white rounded-lg font-bold hover:bg-[#662f28] transition-colors">
+                                Subscribe Now
+                            </button>
                             @endif
                         </div>
                     </div>
@@ -341,14 +352,14 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                 </svg>
             </button>
-        
+
             <!-- Back button for Register view -->
             <button id="backButton" class="absolute top-3 left-3 z-50 text-gray-800 hover:text-[#7D3E35] hover:bg-gray-200 rounded-full p-1 transition-colors duration-200 hidden" onclick="showLogin()">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
                 </svg>
             </button>
-        
+
             <!-- Login Panel -->
             <div id="loginPanel" class="flex flex-col sm:flex-row min-h-[330px] opacity-100 transition-opacity duration-500">
                 <!-- Left Side - Image with Text -->
@@ -361,11 +372,11 @@
                         </button>
                     </div>
                 </div>
-            
+
                 <!-- Login Form -->
                 <div class="w-full sm:w-1/2 p-4 sm:p-6">
                     <h2 class="text-xl font-bold text-center mb-6">Welcome To Buns</h2>
-                
+
                     <form method="POST" action="{{ route('login') }}" class="space-y-4">
                         @csrf
                         <div class="flex border rounded-lg overflow-hidden">
@@ -376,7 +387,7 @@
                             </div>
                             <input type="text" id="loginUsername" name="username" placeholder="Username" class="flex-1 p-2 outline-none" required>
                         </div>
-                    
+
                         <div class="flex border rounded-lg overflow-hidden">
                             <div class="bg-gray-100 p-3 flex items-center justify-center">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500" viewBox="0 0 20 20" fill="currentColor">
@@ -385,12 +396,12 @@
                             </div>
                             <input type="password" name="password" placeholder="Password" class="flex-1 p-2 outline-none" required>
                         </div>
-                    
+
                         <button type="submit" class="w-full bg-gray-800 text-white py-2 rounded-lg hover:bg-gray-700 transition-all">
                             Login
                         </button>
                     </form>
-                
+
                     <!-- Mobile Only Sign Up Link -->
                     <div class="sm:hidden mt-4 text-center">
                         <p class="text-gray-600">Don't have an account?</p>
@@ -400,13 +411,13 @@
                     </div>
                 </div>
             </div>
-        
+
             <!-- Register Panel (Hidden by Default) -->
             <div id="registerPanel" class="flex hidden flex-col sm:flex-row">
                 <!-- Left Side - Register Form -->
                 <div class="w-full sm:w-1/2 p-4 sm:p-6">
                     <h2 class="text-xl font-bold text-center mb-6">Register</h2>
-                
+
                     <form method="POST" action="{{ route('register.store') }}" class="space-y-4">
                         @csrf
                         <div class="flex border rounded-lg overflow-hidden">
@@ -417,7 +428,7 @@
                             </div>
                             <input type="text" id="registerUsername" name="username" placeholder="Username" class="flex-1 p-2 outline-none" required>
                         </div>
-                    
+
                         <div class="flex border rounded-lg overflow-hidden">
                             <div class="bg-gray-100 p-3 flex items-center justify-center">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500" viewBox="0 0 20 20" fill="currentColor">
@@ -427,7 +438,7 @@
                             </div>
                             <input type="email" name="email" placeholder="Email" class="flex-1 p-2 outline-none" required>
                         </div>
-                    
+
                         <div class="flex border rounded-lg overflow-hidden">
                             <div class="bg-gray-100 p-3 flex items-center justify-center">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500" viewBox="0 0 20 20" fill="currentColor">
@@ -436,12 +447,12 @@
                             </div>
                             <input type="password" name="password" placeholder="Password" class="flex-1 p-2 outline-none" required>
                         </div>
-                    
+
                         <button type="submit" class="w-full bg-gray-800 text-white py-2 rounded-lg hover:bg-gray-700 transition-all">
                             Sign up
                         </button>
                     </form>
-                
+
                     <!-- Mobile Only Sign In Link -->
                     <div class="sm:hidden mt-4 text-center">
                         <p class="text-gray-600">Already have an account?</p>
@@ -450,7 +461,7 @@
                         </button>
                     </div>
                 </div>
-            
+
                 <!-- Right Side - Image with Text -->
                 <div class="bg-cover bg-center w-full sm:w-1/2 flex items-center justify-center text-white p-4 sm:p-6" style="background-image: url('images/login.png');">
                     <div class="bg-black bg-opacity-40 p-4 rounded">
@@ -469,13 +480,13 @@
     <footer class="bg-[#212529] text-white py-16">
         <div class="container mx-auto px-4 md:px-20">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
-                
+
                 <div>
                     <a href="#" class="block mb-4 hover:text-red-400">About us</a>
                     <a href="{{ route('class') }}" class="block mb-4 hover:text-red-400">Class</a>
                     <a href="#" class="block mb-4 hover:text-red-400">Testimoni</a>
                 </div>
-            
+
                 <div>
                     <a href="{{ route('index') }}" class="block mb-4 hover:text-red-400">Home</a>
                     <a href="{{ route('class') }}" class="block mb-4 hover:text-red-400">Class</a>
@@ -504,7 +515,7 @@
                     </div>
                 </div>
             </div>
-        
+
             <div class="text-center border-t border-gray-700 pt-8">
                 <p>Copyright © 2025 Buns ceramics. All Rights Reserved</p>
             </div>
@@ -512,61 +523,147 @@
     </footer>
 
     <script>
-    // Modal for login and registration
-    document.addEventListener('DOMContentLoaded', function() {
-        // Open modal function
-        window.openModal = function() {
-            document.getElementById('authModal').classList.remove('hidden');
-            document.getElementById('authModal').classList.add('flex');
-            showLogin();
-            document.getElementById('loginUsername').focus();
-        };
+        // Modal for login and registration
+        document.addEventListener('DOMContentLoaded', function() {
+            // Open modal function
+            window.openModal = function() {
+                document.getElementById('authModal').classList.remove('hidden');
+                document.getElementById('authModal').classList.add('flex');
+                showLogin();
+                document.getElementById('loginUsername').focus();
+            };
 
-        // Close modal function
-        window.closeModal = function() {
-            document.getElementById('authModal').classList.add('hidden');
-            document.getElementById('authModal').classList.remove('flex');
-        };
+            // Close modal function
+            window.closeModal = function() {
+                document.getElementById('authModal').classList.add('hidden');
+                document.getElementById('authModal').classList.remove('flex');
+            };
 
-        // Show login panel
-        window.showLogin = function() {
-            document.getElementById('loginPanel').classList.remove('hidden');
-            document.getElementById('registerPanel').classList.add('hidden');
-            document.getElementById('backButton').classList.add('hidden');
-            document.getElementById('loginUsername').focus();
-        };
+            // Show login panel
+            window.showLogin = function() {
+                document.getElementById('loginPanel').classList.remove('hidden');
+                document.getElementById('registerPanel').classList.add('hidden');
+                document.getElementById('backButton').classList.add('hidden');
+                document.getElementById('loginUsername').focus();
+            };
 
-        // Show register panel
-        window.showRegister = function() {
-            document.getElementById('loginPanel').classList.add('hidden');
-            document.getElementById('registerPanel').classList.remove('hidden');
-            document.getElementById('backButton').classList.remove('hidden');
-            document.getElementById('registerUsername').focus();
-        };
+            // Show register panel
+            window.showRegister = function() {
+                document.getElementById('loginPanel').classList.add('hidden');
+                document.getElementById('registerPanel').classList.remove('hidden');
+                document.getElementById('backButton').classList.remove('hidden');
+                document.getElementById('registerUsername').focus();
+            };
 
-        // Close modal when clicking outside
-        document.getElementById('authModal').addEventListener('click', function(event) {
-            if (event.target === this) {
-                closeModal();
+            // Close modal when clicking outside
+            document.getElementById('authModal').addEventListener('click', function(event) {
+                if (event.target === this) {
+                    closeModal();
+                }
+            });
+
+            // User dropdown toggle
+            const userIcon = document.querySelector('.user-menu img');
+            const dropdown = document.querySelector('.dropdown-content');
+
+            if (userIcon && dropdown) {
+                userIcon.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    dropdown.classList.toggle('hidden');
+                });
+
+                // Close dropdown when clicking elsewhere
+                document.addEventListener('click', function() {
+                    if (!dropdown.classList.contains('hidden')) {
+                        dropdown.classList.add('hidden');
+                    }
+                });
+            }
+
+            function closeClassDetail() {
+                document.getElementById('classDetailModal').classList.add('hidden');
+                document.body.classList.remove('overflow-hidden');
+            }
+
+            // Mobile menu functionality
+            const hamburgerBtn = document.getElementById('hamburgerBtn');
+            const mobileMenu = document.getElementById('mobileMenu');
+            const mobileMenuOverlay = document.getElementById('mobileMenuOverlay');
+
+            function toggleMobileMenu() {
+                hamburgerBtn.classList.toggle('active');
+
+                if (mobileMenu.classList.contains('-translate-x-full')) {
+                    mobileMenu.classList.remove('-translate-x-full');
+                    mobileMenu.classList.add('translate-x-0');
+                    mobileMenuOverlay.classList.remove('hidden');
+                    document.body.classList.add('overflow-hidden');
+                } else {
+                    mobileMenu.classList.remove('translate-x-0');
+                    mobileMenu.classList.add('-translate-x-full');
+                    mobileMenuOverlay.classList.add('hidden');
+                    document.body.classList.remove('overflow-hidden');
+                }
+            }
+
+            window.toggleMobileMenu = toggleMobileMenu;
+
+            if (hamburgerBtn && mobileMenu && mobileMenuOverlay) {
+                hamburgerBtn.addEventListener('click', toggleMobileMenu);
+                mobileMenuOverlay.addEventListener('click', toggleMobileMenu);
             }
         });
 
-        // User dropdown toggle
-        const userIcon = document.querySelector('.user-menu img');
-        const dropdown = document.querySelector('.dropdown-content');
-    
-        if (userIcon && dropdown) {
-            userIcon.addEventListener('click', function(e) {
-                e.stopPropagation();
-                dropdown.classList.toggle('hidden');
-            });
-        
-            // Close dropdown when clicking elsewhere
-            document.addEventListener('click', function() {
-                if (!dropdown.classList.contains('hidden')) {
-                    dropdown.classList.add('hidden');
+        // Class Detail Modal Functions
+        function showClassDetail(classId) {
+            const classData = getClassData(classId);
+
+            if (classData) {
+                const imageElement = document.getElementById('detailClassImage');
+                const placeholderElement = document.getElementById('detailClassImagePlaceholder');
+
+                if (classData.gambar_subs) {
+                    imageElement.src = `/storage/langganan_images/${classData.gambar_subs}`;
+                    imageElement.classList.remove('hidden');
+                    placeholderElement.classList.add('hidden');
+                } else {
+                    imageElement.classList.add('hidden');
+                    placeholderElement.classList.remove('hidden');
                 }
-            });
+
+                document.getElementById('detailClassName').textContent = classData.pilihan_subs;
+                document.getElementById('detailClassPrice').textContent = `Rp. ${parseInt(classData.harga_subs).toLocaleString()}`;
+                document.getElementById('detailClassDescription').textContent = classData.penjelasan_subs;
+
+                const benefitsList = document.getElementById('detailClassBenefits');
+                benefitsList.innerHTML = '';
+
+                try {
+                    const benefits = JSON.parse(classData.benefit_subs);
+                    benefits.forEach(benefit => {
+                        if (benefit && benefit.trim() !== '') {
+                            const li = document.createElement('li');
+                            li.className = 'flex items-start';
+                            li.innerHTML = `
+                            <svg class="h-5 w-5 text-green-500 mt-0.5 mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                            </svg>
+                            <span class="text-gray-700">${benefit}</span>
+                        `;
+                            benefitsList.appendChild(li);
+                        }
+                    });
+
+                    if (benefitsList.children.length === 0) {
+                        benefitsList.innerHTML = '<li class="text-gray-500">No benefits listed</li>';
+                    }
+                } catch (e) {
+                    benefitsList.innerHTML = '<li class="text-gray-500">No benefits listed</li>';
+                }
+
+                document.getElementById('classDetailModal').classList.remove('hidden');
+                document.body.classList.add('overflow-hidden');
+            }
         }
 
         function closeClassDetail() {
@@ -574,103 +671,17 @@
             document.body.classList.remove('overflow-hidden');
         }
 
-        // Mobile menu functionality
-        const hamburgerBtn = document.getElementById('hamburgerBtn');
-        const mobileMenu = document.getElementById('mobileMenu');
-        const mobileMenuOverlay = document.getElementById('mobileMenuOverlay');
+        function getClassData(classId) {
+            const classes = @json($langganans);
+            return classes.find(c => c.id_langganan == classId);
+        }
 
-        function toggleMobileMenu() {
-            hamburgerBtn.classList.toggle('active');
-        
-            if(mobileMenu.classList.contains('-translate-x-full')) {
-                mobileMenu.classList.remove('-translate-x-full');
-                mobileMenu.classList.add('translate-x-0');
-                mobileMenuOverlay.classList.remove('hidden');
-                document.body.classList.add('overflow-hidden');
-            } else {
-                mobileMenu.classList.remove('translate-x-0');
-                mobileMenu.classList.add('-translate-x-full');
-                mobileMenuOverlay.classList.add('hidden');
-                document.body.classList.remove('overflow-hidden');
+        document.getElementById('classDetailModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeClassDetail();
             }
-        }
+        });
 
-        window.toggleMobileMenu = toggleMobileMenu;
-
-        if (hamburgerBtn && mobileMenu && mobileMenuOverlay) {
-            hamburgerBtn.addEventListener('click', toggleMobileMenu);
-            mobileMenuOverlay.addEventListener('click', toggleMobileMenu);
-        }
-    });
-
-    // Class Detail Modal Functions
-    function showClassDetail(classId) {
-        const classData = getClassData(classId);
-        
-        if (classData) {
-            const imageElement = document.getElementById('detailClassImage');
-            const placeholderElement = document.getElementById('detailClassImagePlaceholder');
-            
-            if (classData.gambar_subs) {
-                imageElement.src = `/storage/langganan_images/${classData.gambar_subs}`;
-                imageElement.classList.remove('hidden');
-                placeholderElement.classList.add('hidden');
-            } else {
-                imageElement.classList.add('hidden');
-                placeholderElement.classList.remove('hidden');
-            }
-            
-            document.getElementById('detailClassName').textContent = classData.pilihan_subs;
-            document.getElementById('detailClassPrice').textContent = `Rp. ${parseInt(classData.harga_subs).toLocaleString()}`;
-            document.getElementById('detailClassDescription').textContent = classData.penjelasan_subs;
-
-            const benefitsList = document.getElementById('detailClassBenefits');
-            benefitsList.innerHTML = '';
-            
-            try {
-                const benefits = JSON.parse(classData.benefit_subs);
-                benefits.forEach(benefit => {
-                    if (benefit && benefit.trim() !== '') {
-                        const li = document.createElement('li');
-                        li.className = 'flex items-start';
-                        li.innerHTML = `
-                            <svg class="h-5 w-5 text-green-500 mt-0.5 mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                            </svg>
-                            <span class="text-gray-700">${benefit}</span>
-                        `;
-                        benefitsList.appendChild(li);
-                    }
-                });
-                
-                if (benefitsList.children.length === 0) {
-                    benefitsList.innerHTML = '<li class="text-gray-500">No benefits listed</li>';
-                }
-            } catch (e) {
-                benefitsList.innerHTML = '<li class="text-gray-500">No benefits listed</li>';
-            }
-
-            document.getElementById('classDetailModal').classList.remove('hidden');
-            document.body.classList.add('overflow-hidden');
-        }
-    }
-    
-    function closeClassDetail() {
-        document.getElementById('classDetailModal').classList.add('hidden');
-        document.body.classList.remove('overflow-hidden');
-    }
-
-    function getClassData(classId) {
-        const classes = @json($langganans);
-        return classes.find(c => c.id_langganan == classId);
-    }
-
-    document.getElementById('classDetailModal').addEventListener('click', function(e) {
-        if (e.target === this) {
-            closeClassDetail();
-        }
-    });
-        
         // Search and Filter Functionality
         document.addEventListener('DOMContentLoaded', function() {
             // Toggle filter dropdown
@@ -682,30 +693,30 @@
             document.addEventListener('click', function() {
                 document.getElementById('filterDropdown').classList.add('hidden');
             });
-            
+
             // Search functionality
             document.getElementById('searchInput').addEventListener('input', function() {
                 filterClasses();
             });
         });
-        
+
         function filterClasses() {
             const searchTerm = document.getElementById('searchInput').value.toLowerCase();
             const classCards = document.querySelectorAll('.class-card');
             let visibleCount = 0;
-            
+
             classCards.forEach(card => {
                 const name = card.dataset.name;
                 const description = card.dataset.description;
                 const price = card.dataset.price;
                 const benefits = card.dataset.benefits;
-                
-                const matchesSearch = searchTerm === '' || 
-                    name.includes(searchTerm) || 
-                    description.includes(searchTerm) || 
-                    price.includes(searchTerm) || 
+
+                const matchesSearch = searchTerm === '' ||
+                    name.includes(searchTerm) ||
+                    description.includes(searchTerm) ||
+                    price.includes(searchTerm) ||
                     benefits.includes(searchTerm);
-                
+
                 if (matchesSearch) {
                     card.classList.remove('hidden');
                     visibleCount++;
@@ -713,20 +724,20 @@
                     card.classList.add('hidden');
                 }
             });
-            
+
             if (visibleCount === 0) {
                 document.getElementById('emptyState').classList.remove('hidden');
             } else {
                 document.getElementById('emptyState').classList.add('hidden');
             }
         }
-        
+
         function sortClasses(sortType) {
             const container = document.getElementById('classesContainer');
             const classCards = Array.from(document.querySelectorAll('.class-card'));
-            
+
             classCards.sort((a, b) => {
-                switch(sortType) {
+                switch (sortType) {
                     case 'name_asc':
                         return a.dataset.name.localeCompare(b.dataset.name);
                     case 'name_desc':
@@ -739,13 +750,13 @@
                         return 0;
                 }
             });
-            
+
             classCards.forEach(card => container.appendChild(card));
 
             document.getElementById('activeFilterIndicator').classList.remove('hidden');
             let filterText = '';
-            
-            switch(sortType) {
+
+            switch (sortType) {
                 case 'name_asc':
                     filterText = 'Sorted by: Name (A-Z)';
                     break;
@@ -759,11 +770,11 @@
                     filterText = 'Sorted by: Price (High to Low)';
                     break;
             }
-            
+
             document.getElementById('activeFilterText').textContent = filterText;
             document.getElementById('filterDropdown').classList.add('hidden');
         }
-        
+
         function resetFilters() {
             location.reload();
             document.getElementById('searchInput').value = '';
@@ -775,4 +786,5 @@
         }
     </script>
 </body>
+
 </html>

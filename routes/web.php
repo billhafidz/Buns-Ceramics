@@ -81,3 +81,4 @@ Route::get('/payment/index', [PaymentController::class, 'showPaymentForm'])->nam
 Route::post('/payment', [PaymentController::class, 'processPayment'])->name('payment.process');
 Route::get('/payment/success', [PaymentController::class, 'paymentSuccess'])->name('payment.success');
 Route::get('/payment/failure', [PaymentController::class, 'paymentFailure'])->name('payment.failure');
+Route::get('/class', [ClassController::class, 'index'])->name('class');

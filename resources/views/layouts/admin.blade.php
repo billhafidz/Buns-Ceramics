@@ -15,7 +15,7 @@
             <p class="text-sm text-gray-600 mb-6">Login sebagai: <strong>{{ session('admin_nama') }}</strong></p>
             <ul class="space-y-2">
                 <li><a href="{{ route('admin.dashboard') }}" class="block p-2 hover:bg-gray-200 rounded">🏠 Dashboard</a></li>
-                <li><a href="{{ route('admin.gallery') }}" class="block p-2 hover:bg-gray-200 rounded">📷 Gallery</a></li>
+                <li><a href="{{ route('admin-buns.gallery') }}" class="block p-2 hover:bg-gray-200 rounded">📷 Gallery</a></li>
                 <li><a href="{{ route('admin.users') }}" class="block p-2 hover:bg-gray-200 rounded">👥 Users</a></li>
                 <li><a href="{{ route('admin.members') }}" class="block p-2 hover:bg-gray-200 rounded">💳 Members</a></li>
                 <li><a href="{{ route('admin-buns.classes.index') }}" class="block p-2 hover:bg-gray-200 rounded">📚 Classes</a></li>

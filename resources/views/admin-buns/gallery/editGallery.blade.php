@@ -56,7 +56,7 @@
                     </div>
                 </div>
 
-                <!-- Option to keep existing image -->
+
                 <div class="form-check mt-3">
                     <input class="form-check-input" type="checkbox" id="keep_image" name="keep_image" checked style="width: 18px; height: 18px;">
                     <label class="form-check-label" for="keep_image" style="font-size: 1rem; color: #333; margin-left: 8px;">
@@ -92,7 +92,7 @@
                     previewImg.src = e.target.result;
                     previewImg.style.display = 'block';
                 } else {
-                    // Create new image element if it doesn't exist
+
                     const newImg = document.createElement('img');
                     newImg.src = e.target.result;
                     newImg.id = 'editPreviewImg';
@@ -102,7 +102,7 @@
                     newImg.style.borderRadius = '8px';
                     newImg.style.boxShadow = '0 4px 10px rgba(0, 0, 0, 0.1)';
 
-                    // Replace placeholder with the new image
+
                     const imagePreview = document.getElementById('editImagePreview');
                     if (placeholder) {
                         placeholder.style.display = 'none';
@@ -110,12 +110,12 @@
                     imagePreview.appendChild(newImg);
                 }
 
-                // Hide placeholder if it exists
+
                 if (placeholder) {
                     placeholder.style.display = 'none';
                 }
 
-                // Add subtle animation
+
                 if (previewImg) {
                     previewImg.style.opacity = '0';
                     setTimeout(() => {
@@ -126,7 +126,7 @@
 
             reader.readAsDataURL(input.files[0]);
 
-            // Uncheck "keep_image" when new image is selected
+
             document.getElementById('keep_image').checked = false;
         }
     }

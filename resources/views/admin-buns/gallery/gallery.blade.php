@@ -144,10 +144,10 @@
 @endsection
 
 
-<!-- Memuat Tailwind CSS setelah Bootstrap untuk menghindari konflik -->
+
 <script src="https://cdn.tailwindcss.com"></script>
 
-<!-- Memuat JavaScript untuk Bootstrap -->
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
@@ -186,7 +186,6 @@
 </script>
 
 <style>
-    /* Modal */
     .modal {
         display: none;
         position: fixed;
@@ -249,7 +248,7 @@
         border-radius: 0 0 16px 16px;
     }
 
-    /* Form Elements */
+
     .form-control,
     .form-select {
         border-radius: 10px;
@@ -276,7 +275,7 @@
         letter-spacing: 0.02em;
     }
 
-    /* Image Upload Section */
+
     .image-upload-wrapper {
         display: flex;
         flex-direction: column;
@@ -333,7 +332,7 @@
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     }
 
-    /* Style untuk container gambar tetap */
+
     .img-container {
         width: 100px;
         height: 100px;
@@ -347,16 +346,15 @@
         border: 1px solid #e0e0e0;
     }
 
-    /* Style untuk gambar di dalam container */
+
     .img-preview {
         width: 100px;
         height: 100px;
         object-fit: cover;
-        /* Memastikan gambar menutupi area dengan proporsi tetap */
         display: block;
     }
 
-    /* Buttons */
+
     .btn {
         border-radius: 10px;
         padding: 12px 24px;
@@ -409,7 +407,7 @@
         transition: all 0s;
     }
 
-    /* Animation for modal appearance */
+
     @keyframes modalFadeIn {
         from {
             opacity: 0;
@@ -426,7 +424,7 @@
         animation: modalFadeIn 0.4s forwards;
     }
 
-    /* Pagination Styling */
+
     .pagination {
         margin-top: 20px;
         margin-bottom: 20px;
@@ -451,7 +449,7 @@
         box-shadow: none;
     }
 
-    /* Styling Gallery Section */
+
     #gallery {
         background-color: #f8f9fa;
     }
@@ -481,7 +479,7 @@
         background-color: #f8f9fa;
     }
 
-    /* Badge Styling */
+
     .badge-jenis {
         padding: 5px 10px;
         border-radius: 20px;
@@ -501,7 +499,7 @@
         background-color: grey;
     }
 
-    /* Action Buttons */
+
     .action-buttons {
         display: flex;
         gap: 8px;
@@ -547,10 +545,10 @@
         const openModalBtn = document.getElementById('openModalButton');
         const closeModalBtn = document.getElementById('closeModalButton');
 
-        // Pastikan modal hanya dibuka ketika tombol "Tambah Gallery" diklik
+
         openModalBtn.addEventListener('click', function() {
             console.log('Modal button clicked');
-            modal.style.display = 'block'; // Menampilkan modal
+            modal.style.display = 'block';
             setTimeout(() => {
                 modal.classList.add('show');
             }, 10);
@@ -559,16 +557,16 @@
 
         // Pastikan modal hanya ditutup ketika tombol Close yang diklik
         closeModalBtn.addEventListener('click', function() {
-            modal.classList.remove('show'); // Menghilangkan animasi 'show'
+            modal.classList.remove('show');
             setTimeout(() => {
-                modal.style.display = 'none'; // Menyembunyikan modal setelah animasi
-                document.body.style.overflow = ''; // Mengembalikan scroll
-            }, 300); // Durasi animasi
+                modal.style.display = 'none';
+                document.body.style.overflow = '';
+            }, 300);
         });
 
         window.addEventListener('click', function(event) {
             if (event.target === modal) {
-                closeModalBtn.click(); // Menutup modal jika klik di luar modal
+                closeModalBtn.click();
             }
         });
     });

@@ -23,7 +23,7 @@
 
 
     <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <a href="{{ route('admin.gallery') }}" class="bg-gray-50 hover:bg-gray-100 p-6 rounded-lg shadow text-center">
+        <a href="{{ route('admin-buns.gallery') }}" class="bg-gray-50 hover:bg-gray-100 p-6 rounded-lg shadow text-center">
             <div class="text-4xl mb-2">🖼</div>
             <h3 class="text-lg font-semibold">Gallery</h3>
         </a>

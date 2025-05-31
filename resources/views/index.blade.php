@@ -451,37 +451,46 @@
                     <h2 class="text-xl font-bold text-center mb-6">Welcome To Buns</h2>
 
                     <form method="POST" action="{{ route('login') }}" class="space-y-4">
-                        @csrf
-                        <div class="flex border rounded-lg overflow-hidden">
-                            <div class="bg-gray-100 p-3 flex items-center justify-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500"
-                                    viewBox="0 0 20 20" fill="currentColor">
-                                    <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
-                                        clip-rule="evenodd" />
-                                </svg>
-                            </div>
-                            <input type="text" id="loginUsername" name="username" placeholder="Username"
-                                class="flex-1 p-2 outline-none" required>
-                        </div>
+    @csrf
+    <div class="flex border rounded-lg overflow-hidden">
+        <div class="bg-gray-100 p-3 flex items-center justify-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500"
+                viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                    clip-rule="evenodd" />
+            </svg>
+        </div>
+        <input type="text" id="loginUsername" name="username" placeholder="Username"
+            class="flex-1 p-2 outline-none" required>
+    </div>
 
-                        <div class="flex border rounded-lg overflow-hidden">
-                            <div class="bg-gray-100 p-3 flex items-center justify-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500"
-                                    viewBox="0 0 20 20" fill="currentColor">
-                                    <path fill-rule="evenodd"
-                                        d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
-                                        clip-rule="evenodd" />
-                                </svg>
-                            </div>
-                            <input type="password" name="password" placeholder="Password"
-                                class="flex-1 p-2 outline-none" required>
-                        </div>
+    <div class="flex border rounded-lg overflow-hidden">
+        <div class="bg-gray-100 p-3 flex items-center justify-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500"
+                viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd"
+                    d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
+                    clip-rule="evenodd" />
+            </svg>
+        </div>
+        <input type="password" name="password" placeholder="Password"
+            class="flex-1 p-2 outline-none" required>
+    </div>
 
-                        <button type="submit"
-                            class="w-full bg-gray-800 text-white py-2 rounded-lg hover:bg-gray-700 transition-all">
-                            Login
-                        </button>
-                    </form>
+    <button type="submit"
+        class="w-full bg-gray-800 text-white py-2 rounded-lg hover:bg-gray-700 transition-all">
+        Login
+    </button>
+
+    {{-- Link lupa password --}}
+    <div class="text-center">
+        <a href="{{ route('password.request') }}"
+           class="text-sm text-gray-500 hover:text-gray-800 underline transition-all">
+           Lupa Password?
+        </a>
+    </div>
+</form>
+
 
                     <!-- Mobile Only Sign Up Link -->
                     <div class="sm:hidden mt-4 text-center">

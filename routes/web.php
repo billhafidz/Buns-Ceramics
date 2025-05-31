@@ -12,6 +12,7 @@ use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\ClassController;
 use App\Http\Controllers\GalleryController;
+use App\Http\Controllers\ListGalleryController;
 
 Route::get('/', [MainPageController::class, 'index'])->name('index');
 Route::get('/gallery', function () {
@@ -66,6 +67,7 @@ Route::get('/admin-buns/gallery/edit/{id}', [GalleryController::class, 'edit'])-
 Route::put('/admin-buns/gallery/update/{id}', [GalleryController::class, 'update'])->name('admin-buns.gallery.update');
 
 
+Route::get('/gallery', [ListGalleryController::class, 'view'])->name('gallery');
 
 Route::get('/admin-buns/users', fn() => view('admin-buns.users'))->name('admin.users');
 Route::get('/admin-buns/members', fn() => view('admin-buns.members'))->name('admin.members');

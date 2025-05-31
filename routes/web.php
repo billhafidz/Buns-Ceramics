@@ -12,6 +12,7 @@ use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\ClassController;
 use App\Http\Controllers\GalleryController;
+use App\Http\Controllers\ForgetPasswordController;
 use App\Http\Controllers\ListGalleryController;
 
 Route::get('/', [MainPageController::class, 'index'])->name('index');
@@ -84,3 +85,9 @@ Route::post('/payment', [PaymentController::class, 'processPayment'])->name('pay
 Route::get('/payment/success', [PaymentController::class, 'paymentSuccess'])->name('payment.success');
 Route::get('/payment/failure', [PaymentController::class, 'paymentFailure'])->name('payment.failure');
 Route::get('/class', [ClassController::class, 'index'])->name('class');
+Route::get('/forgot-password', [ForgetPasswordController::class, 'showForgotForm'])->name('password.request');
+Route::post('/send-otp', [ForgetPasswordController::class, 'sendOtp'])->name('otp.send');
+Route::get('/verify-otp', [ForgetPasswordController::class, 'showOtpForm'])->name('otp.form');
+Route::post('/verify-otp', [ForgetPasswordController::class, 'verifyOtp'])->name('otp.verify');
+Route::get('/reset-password', [ForgetPasswordController::class, 'showResetForm'])->name('password.reset.form');
+Route::post('/reset-password', [ForgetPasswordController::class, 'resetPassword'])->name('password.reset');

@@ -17,6 +17,7 @@ class GalleryController extends Controller
         $jenis = $request->input('jenis');
         $perPage = 5;
 
+        // Tambahkan ini untuk mengambil data members
         $members = Member::all();
 
 
@@ -30,11 +31,24 @@ class GalleryController extends Controller
             ->orderBy('created_at', 'desc')
             ->paginate($perPage);
 
+        // Kirim kedua variable ke view
         return view('admin-buns.gallery.gallery', compact('gallery', 'members'));
     }
 
+    public function create(Request $request)
+    {
+        // Fetch all members from the database
+        $members = Member::all();
+
+        // Pass the fetched members to the view
+        return view('admin-buns.gallery.create', compact('members'));
+    }
+
+
+
     public function store(Request $request)
     {
+        // Validate the incoming request
         $validator = Validator::make($request->all(), [
             'nama' => 'required|string',
             'jenis' => 'required|string|in:gelas,mangkuk,piring',
@@ -84,6 +98,7 @@ class GalleryController extends Controller
         }
     }
 
+
     public function edit($id)
     {
         $gallery = Gallery::findOrFail($id);
@@ -94,62 +109,42 @@ class GalleryController extends Controller
 
     public function update(Request $request, $id)
     {
-        $validator = Validator::make($request->all(), [
-            'nama' => 'required|string',
-            'jenis' => 'required|string|in:gelas,mangkuk,piring',
-            'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:10120',
+        // Validasi input data
+        $data = $request->validate([
+            'nama' => 'required',
+            'jenis' => 'required',
+            'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:10000',
+            'keep_image' => 'nullable',
         ]);
 
-        if ($validator->fails()) {
-            if ($request->ajax()) {
-                return response()->json([
-                    'success' => false,
-                    'errors' => $validator->errors()
-                ]);
+        // Ambil data gallery yang ingin diperbarui
+        $gallery = Gallery::findOrFail($id);
+
+        // Perbarui field 'nama' dan 'jenis'
+        $gallery->nama = $data['nama'];
+        $gallery->jenis = $data['jenis'];
+
+        // Proses gambar baru jika ada
+        if ($request->hasFile('gambar') && !$request->has('keep_image')) {
+            // Hapus gambar lama jika ada
+            if ($gallery->gambar && Storage::exists('public/' . $gallery->gambar)) {
+                Storage::delete('public/' . $gallery->gambar);
             }
 
-            return redirect()->back()->withErrors($validator)->withInput();
+            // Simpan gambar baru
+            $filename = time() . '_' . $request->file('gambar')->getClientOriginalName();
+            $path = $request->file('gambar')->storeAs('uploads/galleries', $filename, 'public');
+            $gallery->gambar = $path;  // Simpan path gambar baru
         }
 
-        try {
-            $gallery = Gallery::findOrFail($id);
+        // Simpan perubahan di database
+        $gallery->save();
 
-            $gallery->nama = $request->nama;
-            $gallery->jenis = $request->jenis;
-
-            if ($request->hasFile('gambar')) {
-                // Hapus gambar lama jika ada
-                if ($gallery->gambar && Storage::disk('public')->exists($gallery->gambar)) {
-                    Storage::disk('public')->delete($gallery->gambar);
-                }
-
-                $path = $request->file('gambar')->store('gallery', 'public');
-                $gallery->gambar = $path;
-            }
-
-            $gallery->save();
-
-            $successMessage = 'Data gallery berhasil diperbarui!';
-
-            if ($request->ajax()) {
-                return response()->json([
-                    'success' => true,
-                    'message' => $successMessage
-                ]);
-            }
-
-            return redirect()->route('admin-buns.gallery')->with('success', $successMessage);
-        } catch (\Exception $e) {
-            if ($request->ajax()) {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Terjadi kesalahan: ' . $e->getMessage()
-                ]);
-            }
-
-            return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage())->withInput();
-        }
+        // Redirect ke halaman gallery dengan pesan sukses
+        return redirect()->route('admin-buns.gallery')->with('success', 'Gallery berhasil diperbarui.');
     }
+
+
 
     public function delete($id)
     {

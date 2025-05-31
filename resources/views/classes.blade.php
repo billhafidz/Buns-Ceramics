@@ -52,6 +52,10 @@
         .scrollbar-hide:hover::-webkit-scrollbar-thumb {
             background-color: rgba(0, 0, 0, 0.2);
         }
+
+        html {
+            overflow-y: scroll; 
+        }
     </style>
 </head>
 

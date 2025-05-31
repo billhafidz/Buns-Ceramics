@@ -27,6 +27,6 @@ class ListGalleryController extends Controller
             ->orderBy('created_at', 'desc')
             ->get();
 
-        return view('admin-buns.gallery.gallery', compact('gallery', 'members'));
+        return view('gallery', compact('gallery', 'members'));
     }
 }

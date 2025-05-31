@@ -5,8 +5,25 @@
 <section id="gallery" class="bg-light py-5">
     <div class="container">
         <div class="d-flex justify-content-between align-items-center mb-4">
-            <h2 style="font-size: 1.8rem; color: #333; font-weight: 600;">Tambah Gallery</h2>
+            <h2 style="font-size: 1.8rem; color: #333; font-weight: 600; padding-left: 600px">Kelola Gallery</h2>
         </div>
+
+        <!-- Success Alert -->
+        @if(session('success'))
+        <div class="alert alert-success alert-dismissible fade show mb-4" role="alert">
+            {{ session('success') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        @endif
+
+        <!-- Error Alert -->
+        @if(session('error'))
+        <div class="alert alert-danger alert-dismissible fade show mb-4" role="alert">
+            {{ session('error') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        @endif
+
         <!-- Button to trigger modal with JavaScript -->
         <div class="d-flex justify-content-end mb-4">
             <form action="{{ route('admin-buns.gallery') }}" method="GET" style="display: flex;">
@@ -16,9 +33,7 @@
 
             <button class="btn btn-primary" id="openModalButton" style="background-color: #007bff;margin-top: 10px; border: none; padding: 10px 20px; font-size: 1rem; color: white; border-radius: 5px;">
                 + Tambah Gallery
-
             </button>
-
         </div>
     </div>
 
@@ -29,28 +44,45 @@
                 <div class="modal-header" style="background-color: #333; color: white; border-radius: 10px 10px 0 0; padding: 20px 30px;">
                     <h5 class="modal-title">Tambah Gallery</h5>
                 </div>
-                <form method="POST" action="{{ route('admin-buns.gallery.store') }}" enctype="multipart/form-data">
+                <form method="POST" action="{{ route('admin-buns.gallery.store') }}" enctype="multipart/form-data" id="galleryForm">
                     @csrf
                     <div class="modal-body" style="background-color: #f8f9fa; padding: 30px; border-radius: 0 0 10px 10px; box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);">
                         <div class="mb-3">
-                            <label for="nama" class="form-label" style="font-weight: bold; color: #333;">Nama Member</label>
-                            <select class="form-select" id="nama" name="nama" required>
+                            <label for="nama" class="form-label" style="font-weight: bold; color: #333;">
+                                Nama Member <span class="required-asterisk">*</span>
+                            </label>
+                            <select class="form-select" id="nama" name="nama" style="border: 1px solid #ccc; border-radius: 8px; padding: 10px 12px; width: 620px;">
                                 <option value="" disabled selected>Pilih Nama Member</option>
                                 @foreach ($members as $member)
                                 <option value="{{ $member->nama_member }}">{{ $member->nama_member }}</option>
                                 @endforeach
                             </select>
+                            <div class="invalid-feedback" id="nama-error">
+                                @if($errors->has('nama'))
+                                {{ $errors->first('nama') }}
+                                @endif
+                            </div>
                         </div>
                         <div class="mb-3">
-                            <label for="jenis" class="form-label" style="font-weight: bold; color: #333;">Jenis</label>
-                            <select class="form-select" id="jenis" name="jenis" required style="border: 1px solid #ccc; border-radius: 8px; padding: 10px 12px; width: 574px;">
+                            <label for="jenis" class="form-label" style="font-weight: bold; color: #333;">
+                                Jenis <span class="required-asterisk">*</span>
+                            </label>
+                            <select class="form-select" id="jenis" name="jenis" style="border: 1px solid #ccc; border-radius: 8px; padding: 10px 12px; width: 620px;">
                                 <option value="" disabled selected>Pilih Jenis</option>
                                 <option value="gelas">Gelas</option>
                                 <option value="mangkuk">Mangkuk</option>
                                 <option value="piring">Piring</option>
                             </select>
+                            <div class="invalid-feedback" id="jenis-error">
+                                @if($errors->has('jenis'))
+                                {{ $errors->first('jenis') }}
+                                @endif
+                            </div>
                         </div>
                         <div class="mb-3">
+                            <label for="gambar" class="form-label" style="font-weight: bold; color: #333;">
+                                Gambar <span class="required-asterisk">*</span>
+                            </label>
                             <div class="image-upload-wrapper" style="display: flex; align-items: center;">
                                 <div class="image-preview" id="imagePreview" style="flex: 1;">
                                     <div class="placeholder" style="text-align: left; padding: 10px;">
@@ -61,18 +93,46 @@
                                 </div>
                                 <input type="file" class="form-control" id="gambar" name="gambar" accept="image/*" onchange="previewImage(this)" style="border: 1px solid #ccc; border-radius: 8px; padding: 10px 12px;">
                             </div>
+                            <div class="invalid-feedback" id="gambar-error">
+                                @if($errors->has('gambar'))
+                                {{ $errors->first('gambar') }}
+                                @endif
+                            </div>
                         </div>
-                    </div>
-                    <div class="modal-footer" style="border-top: none; justify-content: space-between; padding: 20px; background-color: #f8f9fa;">
-                        <button type="button" class="btn btn-danger" id="closeModalButton" style="background-color: #dc3545; color: white; border: none; padding: 10px 20px; font-size: 1rem; border-radius: 5px;">
-                            Close
-                        </button>
-                        <button type="submit" class="btn btn-success" style="background-color: #28a745; color: white; border: none; padding: 10px 20px; font-size: 1rem; border-radius: 5px;">
-                            Submit
-                        </button>
-                    </div>
-                </form>
 
+                        <div class="modal-footer" style="border-top: none; justify-content: space-between; padding: 20px; background-color: #f8f9fa;">
+                            <button type="button" class="btn btn-danger" id="closeModalButton" style="background-color: #dc3545; color: white; border: none; padding: 10px 20px; font-size: 1rem; border-radius: 5px;">
+                                Close
+                            </button>
+                            <button type="submit" class="btn btn-success" style="background-color: #28a745; color: white; border: none; padding: 10px 20px; font-size: 1rem; border-radius: 5px;">
+                                Submit
+                            </button>
+                        </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <!-- Modal Konfirmasi Delete -->
+    <div class="modal" id="deleteConfirmModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color: #dc3545; color: white; border-radius: 10px 10px 0 0; padding: 20px 30px;">
+                    <h5 class="modal-title">Konfirmasi Hapus</h5>
+                </div>
+                <div class="modal-body" style="background-color: #f8f9fa; padding: 30px;">
+                    <p style="font-size: 1.1rem; margin-bottom: 15px;">Apakah Anda yakin ingin menghapus data ini?</p>
+                    <p style="color: #6c757d; font-size: 0.9rem;">Tindakan ini tidak dapat dikembalikan.</p>
+                </div>
+                <div class="modal-footer" style="border-top: none; justify-content: space-between; padding: 20px; background-color: #f8f9fa;">
+                    <button type="button" class="btn btn-secondary" id="cancelDeleteBtn" style="background-color: #6c757d; color: white; border: none; padding: 10px 20px; font-size: 1rem; border-radius: 5px;">
+                        Batal
+                    </button>
+                    <button type="button" class="btn btn-danger" id="confirmDeleteBtn" style="background-color: #dc3545; color: white; border: none; padding: 10px 20px; font-size: 1rem; border-radius: 5px;">
+                        Hapus
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -110,10 +170,10 @@
                                 <a href="{{ route('admin-buns.gallery.edit', $item->id) }}" class="btn-action edit-btn">
                                     <i class="fas fa-edit"></i> Edit
                                 </a>
-                                <form action="{{ route('admin-buns.gallery.delete', $item->id) }}" method="POST">
+                                <form action="{{ route('admin-buns.gallery.delete', $item->id) }}" method="POST" class="delete-form">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn-action delete-btn">
+                                    <button type="button" class="btn-action delete-btn">
                                         <i class="fas fa-trash"></i> Delete
                                     </button>
                                 </form>
@@ -138,54 +198,79 @@
             {{ $gallery->appends(request()->input())->links() }}
         </div>
     </div>
-    </div>
 </section>
 
 @endsection
 
-
-
+<!-- Memuat Tailwind CSS setelah Bootstrap untuk menghindari konflik -->
 <script src="https://cdn.tailwindcss.com"></script>
 
-
+<!-- Memuat JavaScript untuk Bootstrap -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 
-<script>
-    // JavaScript untuk men-trigger modal dengan tombol
-    document.getElementById('openModalButton').addEventListener('click', function() {
-        var modal = document.getElementById('createGalleryModal');
-        modal.style.display = 'block'; // Menampilkan modal
-    });
-
-    // JavaScript untuk menutup modal
-    document.getElementById('closeModalButton').addEventListener('click', function() {
-        var modal = document.getElementById('createGalleryModal');
-        modal.style.display = 'none'; // Menutup modal
-    });
-</script>
-
-<script>
-    function previewImage(input) {
-        const file = input.files[0];
-        const previewImg = document.getElementById('previewImg');
-        const placeholder = document.querySelector('.placeholder');
-
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                previewImg.src = e.target.result;
-                previewImg.style.display = 'block';
-                placeholder.style.display = 'none';
-            }
-            reader.readAsDataURL(file);
-        } else {
-            previewImg.style.display = 'none';
-            placeholder.style.display = 'block';
-        }
-    }
-</script>
-
 <style>
+    html,
+    body {
+        min-height: 100vh !important;
+        background-color: #f8f9fa !important;
+    }
+
+    body>div,
+    #app,
+    .wrapper,
+    .content-wrapper,
+    main,
+    .admin-layout {
+        min-height: 100vh !important;
+        background-color: #f8f9fa !important;
+    }
+
+    footer {
+        background-color: #f8f9fa !important;
+        margin-top: auto;
+    }
+
+    body {
+        display: flex;
+        flex-direction: column;
+    }
+
+    * {
+        margin-bottom: 0;
+    }
+
+    .alert-success {
+        background-color: #d4edda;
+        border-color: #c3e6cb;
+        color: #155724;
+        padding: 0.75rem 1.25rem;
+        margin-bottom: 1rem;
+        border: 1px solid transparent;
+        border-radius: 0.25rem;
+    }
+
+    .alert-danger {
+        background-color: #f8d7da;
+        border-color: #f5c6cb;
+        color: #721c24;
+        padding: 0.75rem 1.25rem;
+        margin-bottom: 1rem;
+        border: 1px solid transparent;
+        border-radius: 0.25rem;
+    }
+
+    .bg-green-100 {
+        background-color: #d1fae5 !important;
+    }
+
+    .border-green-400 {
+        border-color: #34d399 !important;
+    }
+
+    .text-green-700 {
+        color: #047857 !important;
+    }
+
     .modal {
         display: none;
         position: fixed;
@@ -248,7 +333,6 @@
         border-radius: 0 0 16px 16px;
     }
 
-
     .form-control,
     .form-select {
         border-radius: 10px;
@@ -274,7 +358,6 @@
         font-size: 0.95rem;
         letter-spacing: 0.02em;
     }
-
 
     .image-upload-wrapper {
         display: flex;
@@ -332,7 +415,6 @@
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     }
 
-
     .img-container {
         width: 100px;
         height: 100px;
@@ -346,14 +428,12 @@
         border: 1px solid #e0e0e0;
     }
 
-
     .img-preview {
         width: 100px;
         height: 100px;
         object-fit: cover;
         display: block;
     }
-
 
     .btn {
         border-radius: 10px;
@@ -407,7 +487,6 @@
         transition: all 0s;
     }
 
-
     @keyframes modalFadeIn {
         from {
             opacity: 0;
@@ -423,7 +502,6 @@
     .modal-dialog {
         animation: modalFadeIn 0.4s forwards;
     }
-
 
     .pagination {
         margin-top: 20px;
@@ -448,7 +526,6 @@
     .pagination .page-link:focus {
         box-shadow: none;
     }
-
 
     #gallery {
         background-color: #f8f9fa;
@@ -479,10 +556,9 @@
         background-color: #f8f9fa;
     }
 
-
     .badge-jenis {
         padding: 5px 10px;
-        border-radius: 20px;
+
         font-size: 0.8rem;
         color: white;
     }
@@ -499,119 +575,700 @@
         background-color: grey;
     }
 
-
     .action-buttons {
         display: flex;
         gap: 8px;
         justify-content: center;
     }
 
-    .btn-action {
-        padding: 6px 10px;
-        border-radius: 5px;
-        font-size: 0.8rem;
-        cursor: pointer;
-        border: none;
-        transition: all 0.3s;
-    }
-
     .edit-btn {
         background-color: #007bff;
         color: white;
         font-size: 1rem;
+        padding: 8px 16px;
+        border-radius: 5px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        height: 40px;
+        min-width: 100px;
+        line-height: 1;
+    }
 
-        padding: 20px 20px 10px 20px;
+    .edit-btn:hover {
+        background-color: #007bff;
+        transform: scale(1.05);
+    }
 
-
+    .edit-btn:active {
+        transform: scale(1);
     }
 
     .delete-btn {
         background-color: #dc3545;
         color: white;
         font-size: 1rem;
-
-        padding: 10px 20px 10px 20px;
-        margin-top: 10px;
-
+        padding: 8px 16px;
+        border-radius: 5px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        height: 40px;
+        min-width: 100px;
+        line-height: 1;
     }
 
-    .btn-action:hover {
-        transform: translateY(-3px);
+    .delete-btn:hover {
+        background-color: #c82333;
+        transform: scale(1.05);
+    }
+
+    .delete-btn:active {
+        transform: scale(1);
+    }
+
+    .required-asterisk {
+        color: #dc3545;
+        font-weight: bold;
+        margin-left: 3px;
+    }
+
+    .invalid-feedback {
+        display: none;
+        width: 100%;
+        margin-top: 8px;
+        font-size: 0.9rem;
+        color: #e74c3c;
+        font-weight: 500;
+        line-height: 1.2;
+    }
+
+    .invalid-feedback.show {
+        display: block;
+        animation: fadeInError 0.3s ease-out;
+    }
+
+    @keyframes fadeInError {
+        from {
+            opacity: 0;
+            transform: translateY(-5px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .form-select.is-invalid,
+    .form-control.is-invalid {
+        border-color: #dc3545;
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='none' stroke='%23dc3545' viewBox='0 0 12 12'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath stroke-linejoin='round' d='M5.8 3.6h.4L6 6.5z'/%3e%3ccircle cx='6' cy='8.2' r='.6' fill='%23dc3545' stroke='none'/%3e%3c/svg%3e");
+        background-repeat: no-repeat;
+        background-position: right calc(0.375em + 0.1875rem) center;
+        background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem);
+    }
+
+    .form-select.is-valid,
+    .form-control.is-valid {
+        border-color: #28a745;
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8' viewBox='0 0 8 8'%3e%3cpath fill='%2328a745' d='M2.3 6.73L.6 4.53c-.4-1.04.46-1.4 1.1-.8l1.1 1.4 3.4-3.8c.6-.63 1.6-.27 1.2.7l-4 4.6c-.43.5-.8.4-1.1.1z'/%3e%3c/svg%3e");
+        background-repeat: no-repeat;
+        background-position: right calc(0.375em + 0.1875rem) center;
+        background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem);
+    }
+
+    .image-upload-wrapper.is-invalid {
+        border-color: #dc3545;
+        background-color: rgba(220, 53, 69, 0.05);
+    }
+
+    .image-upload-wrapper.is-valid {
+        border-color: #28a745;
+        background-color: rgba(40, 167, 69, 0.05);
+    }
+
+    .btn-loading {
+        position: relative;
+        color: transparent !important;
+    }
+
+    .btn-loading:after {
+        content: '';
+        position: absolute;
+        width: 1rem;
+        height: 1rem;
+        top: calc(50% - 0.5rem);
+        left: calc(50% - 0.5rem);
+        border: 2px solid rgba(255, 255, 255, 0.5);
+        border-radius: 50%;
+        border-top-color: #fff;
+        animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+        to {
+            transform: rotate(360deg);
+        }
+    }
+
+    footer {
+        background-color: #f8f9fa !important;
+    }
+
+    .admin-layout,
+    #app,
+    .wrapper {
+        background-color: #f8f9fa !important;
+        min-height: auto !important;
+    }
+
+    /* Animasi shake untuk modal konfirmasi delete */
+    @keyframes shake {
+
+        0%,
+        100% {
+            transform: translateX(0);
+        }
+
+        10%,
+        30%,
+        50%,
+        70%,
+        90% {
+            transform: translateX(-5px);
+        }
+
+        20%,
+        40%,
+        60%,
+        80% {
+            transform: translateX(5px);
+        }
+    }
+
+    #deleteConfirmModal .modal-content {
+        animation: shake 0.5s cubic-bezier(.36, .07, .19, .97) both;
     }
 </style>
+
 <script>
+    // Modal functions
     document.addEventListener('DOMContentLoaded', function() {
         const modal = document.getElementById('createGalleryModal');
         const openModalBtn = document.getElementById('openModalButton');
         const closeModalBtn = document.getElementById('closeModalButton');
 
+        // Delete confirmation modal
+        const deleteConfirmModal = document.getElementById('deleteConfirmModal');
+        const cancelDeleteBtn = document.getElementById('cancelDeleteBtn');
+        const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
+        let activeDeleteForm = null;
 
+        // Open modal
         openModalBtn.addEventListener('click', function() {
-            console.log('Modal button clicked');
             modal.style.display = 'block';
             setTimeout(() => {
                 modal.classList.add('show');
             }, 10);
+
+            // Reset form and validation states
+            if (galleryForm) {
+                galleryForm.reset();
+
+                // Clear validation states
+                document.querySelectorAll('.is-invalid, .is-valid').forEach(el => {
+                    el.classList.remove('is-invalid', 'is-valid');
+                });
+
+                document.querySelectorAll('.invalid-feedback').forEach(el => {
+                    el.textContent = '';
+                    el.classList.remove('show');
+                });
+
+                // Reset image preview
+                const previewImg = document.getElementById('previewImg');
+                const placeholder = document.querySelector('.placeholder');
+                if (previewImg && placeholder) {
+                    previewImg.style.display = 'none';
+                    placeholder.style.display = 'block';
+                }
+
+                // Reset image upload wrapper
+                const wrapper = document.querySelector('.image-upload-wrapper');
+                if (wrapper) {
+                    wrapper.classList.remove('is-invalid', 'is-valid');
+                }
+            }
         });
 
-
-        // Pastikan modal hanya ditutup ketika tombol Close yang diklik
+        // Close modal
         closeModalBtn.addEventListener('click', function() {
             modal.classList.remove('show');
             setTimeout(() => {
                 modal.style.display = 'none';
-                document.body.style.overflow = '';
             }, 300);
         });
 
+        // Close when clicking outside
         window.addEventListener('click', function(event) {
             if (event.target === modal) {
                 closeModalBtn.click();
             }
+            if (event.target === deleteConfirmModal) {
+                cancelDeleteBtn.click();
+            }
+        });
+
+        // Auto-dismiss alert after 5 seconds
+        const alerts = document.querySelectorAll('.alert');
+        alerts.forEach(function(alert) {
+            setTimeout(function() {
+                alert.classList.remove('show');
+                setTimeout(function() {
+                    alert.style.display = 'none';
+                }, 150);
+            }, 5000);
+        });
+
+        // Delete confirmation
+        const deleteButtons = document.querySelectorAll('.delete-btn');
+
+        deleteButtons.forEach(function(button) {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+
+                // Store reference to the active delete form
+                activeDeleteForm = this.closest('.delete-form');
+
+                // Show delete confirmation modal
+                deleteConfirmModal.style.display = 'block';
+                setTimeout(() => {
+                    deleteConfirmModal.classList.add('show');
+                }, 10);
+            });
+        });
+
+        // Cancel delete
+        cancelDeleteBtn.addEventListener('click', function() {
+            deleteConfirmModal.classList.remove('show');
+            setTimeout(() => {
+                deleteConfirmModal.style.display = 'none';
+                activeDeleteForm = null;
+            }, 300);
+        });
+
+        // Confirm delete
+        confirmDeleteBtn.addEventListener('click', function() {
+            if (activeDeleteForm) {
+                // Submit the delete form
+                activeDeleteForm.submit();
+            }
+
+            // Close modal
+            deleteConfirmModal.classList.remove('show');
+            setTimeout(() => {
+                deleteConfirmModal.style.display = 'none';
+            }, 300);
         });
     });
-</script>
 
-<script>
-    // Image preview enhancement
-    const fileInput = document.getElementById('gambar');
-    const previewImg = document.getElementById('previewImg');
-    const placeholder = document.querySelector('.placeholder');
+    // Image preview function
+    function previewImage(input) {
+        const file = input.files[0];
+        const previewImg = document.getElementById('previewImg');
+        const placeholder = document.querySelector('.placeholder');
+        const wrapper = input.closest('.image-upload-wrapper');
+        const errorElement = document.getElementById('gambar-error');
 
-    fileInput.addEventListener('change', function() {
-        const file = this.files[0];
         if (file) {
+            // Validate file type
+            const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'];
+            if (!allowedTypes.includes(file.type)) {
+                wrapper.classList.add('is-invalid');
+                wrapper.classList.remove('is-valid');
+
+                if (errorElement) {
+                    errorElement.textContent = 'Format file harus berupa gambar (JPG, PNG, GIF)';
+                    errorElement.classList.add('show');
+                }
+
+                if (previewImg && placeholder) {
+                    previewImg.style.display = 'none';
+                    placeholder.style.display = 'block';
+                }
+
+                input.value = '';
+                return;
+            }
+
+            // Validate file size (max 5MB)
+            const maxSize = 5 * 1024 * 1024;
+            if (file.size > maxSize) {
+                wrapper.classList.add('is-invalid');
+                wrapper.classList.remove('is-valid');
+
+                if (errorElement) {
+                    errorElement.textContent = 'Ukuran file maksimal 5MB';
+                    errorElement.classList.add('show');
+                }
+
+                if (previewImg && placeholder) {
+                    previewImg.style.display = 'none';
+                    placeholder.style.display = 'block';
+                }
+
+                input.value = '';
+                return;
+            }
+
+            // File is valid
+            wrapper.classList.add('is-valid');
+            wrapper.classList.remove('is-invalid');
+
+            if (errorElement) {
+                errorElement.classList.remove('show');
+            }
+
             const reader = new FileReader();
             reader.onload = function(e) {
-                previewImg.src = e.target.result;
-                previewImg.style.display = 'block';
-                placeholder.style.display = 'none';
+                if (previewImg) {
+                    previewImg.src = e.target.result;
+                    previewImg.style.display = 'block';
 
-                // Add subtle animation
-                previewImg.style.opacity = '0';
-                setTimeout(() => {
-                    previewImg.style.opacity = '1';
-                }, 50);
+                    if (placeholder) {
+                        placeholder.style.display = 'none';
+                    }
+                }
             }
             reader.readAsDataURL(file);
         } else {
-            previewImg.style.display = 'none';
-            placeholder.style.display = 'block';
+            wrapper.classList.add('is-invalid');
+            wrapper.classList.remove('is-valid');
+
+            if (errorElement) {
+                errorElement.textContent = 'Gambar wajib diisi';
+                errorElement.classList.add('show');
+            }
+
+            if (previewImg && placeholder) {
+                previewImg.style.display = 'none';
+                placeholder.style.display = 'block';
+            }
         }
-    });
+    }
 
-    // Form field animations
-    const formInputs = document.querySelectorAll('.form-control, .form-select');
+    // Form validation with AJAX
+    document.addEventListener('DOMContentLoaded', function() {
+        const galleryForm = document.getElementById('galleryForm');
 
-    formInputs.forEach(input => {
-        // Add focus effect
-        input.addEventListener('focus', function() {
-            this.parentElement.classList.add('is-focused');
-        });
+        if (galleryForm) {
+            galleryForm.addEventListener('submit', function(e) {
+                e.preventDefault();
 
-        // Remove focus effect
-        input.addEventListener('blur', function() {
-            this.parentElement.classList.remove('is-focused');
-        });
+                // Reset error messages
+                document.querySelectorAll('.invalid-feedback').forEach(function(el) {
+                    el.textContent = '';
+                    el.classList.remove('show');
+                });
+
+                // Validate fields before submission
+                let isValid = true;
+
+                // Validate nama
+                const namaField = document.getElementById('nama');
+                if (!namaField.value || namaField.value.trim() === '') {
+                    isValid = false;
+                    const errorElement = document.getElementById('nama-error');
+                    if (errorElement) {
+                        errorElement.textContent = 'Nama member harus dipilih';
+                        errorElement.classList.add('show');
+                    }
+                    namaField.classList.add('is-invalid');
+                    namaField.classList.remove('is-valid');
+                }
+
+                // Validate jenis
+                const jenisField = document.getElementById('jenis');
+                if (!jenisField.value || jenisField.value.trim() === '') {
+                    isValid = false;
+                    const errorElement = document.getElementById('jenis-error');
+                    if (errorElement) {
+                        errorElement.textContent = 'Jenis harus dipilih';
+                        errorElement.classList.add('show');
+                    }
+                    jenisField.classList.add('is-invalid');
+                    jenisField.classList.remove('is-valid');
+                }
+
+                // Validate gambar
+                const gambarField = document.getElementById('gambar');
+                const wrapper = gambarField.closest('.image-upload-wrapper');
+                const errorElement = document.getElementById('gambar-error');
+
+                if (!gambarField.files || gambarField.files.length === 0) {
+                    isValid = false;
+                    wrapper.classList.add('is-invalid');
+                    wrapper.classList.remove('is-valid');
+                    if (errorElement) {
+                        errorElement.textContent = 'Gambar wajib diisi';
+                        errorElement.classList.add('show');
+                    }
+                } else {
+                    const file = gambarField.files[0];
+                    // Validate file type
+                    const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'];
+                    if (!allowedTypes.includes(file.type)) {
+                        isValid = false;
+                        wrapper.classList.add('is-invalid');
+                        wrapper.classList.remove('is-valid');
+                        if (errorElement) {
+                            errorElement.textContent = 'Format file harus berupa gambar (JPG, PNG, GIF)';
+                            errorElement.classList.add('show');
+                        }
+                    }
+
+                    // Validate file size (max 5MB)
+                    const maxSize = 5 * 1024 * 1024;
+                    if (file.size > maxSize) {
+                        isValid = false;
+                        wrapper.classList.add('is-invalid');
+                        wrapper.classList.remove('is-valid');
+                        if (errorElement) {
+                            errorElement.textContent = 'Ukuran file maksimal 5MB';
+                            errorElement.classList.add('show');
+                        }
+                    }
+                }
+
+                // If form is not valid, stop submission
+                if (!isValid) {
+                    return;
+                }
+
+                // Create form data for submission
+                const formData = new FormData(this);
+                const form = this;
+
+                // Disable submit button during submission
+                const submitButton = form.querySelector('button[type="submit"]');
+                if (submitButton) {
+                    submitButton.disabled = true;
+                    submitButton.classList.add('btn-loading');
+                    submitButton.innerHTML = '';
+                }
+
+                // Send AJAX request
+                fetch(form.action, {
+                        method: 'POST',
+                        body: formData,
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest',
+                            'Accept': 'application/json'
+                        },
+                        credentials: 'same-origin'
+                    })
+                    .then(response => {
+                        const contentType = response.headers.get('content-type');
+                        if (contentType && contentType.includes('application/json')) {
+                            return response.json().then(data => {
+                                if (data.errors) {
+                                    // Enable submit button again
+                                    if (submitButton) {
+                                        submitButton.disabled = false;
+                                        submitButton.classList.remove('btn-loading');
+                                        submitButton.innerHTML = 'Submit';
+                                    }
+
+                                    // Display validation errors
+                                    Object.keys(data.errors).forEach(field => {
+                                        const errorElement = document.getElementById(field + '-error');
+                                        if (errorElement) {
+                                            errorElement.textContent = data.errors[field][0];
+                                            errorElement.classList.add('show');
+                                        }
+
+                                        // Add visual feedback to the field
+                                        const inputField = document.getElementById(field);
+                                        if (inputField) {
+                                            inputField.classList.add('is-invalid');
+                                            inputField.classList.remove('is-valid');
+
+                                            // For file input, also update the wrapper
+                                            if (field === 'gambar') {
+                                                const wrapper = inputField.closest('.image-upload-wrapper');
+                                                if (wrapper) {
+                                                    wrapper.classList.add('is-invalid');
+                                                    wrapper.classList.remove('is-valid');
+                                                }
+                                            }
+                                        }
+                                    });
+                                } else if (data.success) {
+                                    // Close modal
+                                    const modal = document.getElementById('createGalleryModal');
+                                    modal.classList.remove('show');
+
+                                    setTimeout(() => {
+                                        modal.style.display = 'none';
+
+                                        // Tampilkan pesan sukses
+                                        const alertContainer = document.createElement('div');
+                                        alertContainer.className = 'alert alert-success alert-dismissible fade show mb-4';
+                                        alertContainer.setAttribute('role', 'alert');
+                                        alertContainer.innerHTML = `
+                                            ${data.message || 'Data gallery berhasil ditambahkan!'}
+                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                        `;
+
+                                        // Tambahkan alert ke container
+                                        const container = document.querySelector('.container');
+                                        const existingAlert = document.querySelector('.alert');
+                                        if (existingAlert) {
+                                            existingAlert.remove();
+                                        }
+                                        container.insertBefore(alertContainer, document.querySelector('.d-flex.justify-content-end.mb-4'));
+
+                                        // Refresh tabel data tanpa reload penuh
+                                        fetch(window.location.href)
+                                            .then(response => response.text())
+                                            .then(html => {
+                                                const parser = new DOMParser();
+                                                const doc = parser.parseFromString(html, 'text/html');
+                                                const newTable = doc.querySelector('.gallery-container');
+                                                document.querySelector('.gallery-container').innerHTML = newTable.innerHTML;
+
+                                                // Rebind delete buttons event listeners after refreshing the table
+                                                bindDeleteButtons();
+                                            });
+
+                                        // Auto-dismiss alert after 5 seconds
+                                        setTimeout(() => {
+                                            alertContainer.classList.remove('show');
+                                            setTimeout(() => {
+                                                alertContainer.remove();
+                                            }, 150);
+                                        }, 5000);
+                                    }, 300);
+                                } else {
+                                    // Reload halaman pada kasus lain
+                                    window.location.href = window.location.href;
+                                }
+                            });
+                        } else {
+                            // Jika bukan JSON response, redirect ke halaman yang sama
+                            window.location.href = window.location.href;
+                            return null;
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+
+                        // Enable submit button again
+                        if (submitButton) {
+                            submitButton.disabled = false;
+                            submitButton.classList.remove('btn-loading');
+                            submitButton.innerHTML = 'Submit';
+                        }
+
+                        // Tampilkan pesan error
+                        const alertContainer = document.createElement('div');
+                        alertContainer.className = 'alert alert-danger alert-dismissible fade show mb-4';
+                        alertContainer.setAttribute('role', 'alert');
+                        alertContainer.innerHTML = `
+                            Terjadi kesalahan saat mengirim data. Silakan coba lagi.
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        `;
+
+                        // Tambahkan alert ke container
+                        const container = document.querySelector('.container');
+                        const existingAlert = document.querySelector('.alert');
+                        if (existingAlert) {
+                            existingAlert.remove();
+                        }
+                        container.insertBefore(alertContainer, document.querySelector('.d-flex.justify-content-end.mb-4'));
+
+                        // Auto-dismiss alert after 5 seconds
+                        setTimeout(() => {
+                            alertContainer.classList.remove('show');
+                            setTimeout(() => {
+                                alertContainer.remove();
+                            }, 150);
+                        }, 5000);
+
+                        // Tutup modal
+                        const modal = document.getElementById('createGalleryModal');
+                        modal.classList.remove('show');
+                        setTimeout(() => {
+                            modal.style.display = 'none';
+                        }, 300);
+                    });
+            });
+        }
+
+        // Real-time validation
+        const namaSelect = document.getElementById('nama');
+        const jenisSelect = document.getElementById('jenis');
+
+        if (namaSelect) {
+            namaSelect.addEventListener('change', function() {
+                validateField(this);
+            });
+        }
+
+        if (jenisSelect) {
+            jenisSelect.addEventListener('change', function() {
+                validateField(this);
+            });
+        }
+
+        // Field validation function
+        function validateField(field) {
+            const errorElementId = field.id + '-error';
+            const errorElement = document.getElementById(errorElementId);
+
+            if (!field.value || field.value.trim() === '') {
+                field.classList.add('is-invalid');
+                field.classList.remove('is-valid');
+                return false;
+            } else {
+                field.classList.add('is-valid');
+                field.classList.remove('is-invalid');
+                if (errorElement) {
+                    errorElement.classList.remove('show');
+                }
+                return true;
+            }
+        }
+
+        // Function to bind delete button events after DOM updates
+        function bindDeleteButtons() {
+            const deleteButtons = document.querySelectorAll('.delete-btn');
+            const deleteConfirmModal = document.getElementById('deleteConfirmModal');
+
+            deleteButtons.forEach(function(button) {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+
+                    // Store reference to the active delete form
+                    activeDeleteForm = this.closest('.delete-form');
+
+                    // Show delete confirmation modal
+                    deleteConfirmModal.style.display = 'block';
+                    setTimeout(() => {
+                        deleteConfirmModal.classList.add('show');
+                    }, 10);
+                });
+            });
+        }
+
+        // Initial binding of delete buttons
+        bindDeleteButtons();
     });
 </script>

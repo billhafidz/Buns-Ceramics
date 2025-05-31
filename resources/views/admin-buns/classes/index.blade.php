@@ -7,9 +7,9 @@
     </div>
 
     @if(session('success'))
-        <div class="bg-green-100 text-green-800 p-3 rounded mb-4">
-            {{ session('success') }}
-        </div>
+    <div class="bg-green-100 text-green-800 p-3 rounded mb-4">
+        {{ session('success') }}
+    </div>
     @endif
 
     <div class="flex items-center justify-between mb-6 w-full">
@@ -21,10 +21,10 @@
         <!-- Spacer fleksibel -->
         <div class="flex-1 flex justify-center">
             <form method="GET" action="{{ route('admin-buns.classes.index') }}" class="flex">
-                <input type="text" name="search" placeholder="Cari Kelas..." 
+                <input type="text" name="search" placeholder="Cari Kelas..."
                     value="{{ request('search') }}"
                     class="w-96 border p-2 rounded-l focus:outline-none focus:ring-0 focus:ring-gray-300">
-                <button type="submit" 
+                <button type="submit"
                     class="text-white px-4 py-2 rounded-r flex items-center justify-center bg-gray-800 hover:bg-gray-950">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -50,16 +50,16 @@
                     <td class="py-3 px-7 bg-white hover:bg-gray-50 border-r border-gray-200">
                         <div class="mb-4 w-full h-48 overflow-hidden rounded-lg bg-gray-100 flex items-center justify-center">
                             @if($langganan->gambar_subs)
-                                <img src="{{ asset('storage/langganan_images/' . $langganan->gambar_subs) }}" 
-                                     alt="Gambar Kelas {{ $langganan->pilihan_subs }}"
-                                    class="w-full h-full object-cover">
+                            <img src="{{ asset('storage/langganan_images/' . $langganan->gambar_subs) }}"
+                                alt="Gambar Kelas {{ $langganan->pilihan_subs }}"
+                                class="w-full h-full object-cover">
                             @else
-                                <div class="text-gray-400 text-center p-4">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                                    </svg>
-                                    <p class="mt-2">Tidak ada gambar</p>
-                                </div>
+                            <div class="text-gray-400 text-center p-4">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                </svg>
+                                <p class="mt-2">Tidak ada gambar</p>
+                            </div>
                             @endif
                         </div>
                         <strong>Nama Kelas:</strong>
@@ -114,7 +114,7 @@
                         <div class="overflow-y-auto h-48">
                             <ul class="list-disc ml-5">
                                 @foreach(json_decode($langganan->benefit_subs, true) as $benefit)
-                                    <li>{{ $benefit }}</li>
+                                <li>{{ $benefit }}</li>
                                 @endforeach
                             </ul>
                         </div>
@@ -137,7 +137,7 @@
         <div class="border-b border-gray-200 pb-4 mb-4">
             <h3 class="text-2xl font-semibold text-gray-800 flex justify-center">Tambah Kelas</h3>
         </div>
-        
+
         <div>
             <form action="{{ route('admin-buns.classes.store') }}" method="POST" id="classForm" enctype="multipart/form-data">
                 @csrf
@@ -145,11 +145,11 @@
                     <!-- Nama Kelas -->
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-1">Nama Kelas</label>
-                        <input type="text" name="pilihan_subs" placeholder="Masukkan Nama Kelas" 
-                               class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-gray-300 focus:border-transparent">
+                        <input type="text" name="pilihan_subs" placeholder="Masukkan Nama Kelas"
+                            class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-gray-300 focus:border-transparent">
                         <span class="text-red-500 text-sm error-msg" id="error-pilihan_subs">
                             @if($errors->has('pilihan_subs'))
-                                {{ $errors->first('pilihan_subs') }}
+                            {{ $errors->first('pilihan_subs') }}
                             @endif
                         </span>
                     </div>
@@ -157,11 +157,11 @@
                     <!-- Harga -->
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-1">Harga</label>
-                        <input type="number" step="0.01" name="harga_subs" placeholder="Masukkan Harga" 
-                               class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-gray-300 focus:border-transparent">
+                        <input type="number" step="0.01" name="harga_subs" placeholder="Masukkan Harga"
+                            class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-gray-300 focus:border-transparent">
                         <span class="text-red-500 text-sm error-msg" id="error-harga_subs">
                             @if($errors->has('harga_subs'))
-                                {{ $errors->first('harga_subs') }}
+                            {{ $errors->first('harga_subs') }}
                             @endif
                         </span>
                     </div>
@@ -169,11 +169,11 @@
                     <!-- Penjelasan -->
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-1">Penjelasan</label>
-                        <textarea name="penjelasan_subs" placeholder="Masukkan Penjelasan Kelas" 
-                                class="w-full h-32 p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-gray-300 focus:border-transparent"></textarea>
+                        <textarea name="penjelasan_subs" placeholder="Masukkan Penjelasan Kelas"
+                            class="w-full h-32 p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-gray-300 focus:border-transparent"></textarea>
                         <span class="text-red-500 text-sm error-msg" id="error-penjelasan_subs">
                             @if($errors->has('penjelasan_subs'))
-                                {{ $errors->first('penjelasan_subs') }}
+                            {{ $errors->first('penjelasan_subs') }}
                             @endif
                         </span>
                     </div>
@@ -193,7 +193,7 @@
                             </div>
                             <span class="text-red-500 text-sm error-msg" id="error-gambar_subs">
                                 @if($errors->has('gambar_subs'))
-                                    {{ $errors->first('gambar_subs') }}
+                                {{ $errors->first('gambar_subs') }}
                                 @endif
                             </span>
 
@@ -215,12 +215,12 @@
                     </div>
 
                     <!-- Benefit Section -->
-                    <div class="mb-4">                      
+                    <div class="mb-4">
                         <label class="block text-sm font-medium text-gray-700 mb-2">Benefit</label>
                         <div id="benefitList" class="overflow-y-auto rounded-md p-2">
                             <div class="flex items-center gap-2 mb-2">
                                 <input type="text" name="benefit_subs[]" placeholder="Masukkan Benefit"
-                                       class="flex-1 p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-gray-300 focus:border-transparent benefit-input">
+                                    class="flex-1 p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-gray-300 focus:border-transparent benefit-input">
                                 <button type="button" onclick="removeBenefit(this)" class="text-gray-500 hover:text-red-500 p-1">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
@@ -230,7 +230,7 @@
                         </div>
                         <span class="text-red-500 text-sm error-msg" id="error-benefit_subs">
                             @if($errors->has('benefit_subs'))
-                                {{ $errors->first('benefit_subs') }}
+                            {{ $errors->first('benefit_subs') }}
                             @endif
                         </span>
                         <button type="button" onclick="addBenefit()" class="mt-2 flex items-center text-blue-600 hover:text-blue-800">
@@ -257,12 +257,12 @@
 </div>
 
 <script>
-// Benefit Management
-function addBenefit() {
-    const container = document.getElementById('benefitList');
-    const div = document.createElement('div');
-    div.classList.add('flex', 'items-center', 'gap-2', 'mb-2');
-    div.innerHTML = `
+    // Benefit Management
+    function addBenefit() {
+        const container = document.getElementById('benefitList');
+        const div = document.createElement('div');
+        div.classList.add('flex', 'items-center', 'gap-2', 'mb-2');
+        div.innerHTML = `
         <input type="text" name="benefit_subs[]" placeholder="Masukkan Benefit"
                class="flex-1 p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-gray-300 focus:border-transparent benefit-input">
         <button type="button" onclick="removeBenefit(this)" class="text-gray-500 hover:text-red-500 p-1">
@@ -271,124 +271,124 @@ function addBenefit() {
             </svg>
         </button>
     `;
-    container.appendChild(div);
-}
-
-function removeBenefit(button) {
-    const container = document.getElementById('benefitList');
-    const benefitItems = container.querySelectorAll('div.flex.items-center');
-
-    if (benefitItems.length > 1) {
-        button.parentNode.remove();
+        container.appendChild(div);
     }
-}
 
-// Form validation with AJAX support
-document.getElementById('classForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    
-    // Reset error messages
-    document.querySelectorAll('.error-msg').forEach(function(el) {
-        el.textContent = '';
-    });
-    
-    // Create form data for submission
-    const formData = new FormData(this);
-    const modalId = 'createModal';
-    const form = this;
-    
-    const benefitInputs = document.querySelectorAll('.benefit-input');
-    let benefits = [];
-    
-    benefitInputs.forEach(input => {
-        if (input.value.trim() !== '') {
-            benefits.push(input.value.trim());
+    function removeBenefit(button) {
+        const container = document.getElementById('benefitList');
+        const benefitItems = container.querySelectorAll('div.flex.items-center');
+
+        if (benefitItems.length > 1) {
+            button.parentNode.remove();
         }
-    });
-
-    benefits.forEach((benefit, index) => {
-        formData.append(`benefit_subs[${index}]`, benefit);
-    });
-    
-    const submitButton = form.querySelector('button[type="submit"]');
-    if (submitButton) {
-        submitButton.disabled = true;
-        submitButton.innerText = 'Menyimpan...';
     }
-    
-    // Send AJAX request
-    fetch(form.action, {
-        method: 'POST',
-        body: formData,
-        headers: {
-            'X-Requested-With': 'XMLHttpRequest',
-            'Accept': 'application/json'
-        },
-        credentials: 'same-origin'
-    })
-    .then(response => {
-        const contentType = response.headers.get('content-type');
-        if (contentType && contentType.includes('application/json')) {
-            return response.json().then(data => {
-                if (data.errors) {
-                    if (submitButton) {
-                        submitButton.disabled = false;
-                        submitButton.innerText = 'Simpan';
-                    }
-                    
-                    Object.keys(data.errors).forEach(field => {
-                        const errorElement = document.getElementById('error-' + field);
-                        if (errorElement) {
-                            errorElement.textContent = data.errors[field][0];
+
+    // Form validation with AJAX support
+    document.getElementById('classForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        // Reset error messages
+        document.querySelectorAll('.error-msg').forEach(function(el) {
+            el.textContent = '';
+        });
+
+        // Create form data for submission
+        const formData = new FormData(this);
+        const modalId = 'createModal';
+        const form = this;
+
+        const benefitInputs = document.querySelectorAll('.benefit-input');
+        let benefits = [];
+
+        benefitInputs.forEach(input => {
+            if (input.value.trim() !== '') {
+                benefits.push(input.value.trim());
+            }
+        });
+
+        benefits.forEach((benefit, index) => {
+            formData.append(`benefit_subs[${index}]`, benefit);
+        });
+
+        const submitButton = form.querySelector('button[type="submit"]');
+        if (submitButton) {
+            submitButton.disabled = true;
+            submitButton.innerText = 'Menyimpan...';
+        }
+
+        // Send AJAX request
+        fetch(form.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'Accept': 'application/json'
+                },
+                credentials: 'same-origin'
+            })
+            .then(response => {
+                const contentType = response.headers.get('content-type');
+                if (contentType && contentType.includes('application/json')) {
+                    return response.json().then(data => {
+                        if (data.errors) {
+                            if (submitButton) {
+                                submitButton.disabled = false;
+                                submitButton.innerText = 'Simpan';
+                            }
+
+                            Object.keys(data.errors).forEach(field => {
+                                const errorElement = document.getElementById('error-' + field);
+                                if (errorElement) {
+                                    errorElement.textContent = data.errors[field][0];
+                                }
+                            });
+                        } else if (data.success) {
+                            closeModal(modalId);
+                            window.location.reload();
+
+                        } else {
+                            closeModal(modalId);
+                            window.location.reload();
                         }
                     });
-                } else if (data.success) {
-                    closeModal(modalId);
-                    window.location.reload();
-                
                 } else {
                     closeModal(modalId);
                     window.location.reload();
+                    return null;
                 }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                if (submitButton) {
+                    submitButton.disabled = false;
+                    submitButton.innerText = 'Simpan';
+                }
+
+                closeModal(modalId);
+                window.location.reload();
             });
-        } else {
-            closeModal(modalId);
-            window.location.reload();
-            return null;
-        }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        if (submitButton) {
-            submitButton.disabled = false;
-            submitButton.innerText = 'Simpan';
-        }
-                
-        closeModal(modalId);
-        window.location.reload();
     });
-});
 
-function validateForm() {
-    return true;
-}
+    function validateForm() {
+        return true;
+    }
 
-// Modal functions
-function openModal(id) {
-    document.getElementById(id).classList.remove('hidden');
-    document.body.classList.add('overflow-hidden');
-    
-    // Reset the form
-    document.getElementById('classForm').reset();
-    
-    // Menghapus semua pesan error
-    document.querySelectorAll('.error-msg').forEach(function(el) {
-        el.textContent = '';
-    });
-    
-    // Reset benefit inputs to just one
-    const container = document.getElementById('benefitList');
-    container.innerHTML = `
+    // Modal functions
+    function openModal(id) {
+        document.getElementById(id).classList.remove('hidden');
+        document.body.classList.add('overflow-hidden');
+
+        // Reset the form
+        document.getElementById('classForm').reset();
+
+        // Menghapus semua pesan error
+        document.querySelectorAll('.error-msg').forEach(function(el) {
+            el.textContent = '';
+        });
+
+        // Reset benefit inputs to just one
+        const container = document.getElementById('benefitList');
+        container.innerHTML = `
         <div class="flex items-center gap-2 mb-2">
             <input type="text" name="benefit_subs[]" placeholder="Masukkan Benefit"
                     class="flex-1 p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-gray-300 focus:border-transparent benefit-input">
@@ -399,69 +399,68 @@ function openModal(id) {
             </button>
         </div>
     `;
-    
-    removeImage();
-}
 
-// Form Delete 
-let currentForm = null;
-
-function showDeleteConfirmation(button) {
-    currentForm = button.closest('form');
-    document.getElementById('deleteModal').classList.remove('hidden');
-}
-
-function hideDeleteConfirmation() {
-    document.getElementById('deleteModal').classList.add('hidden');
-}
-
-document.getElementById('confirmDelete').addEventListener('click', function() {
-    if (currentForm) {
-        currentForm.submit();
+        removeImage();
     }
-});
 
-function closeModal(id) {
-    document.getElementById(id).classList.add('hidden');
-    document.body.classList.remove('overflow-hidden');
-}
+    // Form Delete 
+    let currentForm = null;
 
-// Preview gambar dan tampilkan nama file
-document.getElementById('gambar_subs').addEventListener('change', function(e) {
-    const fileInput = e.target;
-    const fileName = fileInput.files[0] ? fileInput.files[0].name : 'No file chosen';
+    function showDeleteConfirmation(button) {
+        currentForm = button.closest('form');
+        document.getElementById('deleteModal').classList.remove('hidden');
+    }
 
-    document.getElementById('file-name').textContent = fileName;
+    function hideDeleteConfirmation() {
+        document.getElementById('deleteModal').classList.add('hidden');
+    }
 
-    document.getElementById('uploadArea').classList.add('hidden');
-    document.getElementById('fileInfoArea').classList.remove('hidden');
-    
-    // Preview gambar
-    if (fileInput.files && fileInput.files[0]) {
-        const reader = new FileReader();
-        
-        reader.onload = function(e) {
-            const preview = document.getElementById('imagePreview');
-            preview.src = e.target.result;
-            document.getElementById('imagePreviewContainer').classList.remove('hidden');
+    document.getElementById('confirmDelete').addEventListener('click', function() {
+        if (currentForm) {
+            currentForm.submit();
         }
-        
-        reader.readAsDataURL(fileInput.files[0]);
-    } else {
-        document.getElementById('imagePreviewContainer').classList.add('hidden');
+    });
+
+    function closeModal(id) {
+        document.getElementById(id).classList.add('hidden');
+        document.body.classList.remove('overflow-hidden');
     }
-});
 
-// Fungsi untuk menghapus gambar
-function removeImage() {
-    document.getElementById('gambar_subs').value = '';
-    document.getElementById('file-name').textContent = 'No file chosen';
-    document.getElementById('imagePreviewContainer').classList.add('hidden');
-    document.getElementById('imagePreview').src = '';
+    // Preview gambar dan tampilkan nama file
+    document.getElementById('gambar_subs').addEventListener('change', function(e) {
+        const fileInput = e.target;
+        const fileName = fileInput.files[0] ? fileInput.files[0].name : 'No file chosen';
 
-    document.getElementById('uploadArea').classList.remove('hidden');
-    document.getElementById('fileInfoArea').classList.add('hidden');
-}
+        document.getElementById('file-name').textContent = fileName;
 
+        document.getElementById('uploadArea').classList.add('hidden');
+        document.getElementById('fileInfoArea').classList.remove('hidden');
+
+        // Preview gambar
+        if (fileInput.files && fileInput.files[0]) {
+            const reader = new FileReader();
+
+            reader.onload = function(e) {
+                const preview = document.getElementById('imagePreview');
+                preview.src = e.target.result;
+                document.getElementById('imagePreviewContainer').classList.remove('hidden');
+            }
+
+            reader.readAsDataURL(fileInput.files[0]);
+        } else {
+            document.getElementById('imagePreviewContainer').classList.add('hidden');
+        }
+    });
+
+    // Fungsi untuk menghapus gambar
+    function removeImage() {
+        document.getElementById('gambar_subs').value = '';
+        document.getElementById('file-name').textContent = 'No file chosen';
+        document.getElementById('imagePreviewContainer').classList.add('hidden');
+        document.getElementById('imagePreview').src = '';
+
+        document.getElementById('uploadArea').classList.remove('hidden');
+        document.getElementById('fileInfoArea').classList.add('hidden');
+    }
 </script>
 @endsection

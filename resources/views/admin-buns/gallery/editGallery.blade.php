@@ -3,162 +3,549 @@
 @section('content')
 <section id="edit-gallery" class="bg-light py-5">
     <div class="container">
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <h2 style="font-size: 1.8rem; color: #333; font-weight: 600;">Edit Gallery</h2>
+        <div class="pb-2 mb-4 d-flex justify-content-center">
+            <h2 class="text-3xl font-bold text-gray-800">Edit Gallery</h2>
         </div>
 
-        <form method="POST" action="{{ route('admin-buns.gallery.update', $gallery->id) }}" enctype="multipart/form-data">
+        <form method="POST" action="{{ route('admin-buns.gallery.update', $gallery->id) }}" enctype="multipart/form-data" id="editGalleryForm" novalidate>
             @csrf
             @method('PUT')
 
+            <div class="bg-white rounded-lg shadow-md overflow-hidden mb-1">
+                <!-- Table Layout -->
+                <table class="w-full">
+                    <thead>
+                        <tr class="bg-gray-800 text-white">
+                            <th colspan="2" class="text-left p-4 font-semibold">Informasi Gallery</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Nama Member row -->
+                        <tr class="border-b border-gray-200">
+                            <td class="p-4 bg-gray-50 w-1/4 font-medium">Nama Member</td>
+                            <td class="p-4">
+                                <div class="font-normal text-gray-700">{{ $gallery->nama }}</div>
+                                <input type="hidden" name="nama" value="{{ $gallery->nama }}">
+                            </td>
+                        </tr>
 
-            <div class="modal-header" style="background-color: #333; color: white; border-radius: 10px 10px 0 0; padding: 20px 30px;">
-                <h5 class="modal-title">Edit Gallery: {{ $gallery->nama }}</h5>
+                        <!-- Jenis row -->
+                        <tr class="border-b border-gray-200">
+                            <td class="p-4 bg-gray-50 font-medium">Jenis</td>
+                            <td class="p-4">
+                                <select class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-gray-300 focus:border-transparent" id="jenis" name="jenis" required>
+                                    <option value="gelas" {{ $gallery->jenis == 'gelas' ? 'selected' : '' }}>Gelas</option>
+                                    <option value="mangkuk" {{ $gallery->jenis == 'mangkuk' ? 'selected' : '' }}>Mangkuk</option>
+                                    <option value="piring" {{ $gallery->jenis == 'piring' ? 'selected' : '' }}>Piring</option>
+                                </select>
+                                <div class="text-red-500 text-sm mt-1 error-msg" id="error-jenis"></div>
+                            </td>
+                        </tr>
+
+                        <!-- Gambar row -->
+                        <tr class="border-b border-gray-200">
+                            <td class="p-4 bg-gray-50 font-medium">Gambar Gallery</td>
+                            <td class="p-4">
+                                <div class="border-2 border-dashed border-gray-300 rounded-md p-4 text-center">
+                                    <!-- Current Image Display -->
+                                    <div id="currentImageContainer" class="{{ $gallery->gambar ? '' : 'hidden' }} mb-3">
+                                        <img id="currentImage" src="{{ asset('storage/' . $gallery->gambar) }}"
+                                            class="max-h-40 mx-auto rounded" alt="">
+                                        <p id="current-file-name" class="text-sm text-gray-700 mt-2">{{ $gallery->gambar }}</p>
+                                    </div>
+
+                                    <!-- Upload Area -->
+                                    <div id="uploadArea" class="{{ $gallery->gambar ? 'hidden' : 'flex flex-col items-center justify-center space-y-2' }}">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-gray-400 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                        </svg> <br>
+                                        <label for="gambar" class="cursor-pointer mt-2 bg-gray-100 hover:bg-gray-200 text-gray-800 py-2 px-4 rounded-md text-sm font-medium transition duration-150 ease-in-out" id="uploadButton">
+                                            Pilih Gambar
+                                            <input type="file" id="gambar" name="gambar" class="hidden" accept="image/*">
+                                        </label>
+                                    </div>
+
+                                    <!-- New Image Preview (Initially Hidden) -->
+                                    <div id="imagePreviewContainer" class="hidden mt-2">
+                                        <img id="imagePreview" class="max-h-40 mx-auto rounded" alt="Preview">
+                                        <p id="new-file-name" class="text-sm text-gray-700 mt-2"></p>
+                                        <button type="button" onclick="removeImage()" class="mt-1 text-red-500 hover:text-red-700 text-sm flex items-center justify-center mx-auto">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                            </svg>
+                                            Hapus Gambar
+                                        </button>
+                                    </div>
+
+                                    <!-- Hapus Gambar Button -->
+                                    <div id="changeImageButtonContainer" class="{{ $gallery->gambar ? '' : 'hidden' }} mt-3">
+                                        <button type="button" onclick="removeCurrentImage()" class="mt-1 text-red-500 hover:text-red-700 text-sm flex items-center justify-center mx-auto">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                            </svg>
+                                            Hapus Gambar
+                                        </button>
+                                    </div>
+                                </div>
+                                <p class="mt-1 text-xs text-gray-500">Format: JPG, PNG, JPEG. Maksimal 10MB.</p>
+                                <div class="text-red-500 text-sm mt-1 error-msg" id="error-gambar"></div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
 
-            <div class="modal-body" style="background-color: #f8f9fa; padding: 30px; border-radius: 0 0 10px 10px; box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);">
+            <!-- Hidden input untuk menandai gambar yang dihapus -->
+            <input type="hidden" name="remove_image" id="remove_image" value="0">
 
-
-                <!-- Input Nama (Display member name as static text) -->
-                <div class="mb-3">
-                    <label for="nama" class="form-label" style="font-weight: bold; color: #333;">Nama Member: {{ $gallery->nama }}</label>
-
-
-
-                    <input type="hidden" name="nama" value="{{ $gallery->nama }}">
-                </div>
-
-
-                <!-- Input Jenis -->
-                <div class="mb-3">
-                    <label for="jenis" class="form-label" style="font-weight: bold; color: #333;">Jenis</label>
-                    <select class="form-select" id="jenis" name="jenis" required style="border: 1px solid #ccc; border-radius: 10px; width: 574px; padding: 12px 16px; font-size: 1rem; transition: all 0.3s ease; background-color: #ffffff; box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);">
-                        <option value="gelas" {{ $gallery->jenis == 'gelas' ? 'selected' : '' }}>Gelas</option>
-                        <option value="mangkuk" {{ $gallery->jenis == 'mangkuk' ? 'selected' : '' }}>Mangkuk</option>
-                        <option value="piring" {{ $gallery->jenis == 'piring' ? 'selected' : '' }}>Piring</option>
-                    </select>
-                </div>
-
-                <!-- Input Gambar -->
-                <div class="mb-3">
-                    <div class="image-upload-wrapper" style="display: flex; flex-direction: column; gap: 15px; background-color: #ffffff; padding: 20px; border-radius: 12px; border: 1px dashed rgba(0, 0, 0, 0.15); transition: all 0.3s ease;">
-                        <div class="image-preview" id="editImagePreview" style="width: 100%; padding: 15px; background-color: rgba(0, 123, 255, 0.03); border-radius: 10px; text-align: center; min-height: 120px; display: flex; align-items: center; justify-content: center;">
-                            @if($gallery->gambar)
-                            <img src="{{ asset('storage/' . $gallery->gambar) }}" alt="Preview" id="editPreviewImg" style="max-width: 100%; max-height: 200px; object-fit: contain; border-radius: 8px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);">
-                            @else
-                            <div class="placeholder" style="display: flex; flex-direction: column; align-items: center; color: #6c757d;">
-                                <i class="fas fa-cloud-upload-alt" style="font-size: 2.5rem; color: #007bff; margin-bottom: 10px; opacity: 0.7;"></i>
-                                <p style="margin: 5px 0; font-weight: 600; font-size: 1rem;">Pilih gambar baru</p>
-                            </div>
-                            @endif
-                        </div>
-                        <input type="file" class="form-control" id="gambar" name="gambar" accept="image/*" onchange="previewEditImage(this)" style="border: 1px solid rgba(0, 0, 0, 0.1); border-radius: 10px; padding: 12px 16px; font-size: 1rem; transition: all 0.3s ease;">
-                    </div>
-                </div>
-
-
-                <div class="form-check mt-3">
-                    <input class="form-check-input" type="checkbox" id="keep_image" name="keep_image" checked style="width: 18px; height: 18px;">
-                    <label class="form-check-label" for="keep_image" style="font-size: 1rem; color: #333; margin-left: 8px;">
-                        Tetap gunakan gambar yang ada jika tidak memilih gambar baru
-                    </label>
-                </div>
-            </div>
-
-            <div class="modal-footer" style="border-top: none; justify-content: space-between; padding: 20px 30px; background-color: #f8f9fa;">
-                <a href="{{ route('admin-buns.gallery') }}" class="btn btn-danger" style="background-color: #dc3545; color: white; border: none; padding: 12px 24px; font-size: 1rem; font-weight: 600; letter-spacing: 0.01em; border-radius: 10px; transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1); box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);">
-                    <i class="fas fa-times me-2"></i> Batal
+            <!-- Action Buttons -->
+            <div class="flex justify-between items-center pt-4">
+                <a href="{{ route('admin-buns.gallery') }}" class="px-4 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600 focus:outline-none focus:ring-0 transition-transform duration-200">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                    </svg>
+                    Kembali
                 </a>
-                <button type="submit" class="btn btn-success" style="background-color: #28a745; color: white; border: none; padding: 10px 20px; margin-left: 15px;font-size: 1rem; font-weight: 600; letter-spacing: 0.01em; border-radius: 10px; transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1); box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);">
-                    <i class="fas fa-save me-2"></i> Perbarui
+                <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-0 focus:ring-offset-2 transition-transform duration-200">
+                    Perbarui
                 </button>
             </div>
         </form>
     </div>
 </section>
 
-
 <!-- Script for image preview -->
 <script>
-    function previewEditImage(input) {
-        const previewImg = document.getElementById('editPreviewImg');
-        const placeholder = document.querySelector('.placeholder');
+    // Form validation dengan AJAX support
+    document.getElementById('editGalleryForm').addEventListener('submit', function(e) {
+        e.preventDefault();
 
-        if (input.files && input.files[0]) {
+        // Reset error messages
+        document.querySelectorAll('.error-msg').forEach(function(el) {
+            el.textContent = '';
+        });
+
+        // Create form data for submission
+        const formData = new FormData(this);
+        const form = this;
+
+        // Disable submit button to prevent double submission
+        const submitButton = form.querySelector('button[type="submit"]');
+        if (submitButton) {
+            submitButton.disabled = true;
+            submitButton.innerText = 'Memperbarui...';
+        }
+
+        // Send AJAX request
+        fetch(form.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'Accept': 'application/json'
+                },
+                credentials: 'same-origin'
+            })
+            .then(response => {
+                // Check if it's JSON response
+                const contentType = response.headers.get('content-type');
+                if (contentType && contentType.includes('application/json')) {
+                    return response.json().then(data => {
+                        // JSON response handling
+                        if (data.errors) {
+                            // Re-enable submit button
+                            if (submitButton) {
+                                submitButton.disabled = false;
+                                submitButton.innerText = 'Perbarui';
+                            }
+
+                            // Display validation errors
+                            Object.keys(data.errors).forEach(field => {
+                                const errorElement = document.getElementById('error-' + field);
+                                if (errorElement) {
+                                    errorElement.textContent = data.errors[field][0];
+                                }
+                            });
+                        } else if (data.success) {
+                            // Success - redirect to index page
+                            window.location.href = "{{ route('admin-buns.gallery') }}";
+                        } else {
+                            // Fallback for other JSON responses - assume success
+                            window.location.href = "{{ route('admin-buns.gallery') }}";
+                        }
+                    });
+                } else {
+                    // Non-JSON response (e.g. HTML redirect) - assume success
+                    window.location.href = "{{ route('admin-buns.gallery') }}";
+                    return null;
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                // Re-enable submit button on error
+                if (submitButton) {
+                    submitButton.disabled = false;
+                    submitButton.innerText = 'Perbarui';
+                }
+            });
+    });
+
+    // Preview gambar yang baru dipilih
+    document.getElementById('gambar').addEventListener('change', function(e) {
+        const fileInput = e.target;
+        const fileName = fileInput.files[0] ? fileInput.files[0].name : '';
+
+        // Hide current image and upload area
+        document.getElementById('currentImageContainer').classList.add('hidden');
+        document.getElementById('uploadArea').classList.add('hidden');
+        document.getElementById('changeImageButtonContainer').classList.add('hidden');
+
+        // Reset remove_image field as we're adding a new image
+        document.getElementById('remove_image').value = '0';
+
+        // Preview gambar baru
+        if (fileInput.files && fileInput.files[0]) {
             const reader = new FileReader();
 
             reader.onload = function(e) {
-                if (previewImg) {
-                    previewImg.src = e.target.result;
-                    previewImg.style.display = 'block';
-                } else {
-
-                    const newImg = document.createElement('img');
-                    newImg.src = e.target.result;
-                    newImg.id = 'editPreviewImg';
-                    newImg.style.maxWidth = '100%';
-                    newImg.style.maxHeight = '200px';
-                    newImg.style.objectFit = 'contain';
-                    newImg.style.borderRadius = '8px';
-                    newImg.style.boxShadow = '0 4px 10px rgba(0, 0, 0, 0.1)';
-
-
-                    const imagePreview = document.getElementById('editImagePreview');
-                    if (placeholder) {
-                        placeholder.style.display = 'none';
-                    }
-                    imagePreview.appendChild(newImg);
-                }
-
-
-                if (placeholder) {
-                    placeholder.style.display = 'none';
-                }
-
-
-                if (previewImg) {
-                    previewImg.style.opacity = '0';
-                    setTimeout(() => {
-                        previewImg.style.opacity = '1';
-                    }, 50);
-                }
+                const preview = document.getElementById('imagePreview');
+                preview.src = e.target.result;
+                document.getElementById('new-file-name').textContent = fileName;
+                document.getElementById('imagePreviewContainer').classList.remove('hidden');
             }
 
-            reader.readAsDataURL(input.files[0]);
-
-
-            document.getElementById('keep_image').checked = false;
+            reader.readAsDataURL(fileInput.files[0]);
         }
+    });
+
+    // Fungsi untuk menghapus gambar baru yang dipilih
+    function removeImage() {
+        // Reset file input
+        document.getElementById('gambar').value = '';
+
+        // Hide preview and show upload area
+        document.getElementById('imagePreviewContainer').classList.add('hidden');
+        document.getElementById('uploadArea').classList.remove('hidden');
     }
 
+    // Fungsi untuk menghapus gambar yang sudah ada
+    function removeCurrentImage() {
+        // Hide current image and show upload area
+        document.getElementById('currentImageContainer').classList.add('hidden');
+        document.getElementById('changeImageButtonContainer').classList.add('hidden');
+        document.getElementById('uploadArea').classList.remove('hidden');
 
-
-
-    // Add hover effect to buttons
-    document.addEventListener('DOMContentLoaded', function() {
-        const buttons = document.querySelectorAll('.btn');
-
-        buttons.forEach(btn => {
-            btn.addEventListener('mouseenter', function() {
-                this.style.transform = 'translateY(-2px)';
-                this.style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.1)';
-            });
-
-            btn.addEventListener('mouseleave', function() {
-                this.style.transform = 'translateY(0)';
-                this.style.boxShadow = '0 2px 5px rgba(0, 0, 0, 0.1)';
-            });
-
-            btn.addEventListener('mousedown', function() {
-                this.style.transform = 'translateY(1px)';
-                this.style.boxShadow = '0 2px 3px rgba(0, 0, 0, 0.1)';
-            });
-
-            btn.addEventListener('mouseup', function() {
-                this.style.transform = 'translateY(-2px)';
-                this.style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.1)';
-            });
-        });
-    });
+        // Set hidden input to mark image for deletion
+        document.getElementById('remove_image').value = '1';
+    }
 </script>
+
+<!-- Tailwind CSS styles -->
+<style>
+    .bg-gray-800 {
+        background-color: #1f2937;
+    }
+
+    .text-white {
+        color: #fff;
+    }
+
+    .text-left {
+        text-align: left;
+    }
+
+    .p-4 {
+        padding: 1rem;
+    }
+
+    .font-semibold {
+        font-weight: 600;
+    }
+
+    .w-full {
+        width: 100%;
+    }
+
+    .border-b {
+        border-bottom-width: 1px;
+    }
+
+    .border-gray-200 {
+        border-color: #e5e7eb;
+    }
+
+    .bg-gray-50 {
+        background-color: #f9fafb;
+    }
+
+    .w-1 {
+        width: 25%;
+    }
+
+    .font-medium {
+        font-weight: 500;
+    }
+
+    .text-gray-700 {
+        color: #374151;
+    }
+
+    .rounded-md {
+        border-radius: 0.375rem;
+    }
+
+    .focus\:outline-none:focus {
+        outline: 2px solid transparent;
+        outline-offset: 2px;
+    }
+
+    .focus\:ring-1:focus {
+        --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
+        --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(1px + var(--tw-ring-offset-width)) var(--tw-ring-color);
+        box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
+    }
+
+    .focus\:ring-gray-300:focus {
+        --tw-ring-color: #d1d5db;
+    }
+
+    .focus\:border-transparent:focus {
+        border-color: transparent;
+    }
+
+    .text-red-500 {
+        color: #ef4444;
+    }
+
+    .text-sm {
+        font-size: 0.875rem;
+        line-height: 1.25rem;
+    }
+
+    .mt-1 {
+        margin-top: 0.25rem;
+    }
+
+    .border-2 {
+        border-width: 2px;
+    }
+
+    .border-dashed {
+        border-style: dashed;
+    }
+
+    .border-gray-300 {
+        border-color: #d1d5db;
+    }
+
+    .hidden {
+        display: none;
+    }
+
+    .mb-3 {
+        margin-bottom: 0.75rem;
+    }
+
+    .max-h-40 {
+        max-height: 10rem;
+    }
+
+    .mx-auto {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .rounded {
+        border-radius: 0.25rem;
+    }
+
+    .mt-2 {
+        margin-top: 0.5rem;
+    }
+
+    .flex {
+        display: flex;
+    }
+
+    .flex-col {
+        flex-direction: column;
+    }
+
+    .items-center {
+        align-items: center;
+    }
+
+    .justify-center {
+        justify-content: center;
+    }
+
+    .space-y-2> :not([hidden])~ :not([hidden]) {
+        --tw-space-y-reverse: 0;
+        margin-top: calc(0.5rem * calc(1 - var(--tw-space-y-reverse)));
+        margin-bottom: calc(0.5rem * var(--tw-space-y-reverse));
+    }
+
+    .text-gray-400 {
+        color: #9ca3af;
+    }
+
+    .cursor-pointer {
+        cursor: pointer;
+    }
+
+    .bg-gray-100 {
+        background-color: #f3f4f6;
+    }
+
+    .hover\:bg-gray-200:hover {
+        background-color: #e5e7eb;
+    }
+
+    .text-gray-800 {
+        color: #1f2937;
+    }
+
+    .py-2 {
+        padding-top: 0.5rem;
+        padding-bottom: 0.5rem;
+    }
+
+    .px-4 {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+
+    .text-sm {
+        font-size: 0.875rem;
+        line-height: 1.25rem;
+    }
+
+    .font-medium {
+        font-weight: 500;
+    }
+
+    .transition {
+        transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
+        transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+        transition-duration: 150ms;
+    }
+
+    .duration-150 {
+        transition-duration: 150ms;
+    }
+
+    .ease-in-out {
+        transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .hover\:text-red-700:hover {
+        color: #b91c1c;
+    }
+
+    .mt-3 {
+        margin-top: 0.75rem;
+    }
+
+    .text-xs {
+        font-size: 0.75rem;
+        line-height: 1rem;
+    }
+
+    .text-gray-500 {
+        color: #6b7280;
+    }
+
+    .justify-between {
+        justify-content: space-between;
+    }
+
+    .pt-4 {
+        padding-top: 1rem;
+    }
+
+    .bg-gray-500 {
+        background-color: #6b7280;
+    }
+
+    .hover\:bg-gray-600:hover {
+        background-color: #4b5563;
+    }
+
+    .focus\:ring-0:focus {
+        --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
+        --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(0px + var(--tw-ring-offset-width)) var(--tw-ring-color);
+        box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
+    }
+
+    .transition-transform {
+        transition-property: transform;
+        transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+        transition-duration: 150ms;
+    }
+
+    .duration-200 {
+        transition-duration: 200ms;
+    }
+
+    .inline {
+        display: inline;
+    }
+
+    .mr-1 {
+        margin-right: 0.25rem;
+    }
+
+    .bg-blue-600 {
+        background-color: #2563eb;
+    }
+
+    .hover\:bg-blue-700:hover {
+        background-color: #1d4ed8;
+    }
+
+    .focus\:ring-offset-2:focus {
+        --tw-ring-offset-width: 2px;
+    }
+
+    .bg-white {
+        background-color: #ffffff;
+    }
+
+    .rounded-lg {
+        border-radius: 0.5rem;
+    }
+
+    .shadow-md {
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    }
+
+    .overflow-hidden {
+        overflow: hidden;
+    }
+
+    .mb-1 {
+        margin-bottom: 0.25rem;
+    }
+
+    .pb-2 {
+        padding-bottom: 0.5rem;
+    }
+
+    .mb-4 {
+        margin-bottom: 1rem;
+    }
+
+    .justify-content-center {
+        justify-content: center;
+    }
+
+    .text-3xl {
+        font-size: 1.875rem;
+        line-height: 2.25rem;
+    }
+
+    .font-bold {
+        font-weight: 700;
+    }
+</style>
 @endsection

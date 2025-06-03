@@ -8,7 +8,7 @@
 
     <form action="{{ route('admin-buns.classes.update', $langganan->id_langganan) }}" method="POST" id="editClassForm" enctype="multipart/form-data" novalidate>
         @csrf
-        
+
         <div class="bg-white rounded-lg shadow-md overflow-hidden mb-1">
             <!-- Table Layout -->
             <table class="w-full">
@@ -22,22 +22,22 @@
                     <tr class="border-b border-gray-200">
                         <td class="p-4 bg-gray-50 w-1/4 font-medium">Nama</td>
                         <td class="p-4">
-                            <input type="text" name="pilihan_subs" value="{{ $langganan->pilihan_subs }}" required 
+                            <input type="text" name="pilihan_subs" value="{{ $langganan->pilihan_subs }}" required
                                 class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-gray-300 focus:border-transparent">
                             <div class="text-red-500 text-sm mt-1 error-msg" id="error-pilihan_subs"></div>
                         </td>
                     </tr>
-                    
+
                     <!-- Harga -->
                     <tr class="border-b border-gray-200">
                         <td class="p-4 bg-gray-50 font-medium">Harga</td>
                         <td class="p-4">
-                            <input type="number" step="0.01" name="harga_subs" value="{{ $langganan->harga_subs }}" required 
+                            <input type="number" step="0.01" name="harga_subs" value="{{ $langganan->harga_subs }}" required
                                 class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-gray-300 focus:border-transparent">
                             <div class="text-red-500 text-sm mt-1 error-msg" id="error-harga_subs"></div>
                         </td>
                     </tr>
-                    
+
                     <!-- Penjelasan -->
                     <tr class="border-b border-gray-200">
                         <td class="p-4 bg-gray-50 font-medium">Penjelasan</td>
@@ -47,7 +47,6 @@
                             <div class="text-red-500 text-sm mt-1 error-msg" id="error-penjelasan_subs"></div>
                         </td>
                     </tr>
-                    
                     <!-- Gambar Kelas -->
                     <tr class="border-b border-gray-200">
                         <td class="p-4 bg-gray-50 font-medium">Gambar Kelas</td>
@@ -59,7 +58,6 @@
                                         class="max-h-40 mx-auto rounded" alt="">
                                     <p id="current-file-name" class="text-sm text-gray-700 mt-2">{{ $langganan->gambar_subs }}</p>
                                 </div>
-
                                 <!-- Upload Area -->
                                 <div id="uploadArea" class="{{ $langganan->gambar_subs ? 'hidden' : 'flex flex-col items-center justify-center space-y-2' }}">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-gray-400 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -97,7 +95,7 @@
                             <div class="text-red-500 text-sm mt-1 error-msg" id="error-gambar_subs"></div>
                         </td>
                     </tr>
-                    
+
                     <!-- Benefit -->
                     <tr class="border-b border-gray-200">
                         <td class="p-4 bg-gray-50 font-medium align-top">Benefit</td>
@@ -147,12 +145,12 @@
 </div>
 
 <script>
-// Benefit Management for Edit Form
-function addBenefitEdit() {
-    const container = document.getElementById('benefitListEdit');
-    const div = document.createElement('div');
-    div.classList.add('flex', 'items-center', 'gap-2', 'mb-2');
-    div.innerHTML = `
+    // Benefit Management for Edit Form
+    function addBenefitEdit() {
+        const container = document.getElementById('benefitListEdit');
+        const div = document.createElement('div');
+        div.classList.add('flex', 'items-center', 'gap-2', 'mb-2');
+        div.innerHTML = `
         <input type="text" name="benefit_subs[]" placeholder="Masukkan Benefit" required
                class="flex-1 p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-gray-300 focus:border-transparent benefit-input">
         <button type="button" onclick="removeBenefitEdit(this)" class="text-gray-500 hover:text-red-500">
@@ -161,172 +159,171 @@ function addBenefitEdit() {
             </svg>
         </button>
     `;
-    container.appendChild(div);
-}
-
-function removeBenefitEdit(button) {
-    const container = document.getElementById('benefitListEdit');
-    const benefitItems = container.querySelectorAll('div.flex.items-center');
-    
-    // Don't allow removal if it's the last item
-    if (benefitItems.length > 1) {
-        button.parentNode.remove();
+        container.appendChild(div);
     }
-    
-    // Ensure at least one benefit is required
-    const firstInput = container.querySelector('.benefit-input');
-    if (firstInput) {
-        firstInput.required = true;
-    }
-}
 
-// Form validation dengan AJAX support
-document.getElementById('editClassForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    
-    // Reset error messages
-    document.querySelectorAll('.error-msg').forEach(function(el) {
-        el.textContent = '';
-    });
-    
-    // Create form data for submission
-    const formData = new FormData(this);
-    const form = this;
-    
-    // Process benefit inputs
-    const benefitInputs = document.querySelectorAll('.benefit-input');
-    let hasEmptyBenefit = false;
-    
-    benefitInputs.forEach(input => {
-        if (input.value.trim() === '') {
-            hasEmptyBenefit = true;
+    function removeBenefitEdit(button) {
+        const container = document.getElementById('benefitListEdit');
+        const benefitItems = container.querySelectorAll('div.flex.items-center');
+
+        // Don't allow removal if it's the last item
+        if (benefitItems.length > 1) {
+            button.parentNode.remove();
         }
-    });
-    
-    // if (hasEmptyBenefit) {
-    //     document.getElementById('error-benefit_subs').textContent = 'Kolom benefit harus diisi.';
-    //     return;
-    // }
-    
-    // Disable submit button to prevent double submission
-    const submitButton = form.querySelector('button[type="submit"]');
-    if (submitButton) {
-        submitButton.disabled = true;
-        submitButton.innerText = 'Memperbarui...';
+
+        // Ensure at least one benefit is required
+        const firstInput = container.querySelector('.benefit-input');
+        if (firstInput) {
+            firstInput.required = true;
+        }
     }
-    
-    // Send AJAX request
-    fetch(form.action, {
-        method: 'POST',
-        body: formData,
-        headers: {
-            'X-Requested-With': 'XMLHttpRequest',
-            'Accept': 'application/json'
-        },
-        credentials: 'same-origin'
-    })
-    .then(response => {
-        // Check if it's JSON response
-        const contentType = response.headers.get('content-type');
-        if (contentType && contentType.includes('application/json')) {
-            return response.json().then(data => {
-                // JSON response handling
-                if (data.errors) {
-                    // Re-enable submit button
-                    if (submitButton) {
-                        submitButton.disabled = false;
-                        submitButton.innerText = 'Perbarui';
-                    }
-                    
-                    // Display validation errors
-                    Object.keys(data.errors).forEach(field => {
-                        const errorElement = document.getElementById('error-' + field);
-                        if (errorElement) {
-                            errorElement.textContent = data.errors[field][0];
+
+    // Form validation dengan AJAX support
+    document.getElementById('editClassForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        // Reset error messages
+        document.querySelectorAll('.error-msg').forEach(function(el) {
+            el.textContent = '';
+        });
+
+        // Create form data for submission
+        const formData = new FormData(this);
+        const form = this;
+
+        // Process benefit inputs
+        const benefitInputs = document.querySelectorAll('.benefit-input');
+        let hasEmptyBenefit = false;
+
+        benefitInputs.forEach(input => {
+            if (input.value.trim() === '') {
+                hasEmptyBenefit = true;
+            }
+        });
+
+        // if (hasEmptyBenefit) {
+        //     document.getElementById('error-benefit_subs').textContent = 'Kolom benefit harus diisi.';
+        //     return;
+        // }
+
+        // Disable submit button to prevent double submission
+        const submitButton = form.querySelector('button[type="submit"]');
+        if (submitButton) {
+            submitButton.disabled = true;
+            submitButton.innerText = 'Memperbarui...';
+        }
+
+        // Send AJAX request
+        fetch(form.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'Accept': 'application/json'
+                },
+                credentials: 'same-origin'
+            })
+            .then(response => {
+                // Check if it's JSON response
+                const contentType = response.headers.get('content-type');
+                if (contentType && contentType.includes('application/json')) {
+                    return response.json().then(data => {
+                        // JSON response handling
+                        if (data.errors) {
+                            // Re-enable submit button
+                            if (submitButton) {
+                                submitButton.disabled = false;
+                                submitButton.innerText = 'Perbarui';
+                            }
+
+                            // Display validation errors
+                            Object.keys(data.errors).forEach(field => {
+                                const errorElement = document.getElementById('error-' + field);
+                                if (errorElement) {
+                                    errorElement.textContent = data.errors[field][0];
+                                }
+                            });
+                        } else if (data.success) {
+                            // Success - redirect to index page
+                            window.location.href = "{{ route('admin-buns.classes.index') }}";
+                        } else {
+                            // Fallback for other JSON responses - assume success
+                            window.location.href = "{{ route('admin-buns.classes.index') }}";
                         }
                     });
-                } else if (data.success) {
-                    // Success - redirect to index page
-                    window.location.href = "{{ route('admin-buns.classes.index') }}";
                 } else {
-                    // Fallback for other JSON responses - assume success
+                    // Non-JSON response (e.g. HTML redirect) - assume success
                     window.location.href = "{{ route('admin-buns.classes.index') }}";
+                    return null;
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                // Re-enable submit button on error
+                if (submitButton) {
+                    submitButton.disabled = false;
+                    submitButton.innerText = 'Perbarui';
                 }
             });
-        } else {
-            // Non-JSON response (e.g. HTML redirect) - assume success
-            window.location.href = "{{ route('admin-buns.classes.index') }}";
-            return null;
-        }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        // Re-enable submit button on error
-        if (submitButton) {
-            submitButton.disabled = false;
-            submitButton.innerText = 'Perbarui';
+    });
+
+    // Image handling functions
+    function showUploadArea() {
+        // Hide current image and change button
+        document.getElementById('currentImageContainer').classList.add('hidden');
+        document.getElementById('changeImageButtonContainer').classList.add('hidden');
+
+        // Show upload area
+        document.getElementById('uploadArea').classList.remove('hidden');
+    }
+
+    // Preview gambar yang baru dipilih
+    document.getElementById('gambar_subs').addEventListener('change', function(e) {
+        const fileInput = e.target;
+        const fileName = fileInput.files[0] ? fileInput.files[0].name : '';
+
+        // Hide current image and upload area
+        document.getElementById('currentImageContainer').classList.add('hidden');
+        document.getElementById('uploadArea').classList.add('hidden');
+        document.getElementById('changeImageButtonContainer').classList.add('hidden');
+
+        // Reset remove_image field as we're adding a new image
+        document.getElementById('remove_image').value = '0';
+
+        // Preview gambar baru
+        if (fileInput.files && fileInput.files[0]) {
+            const reader = new FileReader();
+
+            reader.onload = function(e) {
+                const preview = document.getElementById('imagePreview');
+                preview.src = e.target.result;
+                document.getElementById('new-file-name').textContent = fileName;
+                document.getElementById('imagePreviewContainer').classList.remove('hidden');
+            }
+
+            reader.readAsDataURL(fileInput.files[0]);
         }
     });
-});
 
-// Image handling functions
-function showUploadArea() {
-    // Hide current image and change button
-    document.getElementById('currentImageContainer').classList.add('hidden');
-    document.getElementById('changeImageButtonContainer').classList.add('hidden');
-    
-    // Show upload area
-    document.getElementById('uploadArea').classList.remove('hidden');
-}
+    // Fungsi untuk menghapus gambar baru yang dipilih
+    function removeImage() {
+        // Reset file input
+        document.getElementById('gambar_subs').value = '';
 
-// Preview gambar yang baru dipilih
-document.getElementById('gambar_subs').addEventListener('change', function(e) {
-    const fileInput = e.target;
-    const fileName = fileInput.files[0] ? fileInput.files[0].name : '';
-    
-    // Hide current image and upload area
-    document.getElementById('currentImageContainer').classList.add('hidden');
-    document.getElementById('uploadArea').classList.add('hidden');
-    document.getElementById('changeImageButtonContainer').classList.add('hidden');
-    
-    // Reset remove_image field as we're adding a new image
-    document.getElementById('remove_image').value = '0';
-    
-    // Preview gambar baru
-    if (fileInput.files && fileInput.files[0]) {
-        const reader = new FileReader();
-        
-        reader.onload = function(e) {
-            const preview = document.getElementById('imagePreview');
-            preview.src = e.target.result;
-            document.getElementById('new-file-name').textContent = fileName;
-            document.getElementById('imagePreviewContainer').classList.remove('hidden');
-        }
-        
-        reader.readAsDataURL(fileInput.files[0]);
+        // Hide preview and show upload area
+        document.getElementById('imagePreviewContainer').classList.add('hidden');
+        document.getElementById('uploadArea').classList.remove('hidden');
     }
-});
 
-// Fungsi untuk menghapus gambar baru yang dipilih
-function removeImage() {
-    // Reset file input
-    document.getElementById('gambar_subs').value = '';
-    
-    // Hide preview and show upload area
-    document.getElementById('imagePreviewContainer').classList.add('hidden');
-    document.getElementById('uploadArea').classList.remove('hidden');
-}
+    // Fungsi untuk menghapus gambar yang sudah ada
+    function removeCurrentImage() {
+        // Hide current image and show upload area
+        document.getElementById('currentImageContainer').classList.add('hidden');
+        document.getElementById('changeImageButtonContainer').classList.add('hidden');
+        document.getElementById('uploadArea').classList.remove('hidden');
 
-// Fungsi untuk menghapus gambar yang sudah ada
-function removeCurrentImage() {
-    // Hide current image and show upload area
-    document.getElementById('currentImageContainer').classList.add('hidden');
-    document.getElementById('changeImageButtonContainer').classList.add('hidden');
-    document.getElementById('uploadArea').classList.remove('hidden');
-    
-    // Set hidden input to mark image for deletion
-    document.getElementById('remove_image').value = '1';
-}
-
+        // Set hidden input to mark image for deletion
+        document.getElementById('remove_image').value = '1';
+    }
 </script>
 @endsection

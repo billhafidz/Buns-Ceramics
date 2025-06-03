@@ -6,30 +6,41 @@ use Illuminate\Http\Request;
 use App\Models\Langganan;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Log;
+use App\Models\Member;
 
 class SubscriptionController extends Controller
 {
-    public function showForm()
-    {
-        if (!session()->has('user')) {
-            return redirect('/')->with('error', 'Silahkan login terlebih dahulu');
-        }
-        $data = [
-            'email_member' => session('user')->email ?? '',
-            'id_account' => session('user')->id_account ?? '',
-            'langganans' => Langganan::all()->map(function($item) {
-                $item->benefit_subs = json_decode($item->benefit_subs, true) ?? [];
-                return $item;
-            }),
-        ];
-
-        $selectedLangganan = null;
-        if (request()->has('langganan_id')) {
-            $selectedLangganan = Langganan::find(request('langganan_id'));
-        }
-
-        return view('subscribe', compact('data', 'selectedLangganan'));
+public function showForm()
+{
+    if (!session()->has('user')) {
+        return redirect('/')->with('error', 'Silahkan login terlebih dahulu');
     }
+
+    $user = session('user');
+
+    // Ambil data member dari tabel members
+    $member = Member::where('id_account', $user->id_account)->first();
+
+    $data = [
+        'email_member' => $user->email ?? '',
+        'id_account' => $user->id_account ?? '',
+        'nama_member' => $member->nama_member ?? '',
+        'alamat_member' => $member->alamat_member ?? '',
+        'no_telp' => $member->no_telp ?? '',
+        'langganans' => Langganan::all()->map(function ($item) {
+            $item->benefit_subs = json_decode($item->benefit_subs, true) ?? [];
+            return $item;
+        }),
+    ];
+
+    $selectedLangganan = null;
+    if (request()->has('langganan_id')) {
+        $selectedLangganan = Langganan::find(request('langganan_id'));
+    }
+
+    return view('subscribe', compact('data', 'selectedLangganan'));
+}
+
 
     public function store(Request $request)
     {

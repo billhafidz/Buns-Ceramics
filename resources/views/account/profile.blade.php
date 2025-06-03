@@ -33,10 +33,9 @@
                 <div class="flex flex-col md:flex-row items-start md:items-center gap-6">
 
                     <div class="relative">
-                        <img src="{{ $member->foto_profil ? asset('storage/' . $member->foto_profil) : asset('images/user-icon.png') }}"
-                            alt="Foto Profil"
-                            class="w-32 h-32 object-cover rounded-full border-4 border-blue-200 shadow">
-
+                        <img src="{{ isset($member) && $member->foto_profil ? asset('storage/' . $member->foto_profil) : asset('images/user-icon.png') }}"
+                         alt="Foto Profil"
+                         class="w-32 h-32 object-cover rounded-full border-4 border-blue-200 shadow">
                         <label class="absolute bottom-0 right-0 bg-blue-600 hover:bg-blue-700 text-white text-xs font-medium px-2 py-1 rounded cursor-pointer">
                             Ubah
                             <input type="file" name="foto_profil" accept="image/*" class="hidden">
@@ -44,28 +43,33 @@
                     </div>
 
                     <!-- Form Data -->
-                    <div class="w-full">
-                        <div class="mb-4">
-                            <label class="block text-sm font-medium text-gray-700">Nama Lengkap</label>
-                            <input type="text" name="nama_member" value="{{ old('nama_member', $member->nama_member) }}"
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200">
-                        </div>
-                        <div class="mb-4">
-                            <label class="block text-sm font-medium text-gray-700">Alamat</label>
-                            <input type="text" name="alamat_member" value="{{ old('alamat_member', $member->alamat_member) }}"
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200">
-                        </div>
-                        <div class="mb-4">
-                            <label class="block text-sm font-medium text-gray-700">Nomor Telepon</label>
-                            <input type="text" name="no_telp" value="{{ old('no_telp', $member->no_telp) }}"
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200">
-                        </div>
-                        <div class="mb-4">
-                            <label class="block text-sm font-medium text-gray-700">Sisa Hari Berlangganan</label>
-                            <input type="text" value="{{ $member->day }} hari" class="mt-1 block w-full bg-gray-100 rounded-md border border-gray-300" readonly>
-                        </div>
-                    </div>
-                </div>
+<div class="w-full">
+    <div class="mb-4">
+        <label class="block text-sm font-medium text-gray-700">Nama Lengkap</label>
+        <input type="text" name="nama_member"
+               value="{{ old('nama_member', $member->nama_member ?? $member->name ?? '') }}"
+               class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200">
+    </div>
+    <div class="mb-4">
+        <label class="block text-sm font-medium text-gray-700">Alamat</label>
+        <input type="text" name="alamat_member"
+               value="{{ old('alamat_member', $member->alamat_member ?? '') }}"
+               class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200">
+    </div>
+    <div class="mb-4">
+        <label class="block text-sm font-medium text-gray-700">Nomor Telepon</label>
+        <input type="text" name="no_telp"
+               value="{{ old('no_telp', $member->no_telp ?? '') }}"
+               class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200">
+    </div>
+    <div class="mb-4">
+        <label class="block text-sm font-medium text-gray-700">Sisa Hari Berlangganan</label>
+        <input type="text"
+               value="{{ isset($member->day) ? $member->day . ' hari' : '-' }}"
+               class="mt-1 block w-full bg-gray-100 rounded-md border border-gray-300" readonly>
+    </div>
+</div>
+
 
 
                 <div class="text-right">

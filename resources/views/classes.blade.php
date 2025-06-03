@@ -428,9 +428,11 @@
                     <div class="mt-auto pt-4 min-h-[50px]">
                         <div class="flex justify-center">
                             @if(session('user'))
-                            <a href="{{ route('subscribe') }}" class="w-full md:w-auto px-8 py-3 bg-[#592727] text-white rounded-lg font-bold hover:bg-[#662f28] transition-colors text-center">
-                                Subscribe Now
-                            </a>
+                            <a href="{{ route('subscribe') }}"
+   onclick="return onSubscribeClick()"
+   class="w-full md:w-auto px-8 py-3 bg-[#592727] text-white rounded-lg font-bold hover:bg-[#662f28] transition-colors text-center">
+   Subscribe Now
+</a>
                             @else
                             <button onclick="openModal(); closeClassDetail();" class="w-full md:w-auto px-8 py-3 bg-[#592727] text-white rounded-lg font-bold hover:bg-[#662f28] transition-colors">
                                 Subscribe Now
@@ -710,57 +712,58 @@
             }
         });
 
-        // Class Detail Modal Functions
         function showClassDetail(classId) {
-            const classData = getClassData(classId);
+        const classData = getClassData(classId);
 
-            if (classData) {
-                const imageElement = document.getElementById('detailClassImage');
-                const placeholderElement = document.getElementById('detailClassImagePlaceholder');
+        if (classData) {
+            selectedLangganan = classData;  // **Simpan data yang dipilih ke variabel global**
 
-                if (classData.gambar_subs) {
-                    imageElement.src = `/storage/langganan_images/${classData.gambar_subs}`;
-                    imageElement.classList.remove('hidden');
-                    placeholderElement.classList.add('hidden');
-                } else {
-                    imageElement.classList.add('hidden');
-                    placeholderElement.classList.remove('hidden');
-                }
+            const imageElement = document.getElementById('detailClassImage');
+            const placeholderElement = document.getElementById('detailClassImagePlaceholder');
 
-                document.getElementById('detailClassName').textContent = classData.pilihan_subs;
-                document.getElementById('detailClassPrice').textContent = `Rp. ${parseInt(classData.harga_subs).toLocaleString()}`;
-                document.getElementById('detailClassDescription').textContent = classData.penjelasan_subs;
+            if (classData.gambar_subs) {
+                imageElement.src = `/storage/langganan_images/${classData.gambar_subs}`;
+                imageElement.classList.remove('hidden');
+                placeholderElement.classList.add('hidden');
+            } else {
+                imageElement.classList.add('hidden');
+                placeholderElement.classList.remove('hidden');
+            }
 
-                const benefitsList = document.getElementById('detailClassBenefits');
-                benefitsList.innerHTML = '';
+            document.getElementById('detailClassName').textContent = classData.pilihan_subs;
+            document.getElementById('detailClassPrice').textContent = `Rp. ${parseInt(classData.harga_subs).toLocaleString()}`;
+            document.getElementById('detailClassDescription').textContent = classData.penjelasan_subs;
 
-                try {
-                    const benefits = JSON.parse(classData.benefit_subs);
-                    benefits.forEach(benefit => {
-                        if (benefit && benefit.trim() !== '') {
-                            const li = document.createElement('li');
-                            li.className = 'flex items-start';
-                            li.innerHTML = `
+            const benefitsList = document.getElementById('detailClassBenefits');
+            benefitsList.innerHTML = '';
+
+            try {
+                const benefits = JSON.parse(classData.benefit_subs);
+                benefits.forEach(benefit => {
+                    if (benefit && benefit.trim() !== '') {
+                        const li = document.createElement('li');
+                        li.className = 'flex items-start';
+                        li.innerHTML = `
                             <svg class="h-5 w-5 text-green-500 mt-0.5 mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                             </svg>
                             <span class="text-gray-700">${benefit}</span>
                         `;
-                            benefitsList.appendChild(li);
-                        }
-                    });
-
-                    if (benefitsList.children.length === 0) {
-                        benefitsList.innerHTML = '<li class="text-gray-500">No benefits listed</li>';
+                        benefitsList.appendChild(li);
                     }
-                } catch (e) {
+                });
+
+                if (benefitsList.children.length === 0) {
                     benefitsList.innerHTML = '<li class="text-gray-500">No benefits listed</li>';
                 }
-
-                document.getElementById('classDetailModal').classList.remove('hidden');
-                document.body.classList.add('overflow-hidden');
+            } catch (e) {
+                benefitsList.innerHTML = '<li class="text-gray-500">No benefits listed</li>';
             }
+
+            document.getElementById('classDetailModal').classList.remove('hidden');
+            document.body.classList.add('overflow-hidden');
         }
+    }
 
         function closeClassDetail() {
             document.getElementById('classDetailModal').classList.add('hidden');
@@ -895,6 +898,16 @@
                 closeMemberInfo();
             }
         });
+
+        function onSubscribeClick() {
+        if (!selectedLangganan) {
+            alert('Pilih kelas terlebih dahulu lewat tombol DETAIL.');
+            return false; 
+        }
+
+        localStorage.setItem('selectedLangganan', JSON.stringify(selectedLangganan));
+        return true; 
+    }
     </script>
 </body>
 

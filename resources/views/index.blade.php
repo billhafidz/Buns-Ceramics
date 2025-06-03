@@ -395,13 +395,16 @@
                                     <ul id="detailClassBenefits" class="space-y-2"></ul>
                                 </div>
                             </div>
-
+                             
                             <div class="mt-auto pt-4 min-h-[50px]">
                                 <div class="flex justify-center">
                                     @if(session('user'))
-                                    <a href="{{ route('subscribe') }}" class="w-full md:w-auto px-8 py-3 bg-[#592727] text-white rounded-lg font-bold hover:bg-[#662f28] transition-colors text-center">
-                                        Subscribe Now
-                                    </a>
+                                    <a href="{{ route('subscribe') }}"
+   onclick="return onSubscribeClick()"
+   class="w-full md:w-auto px-8 py-3 bg-[#592727] text-white rounded-lg font-bold hover:bg-[#662f28] transition-colors text-center">
+   Subscribe Now
+</a>
+
                                     @else
                                     <button onclick="openModal(); closeClassDetail();" class="w-full md:w-auto px-8 py-3 bg-[#592727] text-white rounded-lg font-bold hover:bg-[#662f28] transition-colors">
                                         Subscribe Now
@@ -715,177 +718,193 @@
         </div>
     </footer>
 
-    <script>
-        // Modal for login and registration
-        document.addEventListener('DOMContentLoaded', function() {
-            // Open modal function
-            window.openModal = function() {
-                document.getElementById('authModal').classList.remove('hidden');
-                document.getElementById('authModal').classList.add('flex');
-                showLogin();
-                document.getElementById('loginUsername').focus();
-            };
+ <script>
+    // Variabel global untuk simpan langganan yg dipilih
+    let selectedLangganan = null;
 
-            // Close modal function
-            window.closeModal = function() {
-                document.getElementById('authModal').classList.add('hidden');
-                document.getElementById('authModal').classList.remove('flex');
-            };
+    // Modal for login and registration
+    document.addEventListener('DOMContentLoaded', function() {
+        // Open modal function
+        window.openModal = function() {
+            document.getElementById('authModal').classList.remove('hidden');
+            document.getElementById('authModal').classList.add('flex');
+            showLogin();
+            document.getElementById('loginUsername').focus();
+        };
 
-            // Show login panel
-            window.showLogin = function() {
-                document.getElementById('loginPanel').classList.remove('hidden');
-                document.getElementById('registerPanel').classList.add('hidden');
-                document.getElementById('backButton').classList.add('hidden');
-                document.getElementById('loginUsername').focus();
-            };
+        // Close modal function
+        window.closeModal = function() {
+            document.getElementById('authModal').classList.add('hidden');
+            document.getElementById('authModal').classList.remove('flex');
+        };
 
-            // Show register panel
-            window.showRegister = function() {
-                document.getElementById('loginPanel').classList.add('hidden');
-                document.getElementById('registerPanel').classList.remove('hidden');
-                document.getElementById('backButton').classList.remove('hidden');
-                document.getElementById('registerUsername').focus();
-            };
+        // Show login panel
+        window.showLogin = function() {
+            document.getElementById('loginPanel').classList.remove('hidden');
+            document.getElementById('registerPanel').classList.add('hidden');
+            document.getElementById('backButton').classList.add('hidden');
+            document.getElementById('loginUsername').focus();
+        };
 
-            // Close modal when clicking outside
-            document.getElementById('authModal').addEventListener('click', function(event) {
-                if (event.target === this) {
-                    closeModal();
-                }
-            });
+        // Show register panel
+        window.showRegister = function() {
+            document.getElementById('loginPanel').classList.add('hidden');
+            document.getElementById('registerPanel').classList.remove('hidden');
+            document.getElementById('backButton').classList.remove('hidden');
+            document.getElementById('registerUsername').focus();
+        };
 
-            // User dropdown toggle
-            const userIcon = document.querySelector('.user-menu img');
-            const dropdown = document.querySelector('.dropdown-content');
-
-            if (userIcon && dropdown) {
-                userIcon.addEventListener('click', function(e) {
-                    e.stopPropagation();
-                    dropdown.classList.toggle('hidden');
-                });
-
-                // Close dropdown when clicking elsewhere
-                document.addEventListener('click', function() {
-                    if (!dropdown.classList.contains('hidden')) {
-                        dropdown.classList.add('hidden');
-                    }
-                });
-            }
-
-            // Mobile menu functionality
-            const hamburgerBtn = document.getElementById('hamburgerBtn');
-            const mobileMenu = document.getElementById('mobileMenu');
-            const mobileMenuOverlay = document.getElementById('mobileMenuOverlay');
-
-            function toggleMobileMenu() {
-                hamburgerBtn.classList.toggle('active');
-
-                if (mobileMenu.classList.contains('-translate-x-full')) {
-                    mobileMenu.classList.remove('-translate-x-full');
-                    mobileMenu.classList.add('translate-x-0');
-                    mobileMenuOverlay.classList.remove('hidden');
-                    document.body.classList.add('overflow-hidden');
-                } else {
-                    mobileMenu.classList.remove('translate-x-0');
-                    mobileMenu.classList.add('-translate-x-full');
-                    mobileMenuOverlay.classList.add('hidden');
-                    document.body.classList.remove('overflow-hidden');
-                }
-            }
-
-            window.toggleMobileMenu = toggleMobileMenu;
-
-            if (hamburgerBtn && mobileMenu && mobileMenuOverlay) {
-                hamburgerBtn.addEventListener('click', toggleMobileMenu);
-                mobileMenuOverlay.addEventListener('click', toggleMobileMenu);
+        // Close modal when clicking outside
+        document.getElementById('authModal').addEventListener('click', function(event) {
+            if (event.target === this) {
+                closeModal();
             }
         });
 
+        // User dropdown toggle
+        const userIcon = document.querySelector('.user-menu img');
+        const dropdown = document.querySelector('.dropdown-content');
 
-        // Class Detail Modal Functions
-        function showClassDetail(classId) {
-            const classData = getClassData(classId);
+        if (userIcon && dropdown) {
+            userIcon.addEventListener('click', function(e) {
+                e.stopPropagation();
+                dropdown.classList.toggle('hidden');
+            });
 
-            if (classData) {
-                const imageElement = document.getElementById('detailClassImage');
-                const placeholderElement = document.getElementById('detailClassImagePlaceholder');
-
-                if (classData.gambar_subs) {
-                    imageElement.src = `/storage/langganan_images/${classData.gambar_subs}`;
-                    imageElement.classList.remove('hidden');
-                    placeholderElement.classList.add('hidden');
-                } else {
-                    imageElement.classList.add('hidden');
-                    placeholderElement.classList.remove('hidden');
+            // Close dropdown when clicking elsewhere
+            document.addEventListener('click', function() {
+                if (!dropdown.classList.contains('hidden')) {
+                    dropdown.classList.add('hidden');
                 }
+            });
+        }
 
-                document.getElementById('detailClassName').textContent = classData.pilihan_subs;
-                document.getElementById('detailClassPrice').textContent = `Rp. ${parseInt(classData.harga_subs).toLocaleString()}`;
-                document.getElementById('detailClassDescription').textContent = classData.penjelasan_subs;
+        // Mobile menu functionality
+        const hamburgerBtn = document.getElementById('hamburgerBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const mobileMenuOverlay = document.getElementById('mobileMenuOverlay');
 
-                const benefitsList = document.getElementById('detailClassBenefits');
-                benefitsList.innerHTML = '';
+        function toggleMobileMenu() {
+            hamburgerBtn.classList.toggle('active');
 
-                try {
-                    const benefits = JSON.parse(classData.benefit_subs);
-                    benefits.forEach(benefit => {
-                        if (benefit && benefit.trim() !== '') {
-                            const li = document.createElement('li');
-                            li.className = 'flex items-start';
-                            li.innerHTML = `
+            if (mobileMenu.classList.contains('-translate-x-full')) {
+                mobileMenu.classList.remove('-translate-x-full');
+                mobileMenu.classList.add('translate-x-0');
+                mobileMenuOverlay.classList.remove('hidden');
+                document.body.classList.add('overflow-hidden');
+            } else {
+                mobileMenu.classList.remove('translate-x-0');
+                mobileMenu.classList.add('-translate-x-full');
+                mobileMenuOverlay.classList.add('hidden');
+                document.body.classList.remove('overflow-hidden');
+            }
+        }
+
+        window.toggleMobileMenu = toggleMobileMenu;
+
+        if (hamburgerBtn && mobileMenu && mobileMenuOverlay) {
+            hamburgerBtn.addEventListener('click', toggleMobileMenu);
+            mobileMenuOverlay.addEventListener('click', toggleMobileMenu);
+        }
+    });
+
+
+    // Class Detail Modal Functions
+    function showClassDetail(classId) {
+        const classData = getClassData(classId);
+
+        if (classData) {
+            selectedLangganan = classData;  // **Simpan data yang dipilih ke variabel global**
+
+            const imageElement = document.getElementById('detailClassImage');
+            const placeholderElement = document.getElementById('detailClassImagePlaceholder');
+
+            if (classData.gambar_subs) {
+                imageElement.src = `/storage/langganan_images/${classData.gambar_subs}`;
+                imageElement.classList.remove('hidden');
+                placeholderElement.classList.add('hidden');
+            } else {
+                imageElement.classList.add('hidden');
+                placeholderElement.classList.remove('hidden');
+            }
+
+            document.getElementById('detailClassName').textContent = classData.pilihan_subs;
+            document.getElementById('detailClassPrice').textContent = `Rp. ${parseInt(classData.harga_subs).toLocaleString()}`;
+            document.getElementById('detailClassDescription').textContent = classData.penjelasan_subs;
+
+            const benefitsList = document.getElementById('detailClassBenefits');
+            benefitsList.innerHTML = '';
+
+            try {
+                const benefits = JSON.parse(classData.benefit_subs);
+                benefits.forEach(benefit => {
+                    if (benefit && benefit.trim() !== '') {
+                        const li = document.createElement('li');
+                        li.className = 'flex items-start';
+                        li.innerHTML = `
                             <svg class="h-5 w-5 text-green-500 mt-0.5 mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                             </svg>
                             <span class="text-gray-700">${benefit}</span>
                         `;
-                            benefitsList.appendChild(li);
-                        }
-                    });
-
-                    if (benefitsList.children.length === 0) {
-                        benefitsList.innerHTML = '<li class="text-gray-500">No benefits listed</li>';
+                        benefitsList.appendChild(li);
                     }
-                } catch (e) {
+                });
+
+                if (benefitsList.children.length === 0) {
                     benefitsList.innerHTML = '<li class="text-gray-500">No benefits listed</li>';
                 }
-
-                document.getElementById('classDetailModal').classList.remove('hidden');
-                document.body.classList.add('overflow-hidden');
+            } catch (e) {
+                benefitsList.innerHTML = '<li class="text-gray-500">No benefits listed</li>';
             }
+
+            document.getElementById('classDetailModal').classList.remove('hidden');
+            document.body.classList.add('overflow-hidden');
+        }
+    }
+
+    function closeClassDetail() {
+        document.getElementById('classDetailModal').classList.add('hidden');
+        document.body.classList.remove('overflow-hidden');
+    }
+
+    function getClassData(classId) {
+        const classes = @json($langganans);
+        return classes.find(c => c.id_langganan == classId);
+    }
+
+    document.getElementById('classDetailModal').addEventListener('click', function(e) {
+        if (e.target === this) {
+            closeClassDetail();
+        }
+    });
+
+    function showMemberInfo() {
+        document.getElementById('memberInfoModal').classList.remove('hidden');
+        document.getElementById('memberInfoModal').classList.add('flex');
+    }
+
+    function closeMemberInfo() {
+        document.getElementById('memberInfoModal').classList.add('hidden');
+        document.getElementById('memberInfoModal').classList.remove('flex');
+    }
+    document.getElementById('memberInfoModal').addEventListener('click', function(event) {
+        if (event.target === this) {
+            closeMemberInfo();
+        }
+    });
+
+    function onSubscribeClick() {
+        if (!selectedLangganan) {
+            alert('Pilih kelas terlebih dahulu lewat tombol DETAIL.');
+            return false; 
         }
 
-        function closeClassDetail() {
-            document.getElementById('classDetailModal').classList.add('hidden');
-            document.body.classList.remove('overflow-hidden');
-        }
+        localStorage.setItem('selectedLangganan', JSON.stringify(selectedLangganan));
+        return true; 
+    }
+</script>
 
-        function getClassData(classId) {
-            const classes = @json($langganans);
-            return classes.find(c => c.id_langganan == classId);
-        }
-
-        document.getElementById('classDetailModal').addEventListener('click', function(e) {
-            if (e.target === this) {
-                closeClassDetail();
-            }
-        });
-
-        function showMemberInfo() {
-            document.getElementById('memberInfoModal').classList.remove('hidden');
-            document.getElementById('memberInfoModal').classList.add('flex');
-        }
-
-        function closeMemberInfo() {
-            document.getElementById('memberInfoModal').classList.add('hidden');
-            document.getElementById('memberInfoModal').classList.remove('flex');
-        }
-        document.getElementById('memberInfoModal').addEventListener('click', function(event) {
-            if (event.target === this) {
-                closeMemberInfo();
-            }
-        });
-    </script>
 </body>
 
 </html>

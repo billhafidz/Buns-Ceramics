@@ -5,69 +5,88 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Subscription Form</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            function updateSubscriptionDetails() {
-                const selectElement = document.getElementById('langganan_id');
-                const selectedOption = selectElement.options[selectElement.selectedIndex];
-                
-                const langgananId = selectedOption.getAttribute('data-id-langganan');
-                const harga = selectedOption.getAttribute('data-harga');
-                const penjelasan = selectedOption.getAttribute('data-penjelasan');
-                const benefits = JSON.parse(selectedOption.getAttribute('data-benefits') || '[]');
-                
-                document.getElementById('langganan_id_hidden').value = langgananId;
-                document.getElementById('harga_subs').value = harga;
-                document.getElementById('harga_display').textContent = 'Rp ' + harga;
-                document.getElementById('penjelasan_subs').value = penjelasan;
-                
-                const benefitList = document.getElementById('benefitList');
-                benefitList.innerHTML = '';
-                
-                if (benefits && benefits.length > 0) {
-                    benefits.forEach(benefit => {
-                        if (benefit && benefit.trim() !== '') {
-                            const li = document.createElement('li');
-                            li.className = 'flex items-start';
-                            li.innerHTML = `
-                                <svg class="h-5 w-5 text-green-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                                </svg>
-                                ${benefit.replace(/["\[\]]/g, '')}
-                            `;
-                            benefitList.appendChild(li);
-                        }
-                    });
-                } else {
-                    benefitList.innerHTML = '<li class="text-gray-500">Tidak ada benefit tersedia</li>';
+<script>
+    // Pindahkan fungsi ke global supaya bisa dipanggil dari mana saja
+    function updateSubscriptionDetails() {
+        const selectElement = document.getElementById('langganan_id');
+        const selectedOption = selectElement.options[selectElement.selectedIndex];
+        
+        const langgananId = selectedOption.getAttribute('data-id-langganan');
+        const harga = selectedOption.getAttribute('data-harga');
+        const penjelasan = selectedOption.getAttribute('data-penjelasan');
+        const benefits = JSON.parse(selectedOption.getAttribute('data-benefits') || '[]');
+        
+        document.getElementById('langganan_id_hidden').value = langgananId;
+        document.getElementById('harga_subs').value = harga;
+        document.getElementById('harga_display').textContent = 'Rp ' + harga;
+        document.getElementById('penjelasan_subs').value = penjelasan;
+        
+        const benefitList = document.getElementById('benefitList');
+        benefitList.innerHTML = '';
+        
+        if (benefits && benefits.length > 0) {
+            benefits.forEach(benefit => {
+                if (benefit && benefit.trim() !== '') {
+                    const li = document.createElement('li');
+                    li.className = 'flex items-start';
+                    li.innerHTML = `
+                        <svg class="h-5 w-5 text-green-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                        </svg>
+                        ${benefit.replace(/["\[\]]/g, '')}
+                    `;
+                    benefitList.appendChild(li);
                 }
+            });
+        } else {
+            benefitList.innerHTML = '<li class="text-gray-500">Tidak ada benefit tersedia</li>';
+        }
 
-                updatePrice();
-            }
+        updatePrice();
+    }
 
-            function updatePrice() {
-                const duration = document.getElementById('pilihan_hari').value;
-                const selectedOption = document.getElementById('langganan_id').options[document.getElementById('langganan_id').selectedIndex];
-                let basePrice = parseFloat(selectedOption.getAttribute('data-harga'));
+    function updatePrice() {
+        const duration = document.getElementById('pilihan_hari').value;
+        const selectedOption = document.getElementById('langganan_id').options[document.getElementById('langganan_id').selectedIndex];
+        let basePrice = parseFloat(selectedOption.getAttribute('data-harga'));
 
-                let finalPrice = basePrice;
+        let finalPrice = basePrice;
 
-                if (duration === '15') {
-                    finalPrice = basePrice * 0.9; 
-                } else if (duration === '5') {
-                    finalPrice = basePrice * 0.8;
+        if (duration === '15') {
+            finalPrice = basePrice * 0.9; 
+        } else if (duration === '5') {
+            finalPrice = basePrice * 0.8;
+        }
+
+        document.getElementById('harga_display').textContent = `Rp ${finalPrice.toFixed(2)}`;
+        document.getElementById('harga_subs').value = finalPrice.toFixed(2);
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        document.getElementById('langganan_id').addEventListener('change', updateSubscriptionDetails);
+        document.getElementById('pilihan_hari').addEventListener('change', updatePrice);
+
+        const storedLangganan = localStorage.getItem('selectedLangganan');
+        if (storedLangganan) {
+            const langganan = JSON.parse(storedLangganan);
+
+            const select = document.getElementById('langganan_id');
+            const options = select.options;
+            for (let i = 0; i < options.length; i++) {
+                if (options[i].getAttribute('data-id-langganan') == langganan.id_langganan) {
+                    options[i].selected = true;
+                    break;
                 }
-
-                document.getElementById('harga_display').textContent = `Rp ${finalPrice.toFixed(2)}`;
-                document.getElementById('harga_subs').value = finalPrice.toFixed(2);
             }
-
-            document.getElementById('langganan_id').addEventListener('change', updateSubscriptionDetails);
-            document.getElementById('pilihan_hari').addEventListener('change', updatePrice);
 
             updateSubscriptionDetails();
-        });
-    </script>
+
+            localStorage.removeItem('selectedLangganan');
+        } else {
+            updateSubscriptionDetails();
+        }
+    });
+</script>
 </head>
 <body class="bg-gray-100 font-sans flex justify-center items-center min-h-screen">
 

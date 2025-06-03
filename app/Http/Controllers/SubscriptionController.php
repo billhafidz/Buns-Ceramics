@@ -16,9 +16,12 @@ public function showForm()
         return redirect('/')->with('error', 'Silahkan login terlebih dahulu');
     }
 
+    if (session('user')->role == 'Member') {
+        return redirect('/')->with('error', 'Anda sudah menjadi member');
+    }
+
     $user = session('user');
 
-    // Ambil data member dari tabel members
     $member = Member::where('id_account', $user->id_account)->first();
 
     $data = [

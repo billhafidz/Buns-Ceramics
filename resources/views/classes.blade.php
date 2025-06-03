@@ -12,9 +12,11 @@
         body {
             font-family: 'Montserrat', sans-serif;
         }
+
         .logo {
             font-family: 'Nico Moji', cursive, sans-serif;
         }
+
         .nav-center {
             font-family: 'Itim', cursive, sans-serif;
             position: absolute;
@@ -22,32 +24,42 @@
             transform: translateX(-50%);
             letter-spacing: 2px;
         }
+
         .nav-item,
         .role-badge {
             font-family: 'Itim', cursive, sans-serif;
             letter-spacing: 2px;
         }
+
         #mobileMenu {
             overflow-y: auto;
             -webkit-overflow-scrolling: touch;
             transition: transform 0.3s ease-in-out, backdrop-filter 0.3s ease-in-out;
         }
+
         #menuToggle {
             z-index: 60;
         }
+
         .scrollbar-hide::-webkit-scrollbar {
             width: 0.5rem;
         }
+
         .scrollbar-hide::-webkit-scrollbar-thumb {
             background-color: transparent;
         }
+
         .scrollbar-hide:hover::-webkit-scrollbar-thumb {
             background-color: rgba(0, 0, 0, 0.2);
         }
+
         html {
-            overflow-y: scroll; 
+            overflow-y: scroll;
         }
-        .font-playfair { font-family: 'Playfair Display', serif; }
+
+        .font-playfair {
+            font-family: 'Playfair Display', serif;
+        }
     </style>
 </head>
 
@@ -109,42 +121,31 @@
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
                                     viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                        d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
                                 </svg>
-                                History
-                            </a>
-                            <form method="POST" action="/logout" class="w-full">
-                                @csrf
-                                <button type="submit"
-                                    class="flex items-center gap-2 py-2 px-2 text-black hover:bg-[#662f28] hover:text-white hover:rounded transition-all duration-200 w-full text-left">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
-                                        viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-                                    </svg>
-                                    Logout
-                                </button>
-                            </form>
-                        </div>
+                                Logout
+                            </button>
+                        </form>
                     </div>
                 </div>
+            </div>
             @else
-                <button onclick="openModal()"
-                    class="order-1 lg:order-2 bg-[#262626] bg-opacity-90 shadow-md border-white border-2 text-white px-6 md:px-8 py-2 md:py-3 rounded-full font-bold hover:scale-105 transition-transform duration-200">
-                    LOGIN
-                </button>
+            <button onclick="openModal()"
+                class="order-1 lg:order-2 bg-[#262626] bg-opacity-90 shadow-md border-white border-2 text-white px-6 md:px-8 py-2 md:py-3 rounded-full font-bold hover:scale-105 transition-transform duration-200">
+                LOGIN
+            </button>
             @endif
         </div>
     </header>
 
     <!-- Member Info Modal -->
     @if (session('user') && $member)
-        <div id="memberInfoModal"
-            class="fixed hidden inset-0 z-50 bg-black bg-opacity-50 backdrop-blur-sm items-center justify-center p-2 sm:p-4">
+    <div id="memberInfoModal"
+        class="fixed hidden inset-0 z-50 bg-black bg-opacity-50 backdrop-blur-sm items-center justify-center p-2 sm:p-4">
 
-            <div class="relative w-full max-w-sm sm:max-w-2xl bg-white rounded-xl sm:rounded-2xl shadow-2xl overflow-hidden">
-                <div class="flex flex-col sm:flex-row">
-                        
+        <div class="relative w-full max-w-sm sm:max-w-2xl bg-white rounded-xl sm:rounded-2xl shadow-2xl overflow-hidden">
+            <div class="flex flex-col sm:flex-row">
+
                 <div class="w-full sm:w-1/2 bg-cover bg-center h-32 sm:h-auto sm:min-h-[300px] relative"
                     style="background-image: url('{{ asset('images/login.png') }}');">
                     <div class="absolute inset-0 bg-black bg-opacity-40 flex flex-col items-center justify-center text-center">
@@ -153,70 +154,70 @@
                     </div>
                 </div>
 
-                    <div class="w-full sm:w-1/2 p-6">
-                        <h2 class="text-xl font-bold text-gray-800 mb-6 text-center">Member Card</h2>
-                            
-                        <div class="text-center mb-4">
-                            <img src="{{ $member->foto_profil ? asset('storage/' . $member->foto_profil) : asset('images/user-icon.png') }}"
-                                alt="Profile Picture"
-                                class="w-20 h-20 rounded-full mx-auto object-cover shadow-lg">
-                        </div>
+                <div class="w-full sm:w-1/2 p-6">
+                    <h2 class="text-xl font-bold text-gray-800 mb-6 text-center">Member Card</h2>
 
-                        <div class="space-y-4">
-                            <div class="relative">
-                                <div class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
-                                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
-                                    </svg>
-                                </div>
-                                <div class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg bg-gray-50 text-gray-700 text-sm">
-                                    {{ $member->nama_member }}
-                                </div>
-                            </div>
-
-                            <div class="relative">
-                                <div class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
-                                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                                        <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"></path>
-                                        <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"></path>
-                                    </svg>
-                                </div>
-                                <div class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg bg-gray-50 text-gray-700 text-sm">
-                                    {{ $member->email_member }}
-                                </div>
-                            </div>
-
-                            <div class="relative">
-                                <div class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
-                                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                                        <path d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3zM3.31 9.397L5 10.12v4.102a8.969 8.969 0 00-1.05-.174 1 1 0 01-.89-.89 11.115 11.115 0 01.25-3.762zM9.3 16.573A9.026 9.026 0 007 14.935v-3.957l1.818.78a3 3 0 002.364 0l5.508-2.361a11.026 11.026 0 01.25 3.762 1 1 0 01-.89.89 8.968 8.968 0 00-5.75 2.524 9.026 9.026 0 00-.3.04z"></path>
-                                    </svg>
-                                </div>
-                                <div class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg bg-gray-50 text-gray-700 text-sm">
-                                    @php
-                                    $latestTransaction = $member->transactions()->latest('created_at')->first();
-                                    @endphp
-                                    {{ $latestTransaction ? $latestTransaction->nama_kelas : 'Belum ada kelas' }}
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="mt-8 flex justify-end">
-                            <button
-                                type="button"
-                                onclick="window.print()"
-                                class="px-4 py-2 bg-blue-600 text-white text-sm font-semibold rounded-lg shadow-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition ease-in-out duration-150 flex items-center gap-2">
-                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M5 4v3H4a2 2 0 00-2 2v3a2 2 0 002 2h1v2a2 2 0 002 2h6a2 2 0 002-2v-2h1a2 2 0 002-2V9a2 2 0 00-2-2h-1V4a2 2 0 00-2-2H7a2 2 0 00-2 2zm8 0H7v3h6V4zM5 14H4v-2h1v2zm1 0v2h6v-2H6zm9 0v-2h1v2h-1z" clip-rule="evenodd"></path>
-                                </svg>
-                                Print
-                            </button>
-                        </div>
-
+                    <div class="text-center mb-4">
+                        <img src="{{ $member->foto_profil ? asset('storage/' . $member->foto_profil) : asset('images/user-icon.png') }}"
+                            alt="Profile Picture"
+                            class="w-20 h-20 rounded-full mx-auto object-cover shadow-lg">
                     </div>
+
+                    <div class="space-y-4">
+                        <div class="relative">
+                            <div class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
+                                </svg>
+                            </div>
+                            <div class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg bg-gray-50 text-gray-700 text-sm">
+                                {{ $member->nama_member }}
+                            </div>
+                        </div>
+
+                        <div class="relative">
+                            <div class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"></path>
+                                    <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"></path>
+                                </svg>
+                            </div>
+                            <div class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg bg-gray-50 text-gray-700 text-sm">
+                                {{ $member->email_member }}
+                            </div>
+                        </div>
+
+                        <div class="relative">
+                            <div class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3zM3.31 9.397L5 10.12v4.102a8.969 8.969 0 00-1.05-.174 1 1 0 01-.89-.89 11.115 11.115 0 01.25-3.762zM9.3 16.573A9.026 9.026 0 007 14.935v-3.957l1.818.78a3 3 0 002.364 0l5.508-2.361a11.026 11.026 0 01.25 3.762 1 1 0 01-.89.89 8.968 8.968 0 00-5.75 2.524 9.026 9.026 0 00-.3.04z"></path>
+                                </svg>
+                            </div>
+                            <div class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg bg-gray-50 text-gray-700 text-sm">
+                                @php
+                                $latestTransaction = $member->transactions()->latest('created_at')->first();
+                                @endphp
+                                {{ $latestTransaction ? $latestTransaction->nama_kelas : 'Belum ada kelas' }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-8 flex justify-end">
+                        <button
+                            type="button"
+                            onclick="window.print()"
+                            class="px-4 py-2 bg-blue-600 text-white text-sm font-semibold rounded-lg shadow-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition ease-in-out duration-150 flex items-center gap-2">
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M5 4v3H4a2 2 0 00-2 2v3a2 2 0 002 2h1v2a2 2 0 002 2h6a2 2 0 002-2v-2h1a2 2 0 002-2V9a2 2 0 00-2-2h-1V4a2 2 0 00-2-2H7a2 2 0 00-2 2zm8 0H7v3h6V4zM5 14H4v-2h1v2zm1 0v2h6v-2H6zm9 0v-2h1v2h-1z" clip-rule="evenodd"></path>
+                            </svg>
+                            Print
+                        </button>
+                    </div>
+
                 </div>
             </div>
         </div>
+    </div>
     @endif
 
     <!-- Mobile Navigation Menu -->

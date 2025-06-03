@@ -16,7 +16,7 @@
                 <table class="w-full">
                     <thead>
                         <tr class="bg-gray-800 text-white">
-                            <th colspan="2" class="text-left p-4 font-semibold">Informasi Gallery</th>
+                            <th colspan="2" class="text-left p-4 font-semibold">Information Gallery</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -59,7 +59,7 @@
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-gray-400 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                                         </svg> <br>
-                                        <label for="gambar" class="cursor-pointer mt-2 bg-gray-100 hover:bg-gray-200 text-gray-800 py-2 px-4 rounded-md text-sm font-medium transition duration-150 ease-in-out" id="uploadButton">
+                                        <label for="gambar" required class="cursor-pointer mt-2 bg-gray-100 hover:bg-gray-200 text-gray-800 py-2 px-4 rounded-md text-sm font-medium transition duration-150 ease-in-out" id="uploadButton">
                                             Pilih Gambar
                                             <input type="file" id="gambar" name="gambar" class="hidden" accept="image/*">
                                         </label>
@@ -104,10 +104,10 @@
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
                     </svg>
-                    Kembali
+                    Back
                 </a>
                 <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-0 focus:ring-offset-2 transition-transform duration-200">
-                    Perbarui
+                    Update
                 </button>
             </div>
         </form>
@@ -116,7 +116,7 @@
 
 <!-- Script for image preview -->
 <script>
-    // Form validation dengan AJAX support
+    // Form validation dengan AJAX support - FIXED VERSION
     document.getElementById('editGalleryForm').addEventListener('submit', function(e) {
         e.preventDefault();
 
@@ -167,15 +167,18 @@
                                 }
                             });
                         } else if (data.success) {
-                            // Success - redirect to index page
+                            // SUCCESS CASE - Store success message and redirect
+                            sessionStorage.setItem('gallery_update_success', data.message || 'Gallery berhasil diperbarui.');
                             window.location.href = "{{ route('admin-buns.gallery') }}";
                         } else {
                             // Fallback for other JSON responses - assume success
+                            sessionStorage.setItem('gallery_update_success', 'Gallery berhasil diperbarui.');
                             window.location.href = "{{ route('admin-buns.gallery') }}";
                         }
                     });
                 } else {
                     // Non-JSON response (e.g. HTML redirect) - assume success
+                    sessionStorage.setItem('gallery_update_success', 'Gallery berhasil diperbarui.');
                     window.location.href = "{{ route('admin-buns.gallery') }}";
                     return null;
                 }
@@ -187,57 +190,11 @@
                     submitButton.disabled = false;
                     submitButton.innerText = 'Perbarui';
                 }
+
+                // Show error message
+                alert('Terjadi kesalahan saat memperbarui data. Silakan coba lagi.');
             });
     });
-
-    // Preview gambar yang baru dipilih
-    document.getElementById('gambar').addEventListener('change', function(e) {
-        const fileInput = e.target;
-        const fileName = fileInput.files[0] ? fileInput.files[0].name : '';
-
-        // Hide current image and upload area
-        document.getElementById('currentImageContainer').classList.add('hidden');
-        document.getElementById('uploadArea').classList.add('hidden');
-        document.getElementById('changeImageButtonContainer').classList.add('hidden');
-
-        // Reset remove_image field as we're adding a new image
-        document.getElementById('remove_image').value = '0';
-
-        // Preview gambar baru
-        if (fileInput.files && fileInput.files[0]) {
-            const reader = new FileReader();
-
-            reader.onload = function(e) {
-                const preview = document.getElementById('imagePreview');
-                preview.src = e.target.result;
-                document.getElementById('new-file-name').textContent = fileName;
-                document.getElementById('imagePreviewContainer').classList.remove('hidden');
-            }
-
-            reader.readAsDataURL(fileInput.files[0]);
-        }
-    });
-
-    // Fungsi untuk menghapus gambar baru yang dipilih
-    function removeImage() {
-        // Reset file input
-        document.getElementById('gambar').value = '';
-
-        // Hide preview and show upload area
-        document.getElementById('imagePreviewContainer').classList.add('hidden');
-        document.getElementById('uploadArea').classList.remove('hidden');
-    }
-
-    // Fungsi untuk menghapus gambar yang sudah ada
-    function removeCurrentImage() {
-        // Hide current image and show upload area
-        document.getElementById('currentImageContainer').classList.add('hidden');
-        document.getElementById('changeImageButtonContainer').classList.add('hidden');
-        document.getElementById('uploadArea').classList.remove('hidden');
-
-        // Set hidden input to mark image for deletion
-        document.getElementById('remove_image').value = '1';
-    }
 </script>
 
 <!-- Tailwind CSS styles -->

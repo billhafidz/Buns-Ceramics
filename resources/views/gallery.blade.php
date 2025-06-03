@@ -51,12 +51,13 @@
         .font-playfair {
             font-family: 'Playfair Display', serif;
         }
+
     </style>
 </head>
 
 <body class="min-h-screen bg-cover bg-center">
     <!-- Navbar -->
-    <header class="flex justify-between items-center py-6 px-6 md:px-20 bg-[#262626] fixed top-0 left-0 w-full z-50">
+    <header class="flex justify-between items-center py-6 px-6 md:px-20 bg-[#212529] fixed top-0 left-0 w-full z-50">
         <a href="{{ route('index') }}" class="text-4xl font-black tracking-wider text-white logo
         cursor-pointer hover:opacity-80 transition-opacity">
             BUNS
@@ -128,6 +129,7 @@
                         </form>
                     </div>
                 </div>
+
             </div>
             @else
             <button onclick="openModal()"
@@ -216,12 +218,17 @@
 
                 </div>
             </div>
+            @else
+            <button onclick="openModal()" class="order-1 lg:order-2 bg-[#212529] bg-opacity-90 shadow-md border-white border-2 text-white px-6 md:px-8 py-2 md:py-3 rounded-full font-bold hover:scale-105 transition-transform duration-200">
+                LOGIN
+            </button>
+            @endif
         </div>
     </div>
     @endif
 
     <!-- Mobile Navigation Menu -->
-    <div id="mobileMenu" class="fixed top-0 left-0 w-full h-screen bg-[#262626] z-40 transform -translate-x-full pt-24 px-8">
+    <div id="mobileMenu" class="fixed top-0 left-0 w-full h-screen bg-[#212529] z-40 transform -translate-x-full pt-24 px-8">
         <nav class="flex flex-col space-y-6">
             <a href="{{ route('index') }}" class="nav-item font-bold text-xl text-white py-2 border-b border-gray-700">HOME</a>
             <a href="{{ route('class') }}" class="nav-item font-bold text-xl text-white py-2 border-b border-gray-700">CLASS</a>
@@ -231,7 +238,7 @@
             @if(!session('user'))
             <button
                 onclick="openModal(); toggleMobileMenu();"
-                class="mt-4 bg-[#262626] bg-opacity-90 shadow-md border-white border-2 text-white px-8 py-3 rounded-full font-bold hover:bg-gradient-to-r hover:from-[#212529] hover:to-[#3a4148] transition-all duration-300">
+                class="mt-4 bg-[#212529] bg-opacity-90 shadow-md border-white border-2 text-white px-8 py-3 rounded-full font-bold hover:bg-gradient-to-r hover:from-[#212529] hover:to-[#3a4148] transition-all duration-300">
                 LOGIN
             </button>
             @endif
@@ -402,40 +409,30 @@
     </div>
 
     <!-- Login/Register Modal -->
-    <div id="authModal"
-        class="fixed hidden inset-0 z-50 bg-black bg-opacity-50 backdrop-blur-sm items-center justify-center">
+    <div id="authModal" class="fixed hidden inset-0 z-50 bg-black bg-opacity-50 backdrop-blur-sm items-center justify-center">
         <div class="relative w-full max-w-2xl mx-auto bg-white rounded-xl overflow-hidden shadow-xl">
             <!-- Modal Close Button -->
-            <button
-                class="absolute top-4 right-4 z-50 text-[#262626] hover:text-[#7D3E35] hover:bg-gray-200 rounded-full p-1 transition-colors duration-200"
-                onclick="closeModal()">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                    stroke="currentColor">
+            <button class="absolute top-4 right-4 z-50 text-gray-800 hover:text-[#7D3E35] hover:bg-gray-200 rounded-full p-1 transition-colors duration-200" onclick="closeModal()">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                 </svg>
             </button>
 
             <!-- Back button for Register view -->
-            <button id="backButton"
-                class="absolute top-3 left-3 z-50 text-[#262626] hover:text-[#7D3E35] hover:bg-gray-200 rounded-full p-1 transition-colors duration-200 hidden"
-                onclick="showLogin()">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                    stroke="currentColor">
+            <button id="backButton" class="absolute top-3 left-3 z-50 text-gray-800 hover:text-[#7D3E35] hover:bg-gray-200 rounded-full p-1 transition-colors duration-200 hidden" onclick="showLogin()">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
                 </svg>
             </button>
 
             <!-- Login Panel -->
-            <div id="loginPanel"
-                class="flex flex-col sm:flex-row min-h-[330px] opacity-100 transition-opacity duration-500">
+            <div id="loginPanel" class="flex flex-col sm:flex-row min-h-[330px] opacity-100 transition-opacity duration-500">
                 <!-- Left Side - Image with Text -->
-                <div class="bg-cover bg-center w-full sm:w-1/2 flex items-center justify-center text-white p-4 sm:p-6"
-                    style="background-image: url('images/login.png');">
+                <div class="bg-cover bg-center w-full sm:w-1/2 flex items-center justify-center text-white p-4 sm:p-6" style="background-image: url('images/login.png');">
                     <div class="bg-black bg-opacity-40 p-4 rounded">
                         <h3 class="text-xl mb-2">Hello...</h3>
                         <p class="text-sm">Enter your personal details and start journey with us</p>
-                        <button onclick="showRegister()"
-                            class="mt-4 border border-white text-white px-6 py-2 rounded-full text-sm hover:bg-white hover:text-gray-800 transition-all">
+                        <button onclick="showRegister()" class="mt-4 border border-white text-white px-6 py-2 rounded-full text-sm hover:bg-white hover:text-gray-800 transition-all">
                             Sign up
                         </button>
                     </div>
@@ -449,43 +446,26 @@
                         @csrf
                         <div class="flex border rounded-lg overflow-hidden">
                             <div class="bg-gray-100 p-3 flex items-center justify-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500"
-                                    viewBox="0 0 20 20" fill="currentColor">
-                                    <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
-                                        clip-rule="evenodd" />
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
                                 </svg>
                             </div>
-                            <input type="text" id="loginUsername" name="username" placeholder="Username"
-                                class="flex-1 p-2 outline-none" required>
+                            <input type="text" id="loginUsername" name="username" placeholder="Username" class="flex-1 p-2 outline-none" required>
                         </div>
 
                         <div class="flex border rounded-lg overflow-hidden">
                             <div class="bg-gray-100 p-3 flex items-center justify-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500"
-                                    viewBox="0 0 20 20" fill="currentColor">
-                                    <path fill-rule="evenodd"
-                                        d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
-                                        clip-rule="evenodd" />
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd" />
                                 </svg>
                             </div>
-                            <input type="password" name="password" placeholder="Password"
-                                class="flex-1 p-2 outline-none" required>
+                            <input type="password" name="password" placeholder="Password" class="flex-1 p-2 outline-none" required>
                         </div>
 
-                        <button type="submit"
-                            class="w-full bg-[#262626] text-white py-2 rounded-lg hover:bg-opacity-90 transition-all">
+                        <button type="submit" class="w-full bg-gray-800 text-white py-2 rounded-lg hover:bg-gray-700 transition-all">
                             Login
                         </button>
-
-                        {{-- Link lupa password --}}
-                        <div class="text-center">
-                            <a href="{{ route('password.request') }}"
-                                class="text-sm text-gray-500 hover:text-gray-800 underline transition-all">
-                                Lupa Password?
-                            </a>
-                        </div>
                     </form>
-
 
                     <!-- Mobile Only Sign Up Link -->
                     <div class="sm:hidden mt-4 text-center">
@@ -497,7 +477,7 @@
                 </div>
             </div>
 
-            <!-- Register Panel -->
+            <!-- Register Panel (Hidden by Default) -->
             <div id="registerPanel" class="flex hidden flex-col sm:flex-row">
                 <!-- Left Side - Register Form -->
                 <div class="w-full sm:w-1/2 p-4 sm:p-6">
@@ -507,43 +487,33 @@
                         @csrf
                         <div class="flex border rounded-lg overflow-hidden">
                             <div class="bg-gray-100 p-3 flex items-center justify-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500"
-                                    viewBox="0 0 20 20" fill="currentColor">
-                                    <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
-                                        clip-rule="evenodd" />
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
                                 </svg>
                             </div>
-                            <input type="text" id="registerUsername" name="username" placeholder="Username"
-                                class="flex-1 p-2 outline-none" required>
+                            <input type="text" id="registerUsername" name="username" placeholder="Username" class="flex-1 p-2 outline-none" required>
                         </div>
 
                         <div class="flex border rounded-lg overflow-hidden">
                             <div class="bg-gray-100 p-3 flex items-center justify-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500"
-                                    viewBox="0 0 20 20" fill="currentColor">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500" viewBox="0 0 20 20" fill="currentColor">
                                     <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
                                     <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
                                 </svg>
                             </div>
-                            <input type="email" name="email" placeholder="Email" class="flex-1 p-2 outline-none"
-                                required>
+                            <input type="email" name="email" placeholder="Email" class="flex-1 p-2 outline-none" required>
                         </div>
 
                         <div class="flex border rounded-lg overflow-hidden">
                             <div class="bg-gray-100 p-3 flex items-center justify-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500"
-                                    viewBox="0 0 20 20" fill="currentColor">
-                                    <path fill-rule="evenodd"
-                                        d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
-                                        clip-rule="evenodd" />
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd" />
                                 </svg>
                             </div>
-                            <input type="password" name="password" placeholder="Password"
-                                class="flex-1 p-2 outline-none" required>
+                            <input type="password" name="password" placeholder="Password" class="flex-1 p-2 outline-none" required>
                         </div>
 
-                        <button type="submit"
-                            class="w-full bg-[#262626] text-white py-2 rounded-lg hover:bg-opacity-90 transition-all">
+                        <button type="submit" class="w-full bg-gray-800 text-white py-2 rounded-lg hover:bg-gray-700 transition-all">
                             Sign up
                         </button>
                     </form>
@@ -558,13 +528,11 @@
                 </div>
 
                 <!-- Right Side - Image with Text -->
-                <div class="bg-cover bg-center w-full sm:w-1/2 flex items-center justify-center text-white p-4 sm:p-6"
-                    style="background-image: url('images/login.png');">
+                <div class="bg-cover bg-center w-full sm:w-1/2 flex items-center justify-center text-white p-4 sm:p-6" style="background-image: url('images/login.png');">
                     <div class="bg-black bg-opacity-40 p-4 rounded">
                         <h3 class="text-xl mb-2">Hello...</h3>
                         <p class="text-sm">Let's start the journey</p>
-                        <button onclick="showLogin()"
-                            class="mt-4 border border-white text-white px-6 py-2 rounded-full text-sm hover:bg-white hover:text-gray-800 transition-all">
+                        <button onclick="showLogin()" class="mt-4 border border-white text-white px-6 py-2 rounded-full text-sm hover:bg-white hover:text-gray-800 transition-all">
                             Sign in
                         </button>
                     </div>
@@ -574,7 +542,50 @@
     </div>
 
     <!-- Footer -->
-    <x-footer />
+    <footer class="bg-[#212529] text-white py-16">
+        <div class="container mx-auto px-4 md:px-20">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+
+                <div>
+                    <a href="#" class="block mb-4 hover:text-red-400">About us</a>
+                    <a href="{{ route('class') }}" class="block mb-4 hover:text-red-400">Class</a>
+                    <a href="#" class="block mb-4 hover:text-red-400">Testimoni</a>
+                </div>
+
+                <div>
+                    <a href="{{ route('index') }}" class="block mb-4 hover:text-red-400">Home</a>
+                    <a href="{{ route('class') }}" class="block mb-4 hover:text-red-400">Class</a>
+                    <a href="{{ route('gallery') }}" class="block mb-4 hover:text-red-400">Gallery</a>
+                    <a href="{{ route('contact') }}" class="block mb-4 hover:text-red-400">Contact</a>
+                </div>
+
+                <div>
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="flex-shrink-0 w-6">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-red-400">
+                                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                                <circle cx="12" cy="12" r="4"></circle>
+                            </svg>
+                        </div>
+                        <span class="text-lg">buns.ceramics</span>
+                    </div>
+                    <div class="flex items-start gap-3">
+                        <div class="flex-shrink-0 w-6 pt-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-red-400">
+                                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                                <circle cx="12" cy="10" r="3"></circle>
+                            </svg>
+                        </div>
+                        <div class="text-base">Gg. Babakan Asih Dalam, Babakan Asih, Kec. Bojongloa Kaler, Kota Bandung, Jawa Barat</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center border-t border-gray-700 pt-8">
+                <p>Copyright © 2025 Buns ceramics. All Rights Reserved</p>
+            </div>
+        </div>
+    </footer>
 
     <script>
         // Modal for login and registration
@@ -670,21 +681,6 @@
             if (hamburgerBtn && mobileMenu && mobileMenuOverlay) {
                 hamburgerBtn.addEventListener('click', toggleMobileMenu);
                 mobileMenuOverlay.addEventListener('click', toggleMobileMenu);
-            }
-        });
-
-        function showMemberInfo() {
-            document.getElementById('memberInfoModal').classList.remove('hidden');
-            document.getElementById('memberInfoModal').classList.add('flex');
-        }
-
-        function closeMemberInfo() {
-            document.getElementById('memberInfoModal').classList.add('hidden');
-            document.getElementById('memberInfoModal').classList.remove('flex');
-        }
-        document.getElementById('memberInfoModal').addEventListener('click', function(event) {
-            if (event.target === this) {
-                closeMemberInfo();
             }
         });
     </script>

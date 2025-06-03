@@ -4,8 +4,11 @@
 
 <section id="gallery" class="bg-light py-5">
     <div class="container">
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <h2 style="font-size: 1.8rem; color: #333; font-weight: 600; padding-left: 600px">Kelola Gallery</h2>
+        <!-- Header Section with Title -->
+        <div class="header-section mb-5">
+            <h2 class="page-title">
+                Manage Gallery
+            </h2>
         </div>
 
         <!-- Success Alert -->
@@ -23,95 +26,121 @@
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
         @endif
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+        <!-- Action Bar - Button Add & Search -->
+        <div class="action-bar mb-4">
+            <div class="action-left">
+                <button class="btn-add-modern" id="openModalButton">
+                    <div class="btn-content">
+                        <i class="fas fa-plus-circle"></i>
+                        <span>Add Gallery</span>
+                    </div>
+                    <div class="btn-shine"></div>
+                </button>
+            </div>
 
-        <!-- Button to trigger modal with JavaScript -->
-        <div class="d-flex justify-content-end mb-4">
-            <form action="{{ route('admin-buns.gallery') }}" method="GET" style="display: flex;">
-                <input type="text" id="searchInput" name="search" class="form-control" value="{{ request('search') }}" placeholder="Cari gallery..." style="width: 1320px; margin-right: 5px;" />
-                <button type="submit" class="btn btn-primary" style="background: #343a40; color: white;">Cari</button>
-            </form>
-
-            <button class="btn btn-primary" id="openModalButton" style="background-color: #007bff;margin-top: 10px; border: none; padding: 10px 20px; font-size: 1rem; color: white; border-radius: 5px;">
-                + Tambah Gallery
-            </button>
-        </div>
-    </div>
-
-    <!-- Modal -->
-    <div class="modal" id="createGalleryModal">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header" style="background-color: #333; color: white; border-radius: 10px 10px 0 0; padding: 20px 30px;">
-                    <h5 class="modal-title">Tambah Gallery</h5>
-                </div>
-                <form method="POST" action="{{ route('admin-buns.gallery.store') }}" enctype="multipart/form-data" id="galleryForm">
-                    @csrf
-                    <div class="modal-body" style="background-color: #f8f9fa; padding: 30px; border-radius: 0 0 10px 10px; box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);">
-                        <div class="mb-3">
-                            <label for="nama" class="form-label" style="font-weight: bold; color: #333;">
-                                Nama Member <span class="required-asterisk">*</span>
-                            </label>
-                            <select class="form-select" id="nama" name="nama" style="border: 1px solid #ccc; border-radius: 8px; padding: 10px 12px; width: 620px;">
-                                <option value="" disabled selected>Pilih Nama Member</option>
-                                @foreach ($members as $member)
-                                <option value="{{ $member->nama_member }}">{{ $member->nama_member }}</option>
-                                @endforeach
-                            </select>
-                            <div class="invalid-feedback" id="nama-error">
-                                @if($errors->has('nama'))
-                                {{ $errors->first('nama') }}
-                                @endif
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="jenis" class="form-label" style="font-weight: bold; color: #333;">
-                                Jenis <span class="required-asterisk">*</span>
-                            </label>
-                            <select class="form-select" id="jenis" name="jenis" style="border: 1px solid #ccc; border-radius: 8px; padding: 10px 12px; width: 620px;">
-                                <option value="" disabled selected>Pilih Jenis</option>
-                                <option value="gelas">Gelas</option>
-                                <option value="mangkuk">Mangkuk</option>
-                                <option value="piring">Piring</option>
-                            </select>
-                            <div class="invalid-feedback" id="jenis-error">
-                                @if($errors->has('jenis'))
-                                {{ $errors->first('jenis') }}
-                                @endif
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="gambar" class="form-label" style="font-weight: bold; color: #333;">
-                                Gambar <span class="required-asterisk">*</span>
-                            </label>
-                            <div class="image-upload-wrapper" style="display: flex; align-items: center;">
-                                <div class="image-preview" id="imagePreview" style="flex: 1;">
-                                    <div class="placeholder" style="text-align: left; padding: 10px;">
-                                        <i class="fas fa-cloud-upload-alt" style="font-size: 2rem; color: #007bff;"></i>
-                                        <p style="color: #333; margin-left: 10px;"><b>Pilih gambar</b></p>
-                                    </div>
-                                    <img src="" alt="Preview" id="previewImg" style="display: none; max-width: 100%; height: auto; object-fit: cover;">
-                                </div>
-                                <input type="file" class="form-control" id="gambar" name="gambar" accept="image/*" onchange="previewImage(this)" style="border: 1px solid #ccc; border-radius: 8px; padding: 10px 12px;">
-                            </div>
-                            <div class="invalid-feedback" id="gambar-error">
-                                @if($errors->has('gambar'))
-                                {{ $errors->first('gambar') }}
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="modal-footer" style="border-top: none; justify-content: space-between; padding: 20px; background-color: #f8f9fa;">
-                            <button type="button" class="btn btn-danger" id="closeModalButton" style="background-color: #dc3545; color: white; border: none; padding: 10px 20px; font-size: 1rem; border-radius: 5px;">
-                                Close
+            <div class="action-right">
+                <form action="{{ route('admin-buns.gallery') }}" method="GET" class="search-form-modern">
+                    <div class="search-container">
+                        <div class="search-input-wrapper">
+                            <i class="fas fa-search search-icon"></i>
+                            <input
+                                type="text"
+                                id="searchInput"
+                                name="search"
+                                class="search-input"
+                                value="{{ request('search') }}"
+                                placeholder="Search galleries by name or type..."
+                                autocomplete="off" />
+                            @if(request('search'))
+                            <button type="button" class="clear-search" onclick="clearSearch()">
+                                <i class="fas fa-times"></i>
                             </button>
-                            <button type="submit" class="btn btn-success" style="background-color: #28a745; color: white; border: none; padding: 10px 20px; font-size: 1rem; border-radius: 5px;">
-                                Submit
-                            </button>
+                            @endif
                         </div>
+                        <button type="submit" class="search-btn">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
                 </form>
             </div>
         </div>
-    </div>
+
+        <!-- Modal -->
+        <div class="modal" id="createGalleryModal">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header" style="background-color: #333; color: white; border-radius: 10px 10px 0 0; padding: 20px 30px;">
+                        <h5 class="modal-title">Tambah Gallery</h5>
+                    </div>
+                    <form method="POST" action="{{ route('admin-buns.gallery.store') }}" enctype="multipart/form-data" id="galleryForm">
+                        @csrf
+                        <div class="modal-body" style="background-color: #f8f9fa; padding: 30px; border-radius: 0 0 10px 10px; box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);">
+                            <div class="mb-3">
+                                <label for="nama" class="form-label" style="font-weight: bold; color: #333;">
+                                    Nama Member <span class="required-asterisk">*</span>
+                                </label>
+                                <select class="form-select" id="nama" name="nama" style="border: 1px solid #ccc; border-radius: 8px; padding: 10px 12px; width: 620px;">
+                                    <option value="" disabled selected>Pilih Nama Member</option>
+                                    @foreach ($members as $member)
+                                    <option value="{{ $member->nama_member }}">{{ $member->nama_member }}</option>
+                                    @endforeach
+                                </select>
+                                <div class="invalid-feedback" id="nama-error">
+                                    @if($errors->has('nama'))
+                                    {{ $errors->first('nama') }}
+                                    @endif
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="jenis" class="form-label" style="font-weight: bold; color: #333;">
+                                    Jenis <span class="required-asterisk">*</span>
+                                </label>
+                                <select class="form-select" id="jenis" name="jenis" style="border: 1px solid #ccc; border-radius: 8px; padding: 10px 12px; width: 620px;">
+                                    <option value="" disabled selected>Pilih Jenis</option>
+                                    <option value="gelas">Gelas</option>
+                                    <option value="mangkuk">Mangkuk</option>
+                                    <option value="piring">Piring</option>
+                                </select>
+                                <div class="invalid-feedback" id="jenis-error">
+                                    @if($errors->has('jenis'))
+                                    {{ $errors->first('jenis') }}
+                                    @endif
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="gambar" class="form-label" style="font-weight: bold; color: #333;">
+                                    Gambar <span class="required-asterisk">*</span>
+                                </label>
+                                <div class="image-upload-wrapper" style="display: flex; align-items: center;">
+                                    <div class="image-preview" id="imagePreview" style="flex: 1;">
+                                        <div class="placeholder" style="text-align: left; padding: 10px;">
+                                            <i class="fas fa-cloud-upload-alt" style="font-size: 2rem; color: #007bff;"></i>
+                                            <p style="color: #333; margin-left: 10px;"><b>Pilih gambar</b></p>
+                                        </div>
+                                        <img src="" alt="Preview" id="previewImg" style="display: none; max-width: 100%; height: auto; object-fit: cover;">
+                                    </div>
+                                    <input type="file" class="form-control" id="gambar" name="gambar" accept="image/*" onchange="previewImage(this)" style="border: 1px solid #ccc; border-radius: 8px; padding: 10px 12px;">
+                                </div>
+                                <div class="invalid-feedback" id="gambar-error">
+                                    @if($errors->has('gambar'))
+                                    {{ $errors->first('gambar') }}
+                                    @endif
+                                </div>
+                            </div>
+
+                            <div class="modal-footer" style="border-top: none; justify-content: space-between; padding: 20px; background-color: #f8f9fa;">
+                                <button type="button" class="btn btn-danger" id="closeModalButton" style="background-color: #dc3545; color: white; border: none; padding: 10px 20px; font-size: 1rem; border-radius: 5px;">
+                                    Close
+                                </button>
+                                <button type="submit" class="btn btn-success" style="background-color: #28a745; color: white; border: none; padding: 10px 20px; font-size: 1rem; border-radius: 5px;">
+                                    Submit
+                                </button>
+                            </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- Modal Konfirmasi Delete -->
@@ -139,10 +168,13 @@
 
     <!-- Gallery List -->
     <div class="gallery-container mt-4">
+
         <div class="table-responsive">
             <table class="table custom-table">
+
                 <thead>
                     <tr>
+
                         <th>#</th>
                         <th>Nama</th>
                         <th>Jenis</th>
@@ -168,13 +200,13 @@
                         <td>
                             <div class="action-buttons">
                                 <a href="{{ route('admin-buns.gallery.edit', $item->id) }}" class="btn-action edit-btn">
-                                    <i class="fas fa-edit"></i> Edit
+                                    <i class="fas fa-edit"></i>
                                 </a>
                                 <form action="{{ route('admin-buns.gallery.delete', $item->id) }}" method="POST" class="delete-form">
                                     @csrf
                                     @method('DELETE')
                                     <button type="button" class="btn-action delete-btn">
-                                        <i class="fas fa-trash"></i> Delete
+                                        <i class="fas fa-trash"></i>
                                     </button>
                                 </form>
                             </div>
@@ -237,6 +269,316 @@
 
     * {
         margin-bottom: 0;
+    }
+
+    .header-section {
+        text-align: center;
+        margin-bottom: 2.5rem;
+        position: relative;
+    }
+
+    .page-title {
+        font-size: 2.2rem;
+        font-weight: 700;
+        color: #343a40;
+        margin-bottom: 0.5rem;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+    }
+
+
+
+    .page-subtitle {
+        font-size: 1.1rem;
+        color: #6c757d;
+        font-weight: 400;
+        margin: 0;
+        opacity: 0.8;
+    }
+
+    .action-bar {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 2rem;
+        margin-bottom: 2rem;
+        flex-wrap: wrap;
+    }
+
+    .action-left {
+        display: flex;
+        align-items: center;
+        flex: 0 0 auto;
+    }
+
+    .action-right {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        min-width: 0;
+        flex: 0 0 auto;
+        max-width: 400px;
+        margin-left: auto;
+    }
+
+    .btn-add-modern {
+        position: relative;
+        background: #007bff;
+        border: none;
+        border-radius: 8px;
+        padding: 0;
+        cursor: pointer;
+        overflow: hidden;
+        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        box-shadow: 0 4px 15px rgba(38, 38, 38, 0.3);
+        min-width: 150px;
+        height: 38px;
+    }
+
+    .btn-add-modern:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(38, 38, 38, 0.4);
+        background: #0056b3;
+    }
+
+    .btn-add-modern:active {
+        transform: translateY(-1px);
+        transition: transform 0.1s ease;
+    }
+
+    .btn-content {
+        position: relative;
+        z-index: 2;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        padding: 12px 20px;
+        color: white;
+        font-weight: 600;
+        font-size: 0.9rem;
+        letter-spacing: 0.3px;
+        height: 100%;
+    }
+
+    .btn-content i {
+        font-size: 1rem;
+        transition: transform 0.3s ease;
+    }
+
+    .btn-add-modern:hover .btn-content i {
+        transform: rotate(90deg);
+    }
+
+    .btn-shine {
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+        transition: left 0.6s ease;
+        z-index: 1;
+    }
+
+    .btn-add-modern:hover .btn-shine {
+        left: 100%;
+    }
+
+
+    .search-form-modern {
+        width: 350px;
+        max-width: 350px;
+    }
+
+    .search-container {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        width: 100%;
+    }
+
+    .search-input-wrapper {
+        position: relative;
+        flex: 1;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+        border: 1px solid #e2e8f0;
+        transition: all 0.3s ease;
+        overflow: hidden;
+        height: 36px;
+    }
+
+    .search-input-wrapper:focus-within {
+        border-color: black;
+        box-shadow: 0 2px 8px rgba(0, 123, 255, 0.15);
+        transform: none;
+    }
+
+    .search-icon {
+        position: absolute;
+        left: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #6b7280;
+        font-size: 0.875rem;
+        z-index: 2;
+        transition: all 0.3s ease;
+    }
+
+    .search-input-wrapper:focus-within .search-icon {
+        color: #343a40;
+        transform: translateY(-50%);
+    }
+
+    .search-input {
+        width: 100%;
+        border: none;
+        outline: none;
+        padding: 8px 12px 8px 32px;
+        font-size: 0.8rem;
+        background: transparent;
+        color: #343a40;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+    }
+
+    .search-input::placeholder {
+        color: #9ca3af;
+        font-weight: 400;
+        font-size: 0.8rem;
+        transition: all 0.3s ease;
+    }
+
+    .search-input:focus::placeholder {
+        color: #d1d5db;
+    }
+
+    .clear-search {
+        position: absolute;
+        right: 36px;
+        top: 50%;
+        transform: translateY(-50%);
+        background: #f3f4f6;
+        border: none;
+        border-radius: 50%;
+        width: 18px;
+        height: 18px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        color: #6b7280;
+        font-size: 0.6rem;
+    }
+
+    .clear-search:hover {
+        background: #e5e7eb;
+        color: #374151;
+        transform: translateY(-50%) scale(1.1);
+    }
+
+    .search-btn {
+        background: #343a40;
+        border: none;
+        border-radius: 8px;
+        padding: 8px 12px;
+        color: white;
+        font-weight: 600;
+        font-size: 0.8rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 6px rgba(0, 123, 255, 0.3);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 36px;
+        height: 36px;
+    }
+
+    .search-btn:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 3px 8px rgba(0, 123, 255, 0.4);
+        background: #0056b3;
+    }
+
+    .search-btn:active {
+        transform: translateY(0);
+    }
+
+    .search-btn i {
+        font-size: 0.75rem;
+        transition: transform 0.3s ease;
+    }
+
+    .search-btn:hover i {
+        transform: scale(1.05);
+    }
+
+    @media (max-width: 768px) {
+        .action-bar {
+            flex-direction: column;
+            gap: 1rem;
+            align-items: stretch;
+        }
+
+        .action-left,
+        .action-right {
+            width: 100%;
+            max-width: none;
+            margin-left: 0;
+            justify-content: center;
+        }
+
+        .search-form-modern {
+            width: 100%;
+            max-width: 100%;
+        }
+
+        .btn-add-modern {
+            width: 100%;
+            min-width: auto;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .search-form-modern {
+            width: 100%;
+        }
+
+        .search-container {
+            gap: 6px;
+        }
+
+        .search-input {
+            padding: 8px 10px 8px 30px;
+            font-size: 0.75rem;
+        }
+
+        .search-input::placeholder {
+            font-size: 0.75rem;
+        }
+
+        .clear-search {
+            right: 32px;
+            width: 16px;
+            height: 16px;
+            font-size: 0.5rem;
+        }
+
+        .search-btn {
+            padding: 8px 10px;
+            min-width: 32px;
+            height: 32px;
+        }
+
+        .search-btn i {
+            font-size: 0.7rem;
+        }
     }
 
     .alert-success {
@@ -539,6 +881,8 @@
     table.custom-table thead {
         background-color: #343a40;
         color: white;
+        border-radius: 12px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
 
     table.custom-table th,
@@ -556,12 +900,67 @@
         background-color: #f8f9fa;
     }
 
-    .badge-jenis {
-        padding: 5px 10px;
+    @media (max-width: 768px) {
+        table.custom-table {
+            font-size: 0.9rem;
+        }
 
-        font-size: 0.8rem;
-        color: white;
+        table.custom-table th,
+        table.custom-table td {
+            padding: 8px;
+        }
+
+        table.custom-table .action-buttons {
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        table.custom-table .edit-btn,
+        table.custom-table .delete-btn {
+            width: 100%;
+            justify-content: center;
+        }
     }
+
+    @media (max-width: 576px) {
+        table.custom-table {
+            font-size: 0.8rem;
+        }
+
+        table.custom-table th,
+        table.custom-table td {
+            padding: 5px;
+        }
+
+        table.custom-table .img-container {
+            width: 60px;
+            height: 60px;
+        }
+
+        table.custom-table .img-preview {
+            width: 60px;
+            height: 60px;
+        }
+
+        table.custom-table .badge-jenis {
+            font-size: 0.7rem;
+            padding: 4px 8px;
+        }
+    }
+
+
+
+    .badge-jenis {
+        padding: 6px 12px;
+        font-size: 0.9rem;
+        color: white;
+        border-radius: 10px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        font-weight: 400;
+    }
+
 
     .badge-jenis.gelas {
         background-color: #28a745;
@@ -729,7 +1128,6 @@
         min-height: auto !important;
     }
 
-    /* Animasi shake untuk modal konfirmasi delete */
     @keyframes shake {
 
         0%,
@@ -759,6 +1157,14 @@
 </style>
 
 <script>
+    // Clear search function
+    function clearSearch() {
+        const searchInput = document.getElementById('searchInput');
+        const form = document.querySelector('.search-form-modern');
+        searchInput.value = '';
+        form.submit();
+    }
+
     // Modal functions
     document.addEventListener('DOMContentLoaded', function() {
         const modal = document.getElementById('createGalleryModal');
@@ -964,10 +1370,15 @@
         }
     }
 
-    // Form validation with AJAX
+
     document.addEventListener('DOMContentLoaded', function() {
         const galleryForm = document.getElementById('galleryForm');
+        const deleteConfirmModal = document.getElementById('deleteConfirmModal');
+        const cancelDeleteBtn = document.getElementById('cancelDeleteBtn');
+        const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
+        let activeDeleteForm = null;
 
+        // Form validation with AJAX
         if (galleryForm) {
             galleryForm.addEventListener('submit', function(e) {
                 e.preventDefault();
@@ -978,7 +1389,6 @@
                     el.classList.remove('show');
                 });
 
-                // Validate fields before submission
                 let isValid = true;
 
                 // Validate nama
@@ -1022,7 +1432,6 @@
                     }
                 } else {
                     const file = gambarField.files[0];
-                    // Validate file type
                     const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'];
                     if (!allowedTypes.includes(file.type)) {
                         isValid = false;
@@ -1054,10 +1463,9 @@
 
                 // Create form data for submission
                 const formData = new FormData(this);
-                const form = this;
 
                 // Disable submit button during submission
-                const submitButton = form.querySelector('button[type="submit"]');
+                const submitButton = this.querySelector('button[type="submit"]');
                 if (submitButton) {
                     submitButton.disabled = true;
                     submitButton.classList.add('btn-loading');
@@ -1065,7 +1473,7 @@
                 }
 
                 // Send AJAX request
-                fetch(form.action, {
+                fetch(this.action, {
                         method: 'POST',
                         body: formData,
                         headers: {
@@ -1079,14 +1487,12 @@
                         if (contentType && contentType.includes('application/json')) {
                             return response.json().then(data => {
                                 if (data.errors) {
-                                    // Enable submit button again
                                     if (submitButton) {
                                         submitButton.disabled = false;
                                         submitButton.classList.remove('btn-loading');
                                         submitButton.innerHTML = 'Submit';
                                     }
 
-                                    // Display validation errors
                                     Object.keys(data.errors).forEach(field => {
                                         const errorElement = document.getElementById(field + '-error');
                                         if (errorElement) {
@@ -1094,20 +1500,10 @@
                                             errorElement.classList.add('show');
                                         }
 
-                                        // Add visual feedback to the field
                                         const inputField = document.getElementById(field);
                                         if (inputField) {
                                             inputField.classList.add('is-invalid');
                                             inputField.classList.remove('is-valid');
-
-                                            // For file input, also update the wrapper
-                                            if (field === 'gambar') {
-                                                const wrapper = inputField.closest('.image-upload-wrapper');
-                                                if (wrapper) {
-                                                    wrapper.classList.add('is-invalid');
-                                                    wrapper.classList.remove('is-valid');
-                                                }
-                                            }
                                         }
                                     });
                                 } else if (data.success) {
@@ -1123,19 +1519,18 @@
                                         alertContainer.className = 'alert alert-success alert-dismissible fade show mb-4';
                                         alertContainer.setAttribute('role', 'alert');
                                         alertContainer.innerHTML = `
-                                            ${data.message || 'Data gallery berhasil ditambahkan!'}
-                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                                        `;
+                                    ${data.message || 'Data gallery berhasil ditambahkan!'}
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                `;
 
-                                        // Tambahkan alert ke container
                                         const container = document.querySelector('.container');
                                         const existingAlert = document.querySelector('.alert');
                                         if (existingAlert) {
                                             existingAlert.remove();
                                         }
-                                        container.insertBefore(alertContainer, document.querySelector('.d-flex.justify-content-end.mb-4'));
+                                        container.insertBefore(alertContainer, document.querySelector('.action-bar'));
 
-                                        // Refresh tabel data tanpa reload penuh
+                                        // Refresh the table data without full reload
                                         fetch(window.location.href)
                                             .then(response => response.text())
                                             .then(html => {
@@ -1156,13 +1551,10 @@
                                             }, 150);
                                         }, 5000);
                                     }, 300);
-                                } else {
-                                    // Reload halaman pada kasus lain
-                                    window.location.href = window.location.href;
                                 }
                             });
                         } else {
-                            // Jika bukan JSON response, redirect ke halaman yang sama
+                            // Handle error
                             window.location.href = window.location.href;
                             return null;
                         }
@@ -1170,31 +1562,26 @@
                     .catch(error => {
                         console.error('Error:', error);
 
-                        // Enable submit button again
                         if (submitButton) {
                             submitButton.disabled = false;
                             submitButton.classList.remove('btn-loading');
                             submitButton.innerHTML = 'Submit';
                         }
 
-                        // Tampilkan pesan error
                         const alertContainer = document.createElement('div');
                         alertContainer.className = 'alert alert-danger alert-dismissible fade show mb-4';
                         alertContainer.setAttribute('role', 'alert');
                         alertContainer.innerHTML = `
-                            Terjadi kesalahan saat mengirim data. Silakan coba lagi.
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                        `;
-
-                        // Tambahkan alert ke container
+                    Terjadi kesalahan saat mengirim data. Silakan coba lagi.
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                `;
                         const container = document.querySelector('.container');
                         const existingAlert = document.querySelector('.alert');
                         if (existingAlert) {
                             existingAlert.remove();
                         }
-                        container.insertBefore(alertContainer, document.querySelector('.d-flex.justify-content-end.mb-4'));
+                        container.insertBefore(alertContainer, document.querySelector('.action-bar'));
 
-                        // Auto-dismiss alert after 5 seconds
                         setTimeout(() => {
                             alertContainer.classList.remove('show');
                             setTimeout(() => {
@@ -1202,7 +1589,6 @@
                             }, 150);
                         }, 5000);
 
-                        // Tutup modal
                         const modal = document.getElementById('createGalleryModal');
                         modal.classList.remove('show');
                         setTimeout(() => {
@@ -1215,7 +1601,6 @@
         // Real-time validation
         const namaSelect = document.getElementById('nama');
         const jenisSelect = document.getElementById('jenis');
-
         if (namaSelect) {
             namaSelect.addEventListener('change', function() {
                 validateField(this);
@@ -1250,16 +1635,10 @@
         // Function to bind delete button events after DOM updates
         function bindDeleteButtons() {
             const deleteButtons = document.querySelectorAll('.delete-btn');
-            const deleteConfirmModal = document.getElementById('deleteConfirmModal');
-
             deleteButtons.forEach(function(button) {
                 button.addEventListener('click', function(e) {
                     e.preventDefault();
-
-                    // Store reference to the active delete form
                     activeDeleteForm = this.closest('.delete-form');
-
-                    // Show delete confirmation modal
                     deleteConfirmModal.style.display = 'block';
                     setTimeout(() => {
                         deleteConfirmModal.classList.add('show');
@@ -1270,5 +1649,68 @@
 
         // Initial binding of delete buttons
         bindDeleteButtons();
+
+        // Delete confirmation modal actions
+        cancelDeleteBtn.addEventListener('click', function() {
+            deleteConfirmModal.classList.remove('show');
+            setTimeout(() => {
+                deleteConfirmModal.style.display = 'none';
+                activeDeleteForm = null;
+            }, 300);
+        });
+
+        confirmDeleteBtn.addEventListener('click', function() {
+            if (activeDeleteForm) {
+                activeDeleteForm.submit();
+            }
+            deleteConfirmModal.classList.remove('show');
+            setTimeout(() => {
+                deleteConfirmModal.style.display = 'none';
+            }, 300);
+        });
+
+        // Enhanced search functionality
+        const searchInput = document.getElementById('searchInput');
+        if (searchInput) {
+            searchInput.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    document.querySelector('.search-form-modern').submit();
+                }
+            });
+        }
+    });
+    document.addEventListener('DOMContentLoaded', function() {
+        // Check for success message from sessionStorage (from edit page)
+        const successMessage = sessionStorage.getItem('gallery_update_success');
+        if (successMessage) {
+            // Remove from sessionStorage
+            sessionStorage.removeItem('gallery_update_success');
+
+            // Create and show success alert
+            const alertContainer = document.createElement('div');
+            alertContainer.className = 'alert alert-success alert-dismissible fade show mb-4';
+            alertContainer.setAttribute('role', 'alert');
+            alertContainer.innerHTML = `
+            ${successMessage}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        `;
+
+            const container = document.querySelector('.container');
+            const existingAlert = document.querySelector('.alert');
+            if (existingAlert) {
+                existingAlert.remove();
+            }
+            // Ubah dari .header-section ke .action-bar agar konsisten
+            container.insertBefore(alertContainer, document.querySelector('.action-bar'));
+
+            // Auto-dismiss alert after 5 seconds
+            setTimeout(() => {
+                alertContainer.classList.remove('show');
+                setTimeout(() => {
+                    alertContainer.remove();
+                }, 150);
+            }, 5000);
+        }
     });
 </script>

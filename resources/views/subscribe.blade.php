@@ -74,31 +74,33 @@
     <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
         <h2 class="text-2xl font-semibold text-center text-gray-700 mb-6">Subscription Form</h2>
 
-        <form method="POST" action="{{ route('subscribe.store') }}">
-            @csrf
-            
-            <div class="mb-4">
-                <label for="nama_member" class="block text-sm font-medium text-gray-700">Name</label>
-                <input type="text" name="nama_member" id="nama_member" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500" required>
-            </div>
+    <form method="POST" action="{{ route('subscribe.store') }}">
+    @csrf
 
-            
-            <div class="mb-4">
-                <label for="alamat_member" class="block text-sm font-medium text-gray-700">Address</label>
-                <input type="text" name="alamat_member" id="alamat_member" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500" required>
-            </div>
+    <input type="hidden" name="email_member" value="{{ $data['email_member'] }}">
+    <div class="mb-4">
+        <label for="nama_member" class="block text-sm font-medium text-gray-700">Name</label>
+        <input type="text" name="nama_member" id="nama_member"
+            value="{{ old('nama_member', $data['nama_member']) }}"
+            class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+            required>
+    </div>
 
-            
-            <div class="mb-4">
-                <label for="no_telp" class="block text-sm font-medium text-gray-700">Phone</label>
-                <input type="text" name="no_telp" id="no_telp" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500" required>
-            </div>
+    <div class="mb-4">
+        <label for="alamat_member" class="block text-sm font-medium text-gray-700">Address</label>
+        <input type="text" name="alamat_member" id="alamat_member"
+            value="{{ old('alamat_member', $data['alamat_member']) }}"
+            class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+            required>
+    </div>
 
-            <div class="mb-4">
-                <label for="email_member" class="block text-sm font-medium text-gray-700">Email</label>
-                <input type="email" name="email_member" id="email_member" value="{{ $data['email_member'] }}" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 bg-gray-100 focus:outline-none focus:ring-blue-500 focus:border-blue-500" readonly>
-            </div>
-
+    <div class="mb-4">
+        <label for="no_telp" class="block text-sm font-medium text-gray-700">Phone</label>
+        <input type="text" name="no_telp" id="no_telp"
+            value="{{ old('no_telp', $data['no_telp']) }}"
+            class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+            required>
+    </div>
             <div class="mb-4">
                 
                 <input type="hidden" name="id_account" id="id_account" value="{{ $data['id_account'] }}" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500" >

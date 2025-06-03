@@ -151,12 +151,19 @@
 
         <div class="hidden lg:block">
             @if (session('user'))
-                <div class="user-menu-wrapper flex items-center gap-3 order-1 lg:order-2">
-                    <span
-                        class="role-badge bg-[#212529] bg-opacity-90 shadow-md border-white border-2 text-white px-4 py-1 rounded-full font-bold text-sm cursor-pointer"
-                        onclick="showMemberInfo()">
-                        {{ strtoupper(session('user')->role) }}
-                    </span>
+        @php
+            $role = strtolower(session('user')->role ?? '');
+            $canClick = $role === 'member';
+        @endphp
+        <div class="user-menu-wrapper flex items-center gap-3 order-1 lg:order-2">
+            <span
+                class="role-badge bg-[#212529] bg-opacity-90 shadow-md border-white border-2 text-white px-4 py-1 rounded-full font-bold text-sm {{ $canClick ? 'cursor-pointer' : 'cursor-default' }}"
+                @if ($canClick)
+                    onclick="showMemberInfo()"
+                @endif
+            >
+                {{ strtoupper(session('user')->role ?? '') }}
+            </span>
                     <div class="user-menu group relative">
                         <img src="{{ $member && $member->foto_profil ? asset('storage/' . $member->foto_profil) : asset('images/user-icon.png') }}"
                             alt="User Icon"

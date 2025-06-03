@@ -150,14 +150,17 @@ class PaymentController extends Controller
     try {
         DB::beginTransaction();
 
-        $member = Member::create([
-            'nama_member' => $subscriptionData['nama_member'],
-            'alamat_member' => $subscriptionData['alamat_member'],
-            'no_telp' => $subscriptionData['no_telp'],
-            'email_member' => $subscriptionData['email_member'],
-            'id_account' => $subscriptionData['id_account'],
-            'day' => $subscriptionData['pilihan_hari'],
-        ]);
+        $member = Member::updateOrCreate(
+    ['id_account' => $subscriptionData['id_account']], 
+    [ 
+        'nama_member' => $subscriptionData['nama_member'],
+        'alamat_member' => $subscriptionData['alamat_member'],
+        'no_telp' => $subscriptionData['no_telp'],
+        'email_member' => $subscriptionData['email_member'],
+        'day' => $subscriptionData['pilihan_hari'],
+    ]
+);
+
 
         $paymentMethod = 'SABAR BANG, KALO GA KEUBAH WEBHOOKNYA YANG MASALAH BUKAN KODENYA';
 

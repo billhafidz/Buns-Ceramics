@@ -76,12 +76,19 @@
 
         <div class="hidden lg:block">
             @if (session('user'))
-                <div class="user-menu-wrapper flex items-center gap-3 order-1 lg:order-2">
-                    <span
-                        class="role-badge bg-[#212529] bg-opacity-90 shadow-md border-white border-2 text-white px-4 py-1 rounded-full font-bold text-sm cursor-pointer"
-                        onclick="showMemberInfo()">
-                        {{ strtoupper(session('user')->role) }}
-                    </span>
+        @php
+            $role = strtolower(session('user')->role ?? '');
+            $canClick = $role === 'member';
+        @endphp
+        <div class="user-menu-wrapper flex items-center gap-3 order-1 lg:order-2">
+            <span
+                class="role-badge bg-[#212529] bg-opacity-90 shadow-md border-white border-2 text-white px-4 py-1 rounded-full font-bold text-sm {{ $canClick ? 'cursor-pointer' : 'cursor-default' }}"
+                @if ($canClick)
+                    onclick="showMemberInfo()"
+                @endif
+            >
+                {{ strtoupper(session('user')->role ?? '') }}
+            </span>
                     <div class="user-menu group relative">
                         <img src="{{ $member && $member->foto_profil ? asset('storage/' . $member->foto_profil) : asset('images/user-icon.png') }}"
                             alt="User Icon"
@@ -332,7 +339,7 @@
                         class="w-full h-full object-cover">
                     @else
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
                     </svg>
                     @endif
                 </div>

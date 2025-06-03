@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\accountRequest;
+use App\Http\Requests\AccountRequest;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Member;
 
@@ -21,12 +21,11 @@ class AccountController extends Controller
         return view('account.profile', compact('member'));
     }
 
-    public function updateProfile(accountRequest $request)
+    public function updateProfile(AccountRequest $request)
     {
         $accountId = session('user')->id_account;
         $member = Member::where('id_account', $accountId)->firstOrFail();
 
-        // Handle profile image deletion
         if ($request->delete_image == '1') {
             if ($member->foto_profil) {
                 Storage::delete('public/' . $member->foto_profil);
@@ -34,7 +33,6 @@ class AccountController extends Controller
             }
         }
 
-        // Handle new profile image upload
         if ($request->hasFile('foto_profil')) {
             if ($member->foto_profil) {
                 Storage::delete('public/' . $member->foto_profil);

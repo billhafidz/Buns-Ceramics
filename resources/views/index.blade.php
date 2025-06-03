@@ -12,9 +12,11 @@
         body {
             font-family: 'Montserrat', sans-serif;
         }
+
         .logo {
             font-family: 'Nico Moji', cursive, sans-serif;
         }
+
         .nav-center {
             font-family: 'Itim', cursive, sans-serif;
             position: absolute;
@@ -22,20 +24,25 @@
             transform: translateX(-50%);
             letter-spacing: 2px;
         }
+
         .nav-item,
         .role-badge {
             font-family: 'Itim', cursive, sans-serif;
             letter-spacing: 2px;
         }
+
         .auth-panel {
             transition: transform 0.5s ease;
         }
+
         .modal-box.shifted .left-panel {
             transform: translateX(100%);
         }
+
         .modal-box.shifted .right-panel {
             transform: translateX(-100%);
         }
+
         .hero-banner {
             position: relative;
             display: flex;
@@ -46,6 +53,7 @@
             background-size: cover;
             background-position: center;
         }
+
         .hero-banner::before {
             content: '';
             position: absolute;
@@ -56,6 +64,7 @@
             background-color: rgba(0, 0, 0, 0.4);
             transition: all 0.3s ease;
         }
+
         .hero-content {
             font-family: 'Nico Moji', cursive, sans-serif;
             letter-spacing: 10px;
@@ -65,6 +74,7 @@
             text-align: center;
             width: 100%;
         }
+
         .buns-text {
             position: absolute;
             top: 50%;
@@ -76,20 +86,25 @@
             font-size: 4.5rem;
             line-height: 1;
         }
+
         .hero-banner:hover .buns-text {
             opacity: 1;
         }
+
         .hero-banner:hover::before {
             background-color: rgba(0, 0, 0, 0.6);
         }
+
         #mobileMenu {
             overflow-y: auto;
             -webkit-overflow-scrolling: touch;
             transition: transform 0.3s ease-in-out, backdrop-filter 0.3s ease-in-out;
         }
+
         #menuToggle {
             z-index: 60;
         }
+
         @keyframes fade-in-up {
             0% {
                 opacity: 0;
@@ -101,22 +116,61 @@
                 transform: translateY(0);
             }
         }
+
         .animate-fade-in-up {
             animation: fade-in-up 0.4s ease-out;
         }
+
         .scrollbar-hide::-webkit-scrollbar {
             width: 0.5rem;
         }
+
         .scrollbar-hide::-webkit-scrollbar-thumb {
             background-color: transparent;
         }
+
         .scrollbar-hide:hover::-webkit-scrollbar-thumb {
             background-color: rgba(0, 0, 0, 0.2);
         }
+
         html {
-            overflow-y: scroll; 
+            overflow-y: scroll;
         }
-        .font-playfair { font-family: 'Playfair Display', serif; }
+
+        .font-playfair {
+            font-family: 'Playfair Display', serif;
+        }
+
+        @media print {
+
+            /* Hapus semua elemen selain kartu */
+            body * {
+                visibility: hidden !important;
+            }
+
+            #memberCardArea,
+            #memberCardArea * {
+                visibility: visible !important;
+            }
+
+            #memberCardArea {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                padding: 0;
+                margin: 0;
+            }
+
+            @page {
+                margin: 0;
+                size: auto;
+            }
+
+            .no-print {
+                display: none !important;
+            }
+        }
     </style>
 </head>
 
@@ -151,75 +205,74 @@
 
         <div class="hidden lg:block">
             @if (session('user'))
-        @php
+            @php
             $role = strtolower(session('user')->role ?? '');
             $canClick = $role === 'member';
-        @endphp
-        <div class="user-menu-wrapper flex items-center gap-3 order-1 lg:order-2">
-            <span
-                class="role-badge bg-[#212529] bg-opacity-90 shadow-md border-white border-2 text-white px-4 py-1 rounded-full font-bold text-sm {{ $canClick ? 'cursor-pointer' : 'cursor-default' }}"
-                @if ($canClick)
+            @endphp
+            <div class="user-menu-wrapper flex items-center gap-3 order-1 lg:order-2">
+                <span
+                    class="role-badge bg-[#212529] bg-opacity-90 shadow-md border-white border-2 text-white px-4 py-1 rounded-full font-bold text-sm {{ $canClick ? 'cursor-pointer' : 'cursor-default' }}"
+                    @if ($canClick)
                     onclick="showMemberInfo()"
-                @endif
-            >
-                {{ strtoupper(session('user')->role ?? '') }}
-            </span>
-                    <div class="user-menu group relative">
-                        <img src="{{ $member && $member->foto_profil ? asset('storage/' . $member->foto_profil) : asset('images/user-icon.png') }}"
-                            alt="User Icon"
-                            class="w-10 h-10 rounded-full cursor-pointer border-2 border-white object-cover transition duration-300 transform group-hover:scale-110">
-                        <div
-                            class="dropdown-content hidden absolute top-12 right-0 bg-white rounded-lg py-3 px-4 min-w-[220px] shadow-lg group-hover:block">
-                            <a href="{{ route('account.profile') }}"
-                                class="flex items-center gap-2 py-2 px-2 text-black hover:bg-[#662f28] hover:text-white hover:rounded transition-all duration-200">
+                    @endif>
+                    {{ strtoupper(session('user')->role ?? '') }}
+                </span>
+                <div class="user-menu group relative">
+                    <img src="{{ $member && $member->foto_profil ? asset('storage/' . $member->foto_profil) : asset('images/user-icon.png') }}"
+                        alt="User Icon"
+                        class="w-10 h-10 rounded-full cursor-pointer border-2 border-white object-cover transition duration-300 transform group-hover:scale-110">
+                    <div
+                        class="dropdown-content hidden absolute top-12 right-0 bg-white rounded-lg py-3 px-4 min-w-[220px] shadow-lg group-hover:block">
+                        <a href="{{ route('account.profile') }}"
+                            class="flex items-center gap-2 py-2 px-2 text-black hover:bg-[#662f28] hover:text-white hover:rounded transition-all duration-200">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                            </svg>
+                            Profile
+                        </a>
+                        <a href="#"
+                            class="flex items-center gap-2 py-2 px-2 text-black hover:bg-[#662f28] hover:text-white hover:rounded transition-all duration-200">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            History
+                        </a>
+                        <form method="POST" action="/logout" class="w-full">
+                            @csrf
+                            <button type="submit"
+                                class="flex items-center gap-2 py-2 px-2 text-black hover:bg-[#662f28] hover:text-white hover:rounded transition-all duration-200 w-full text-left">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
                                     viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                        d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
                                 </svg>
-                                Profile
-                            </a>
-                            <a href="#"
-                                class="flex items-center gap-2 py-2 px-2 text-black hover:bg-[#662f28] hover:text-white hover:rounded transition-all duration-200">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
-                                    viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                </svg>
-                                History
-                            </a>
-                            <form method="POST" action="/logout" class="w-full">
-                                @csrf
-                                <button type="submit"
-                                    class="flex items-center gap-2 py-2 px-2 text-black hover:bg-[#662f28] hover:text-white hover:rounded transition-all duration-200 w-full text-left">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
-                                        viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-                                    </svg>
-                                    Logout
-                                </button>
-                            </form>
-                        </div>
+                                Logout
+                            </button>
+                        </form>
                     </div>
                 </div>
+            </div>
             @else
-                <button onclick="openModal()"
-                    class="order-1 lg:order-2 bg-[#262626] bg-opacity-90 shadow-md border-white border-2 text-white px-6 md:px-8 py-2 md:py-3 rounded-full font-bold hover:scale-105 transition-transform duration-200">
-                    LOGIN
-                </button>
+            <button onclick="openModal()"
+                class="order-1 lg:order-2 bg-[#262626] bg-opacity-90 shadow-md border-white border-2 text-white px-6 md:px-8 py-2 md:py-3 rounded-full font-bold hover:scale-105 transition-transform duration-200">
+                LOGIN
+            </button>
             @endif
         </div>
     </header>
-
     <!-- Member Info Modal -->
     @if (session('user') && $member)
-        <div id="memberInfoModal"
-            class="fixed hidden inset-0 z-50 bg-black bg-opacity-50 backdrop-blur-sm items-center justify-center p-2 sm:p-4">
+    <div id="memberInfoModal"
+        class="fixed hidden inset-0 z-50 bg-black bg-opacity-50 backdrop-blur-sm items-center justify-center p-2 sm:p-4">
 
-            <div class="relative w-full max-w-sm sm:max-w-2xl bg-white rounded-xl sm:rounded-2xl shadow-2xl overflow-hidden">
-                <div class="flex flex-col sm:flex-row">
-                        
+        <div class="relative w-full max-w-sm sm:max-w-2xl bg-white rounded-xl sm:rounded-2xl shadow-2xl overflow-hidden">
+            <div class="flex flex-col sm:flex-row">
+
+                <!-- Left Image Panel -->
                 <div class="w-full sm:w-1/2 bg-cover bg-center h-32 sm:h-auto sm:min-h-[300px] relative"
                     style="background-image: url('{{ asset('images/login.png') }}');">
                     <div class="absolute inset-0 bg-black bg-opacity-40 flex flex-col items-center justify-center text-center">
@@ -228,70 +281,74 @@
                     </div>
                 </div>
 
-                    <div class="w-full sm:w-1/2 p-6">
-                        <h2 class="text-xl font-bold text-gray-800 mb-6 text-center">Member Card</h2>
-                            
-                        <div class="text-center mb-4">
-                            <img src="{{ $member->foto_profil ? asset('storage/' . $member->foto_profil) : asset('images/user-icon.png') }}"
-                                alt="Profile Picture"
-                                class="w-20 h-20 rounded-full mx-auto object-cover shadow-lg">
-                        </div>
+                <!-- Right Member Card Panel -->
+                <div class="w-full sm:w-1/2 p-6" id="memberCardArea">
+                    <h2 class="text-xl font-bold text-gray-800 mb-6 text-center">Member Card</h2>
 
-                        <div class="space-y-4">
-                            <div class="relative">
-                                <div class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
-                                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
-                                    </svg>
-                                </div>
-                                <div class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg bg-gray-50 text-gray-700 text-sm">
-                                    {{ $member->nama_member }}
-                                </div>
-                            </div>
+                    <div class="text-center mb-4">
+                        <img src="{{ $member->foto_profil ? asset('storage/' . $member->foto_profil) : asset('images/user-icon.png') }}"
+                            alt="Profile Picture"
+                            class="w-20 h-20 rounded-full mx-auto object-cover shadow-lg">
+                    </div>
 
-                            <div class="relative">
-                                <div class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
-                                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                                        <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"></path>
-                                        <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"></path>
-                                    </svg>
-                                </div>
-                                <div class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg bg-gray-50 text-gray-700 text-sm">
-                                    {{ $member->email_member }}
-                                </div>
-                            </div>
-
-                            <div class="relative">
-                                <div class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
-                                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                                        <path d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3zM3.31 9.397L5 10.12v4.102a8.969 8.969 0 00-1.05-.174 1 1 0 01-.89-.89 11.115 11.115 0 01.25-3.762zM9.3 16.573A9.026 9.026 0 007 14.935v-3.957l1.818.78a3 3 0 002.364 0l5.508-2.361a11.026 11.026 0 01.25 3.762 1 1 0 01-.89.89 8.968 8.968 0 00-5.75 2.524 9.026 9.026 0 00-.3.04z"></path>
-                                    </svg>
-                                </div>
-                                <div class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg bg-gray-50 text-gray-700 text-sm">
-                                    @php
-                                    $latestTransaction = $member->transactions()->latest('created_at')->first();
-                                    @endphp
-                                    {{ $latestTransaction ? $latestTransaction->nama_kelas : 'Belum ada kelas' }}
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="mt-8 flex justify-end">
-                            <button
-                                type="button"
-                                onclick="window.print()"
-                                class="px-4 py-2 bg-blue-600 text-white text-sm font-semibold rounded-lg shadow-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition ease-in-out duration-150 flex items-center gap-2">
-                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M5 4v3H4a2 2 0 00-2 2v3a2 2 0 002 2h1v2a2 2 0 002 2h6a2 2 0 002-2v-2h1a2 2 0 002-2V9a2 2 0 00-2-2h-1V4a2 2 0 00-2-2H7a2 2 0 00-2 2zm8 0H7v3h6V4zM5 14H4v-2h1v2zm1 0v2h6v-2H6zm9 0v-2h1v2h-1z" clip-rule="evenodd"></path>
+                    <div class="space-y-4">
+                        <!-- Nama Member -->
+                        <div class="relative">
+                            <div class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
                                 </svg>
-                                Print
-                            </button>
+                            </div>
+                            <div class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg bg-gray-50 text-gray-700 text-sm">
+                                {{ $member->nama_member }}
+                            </div>
                         </div>
 
+                        <!-- Email Member -->
+                        <div class="relative">
+                            <div class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"></path>
+                                    <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"></path>
+                                </svg>
+                            </div>
+                            <div class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg bg-gray-50 text-gray-700 text-sm">
+                                {{ $member->email_member }}
+                            </div>
+                        </div>
+
+                        <!-- Kelas Terakhir -->
+                        <div class="relative">
+                            <div class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3zM3.31 9.397L5 10.12v4.102a8.969 8.969 0 00-1.05-.174 1 1 0 01-.89-.89 11.115 11.115 0 01.25-3.762zM9.3 16.573A9.026 9.026 0 007 14.935v-3.957l1.818.78a3 3 0 002.364 0l5.508-2.361a11.026 11.026 0 01.25 3.762 1 1 0 01-.89.89 8.968 8.968 0 00-5.75 2.524 9.026 9.026 0 00-.3.04z"></path>
+                                </svg>
+                            </div>
+                            <div class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg bg-gray-50 text-gray-700 text-sm">
+                                @php
+                                $latestTransaction = $member->transactions()->latest('created_at')->first();
+                                @endphp
+                                {{ $latestTransaction ? $latestTransaction->nama_kelas : 'Belum ada kelas' }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tombol Print -->
+                    <div class="mt-6 flex justify-end no-print">
+                        <button
+                            type="button"
+                            onclick="printMemberCard()"
+                            class="px-4 py-2 bg-blue-600 text-white text-sm font-semibold rounded-lg shadow-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition ease-in-out duration-150 flex items-center gap-2">
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M6 2a2 2 0 00-2 2v4h12V4a2 2 0 00-2-2H6zM4 10v6a2 2 0 002 2h8a2 2 0 002-2v-6H4zm2 2h8v2H6v-2z" clip-rule="evenodd" />
+                            </svg>
+                            Print
+                        </button>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
     @endif
 
     <!-- Mobile Navigation Menu -->
@@ -308,10 +365,10 @@
                 class="nav-item font-bold text-xl text-white py-2 border-b border-gray-700">CONTACT</a>
 
             @if (!session('user'))
-                <button onclick="openModal(); toggleMobileMenu();"
-                    class="mt-4 bg-[#262626] bg-opacity-90 shadow-md border-white border-2 text-white px-6 py-2 rounded-full font-bold hover:bg-gradient-to-r hover:from-[#212529] hover:to-[#3a4148] transition-all duration-300">
-                    LOGIN
-                </button>
+            <button onclick="openModal(); toggleMobileMenu();"
+                class="mt-4 bg-[#262626] bg-opacity-90 shadow-md border-white border-2 text-white px-6 py-2 rounded-full font-bold hover:bg-gradient-to-r hover:from-[#212529] hover:to-[#3a4148] transition-all duration-300">
+                LOGIN
+            </button>
             @endif
         </nav>
     </div>
@@ -344,21 +401,21 @@
 
             <!-- Rekomendasi Class -->
             @foreach ($langganans as $index => $langganan)
-                <div
-                    class="flex flex-wrap {{ $index % 2 == 1 ? 'md:flex-row-reverse' : '' }} items-center mb-12 md:mb-16">
-                    <div class="w-full md:w-1/2 mb-6 md:mb-0">
-                        <img src="{{ asset('storage/langganan_images/' . $langganan->gambar_subs) }}"
-                            alt="{{ $langganan->pilihan_subs }}" class="rounded-lg shadow-lg mx-auto" />
-                    </div>
-                    <div class="w-full md:w-1/2 px-4 md:px-6">
-                        <h3 class="text-2xl md:text-3xl font-bold mb-3 md:mb-4">{{ $langganan->pilihan_subs }}</h3>
-                        <p class="text-base md:text-lg mb-4 md:mb-6">{{ $langganan->penjelasan_subs }}</p>
-                        <button class="bg-[#592727] text-white px-6 md:px-8 py-2 md:py-3 rounded-lg font-bold inline-block hover:bg-[#662f28] transition-all"
-                            data-langganan='@json($langganan)' onclick="showClassDetail({{ $langganan->id_langganan }})">
-                            DETAIL
-                        </button>
-                    </div>
+            <div
+                class="flex flex-wrap {{ $index % 2 == 1 ? 'md:flex-row-reverse' : '' }} items-center mb-12 md:mb-16">
+                <div class="w-full md:w-1/2 mb-6 md:mb-0">
+                    <img src="{{ asset('storage/langganan_images/' . $langganan->gambar_subs) }}"
+                        alt="{{ $langganan->pilihan_subs }}" class="rounded-lg shadow-lg mx-auto" />
                 </div>
+                <div class="w-full md:w-1/2 px-4 md:px-6">
+                    <h3 class="text-2xl md:text-3xl font-bold mb-3 md:mb-4">{{ $langganan->pilihan_subs }}</h3>
+                    <p class="text-base md:text-lg mb-4 md:mb-6">{{ $langganan->penjelasan_subs }}</p>
+                    <button class="bg-[#592727] text-white px-6 md:px-8 py-2 md:py-3 rounded-lg font-bold inline-block hover:bg-[#662f28] transition-all"
+                        data-langganan='@json($langganan)' onclick="showClassDetail({{ $langganan->id_langganan }})">
+                        DETAIL
+                    </button>
+                </div>
+            </div>
             @endforeach
 
             <!-- Detail Modal -->
@@ -395,15 +452,15 @@
                                     <ul id="detailClassBenefits" class="space-y-2"></ul>
                                 </div>
                             </div>
-                             
+
                             <div class="mt-auto pt-4 min-h-[50px]">
                                 <div class="flex justify-center">
                                     @if(session('user'))
                                     <a href="{{ route('subscribe') }}"
-   onclick="return onSubscribeClick()"
-   class="w-full md:w-auto px-8 py-3 bg-[#592727] text-white rounded-lg font-bold hover:bg-[#662f28] transition-colors text-center">
-   Subscribe Now
-</a>
+                                        onclick="return onSubscribeClick()"
+                                        class="w-full md:w-auto px-8 py-3 bg-[#592727] text-white rounded-lg font-bold hover:bg-[#662f28] transition-colors text-center">
+                                        Subscribe Now
+                                    </a>
 
                                     @else
                                     <button onclick="openModal(); closeClassDetail();" class="w-full md:w-auto px-8 py-3 bg-[#592727] text-white rounded-lg font-bold hover:bg-[#662f28] transition-colors">
@@ -718,192 +775,205 @@
         </div>
     </footer>
 
- <script>
-    // Variabel global untuk simpan langganan yg dipilih
-    let selectedLangganan = null;
+    <script>
+        let selectedLangganan = null;
 
-    // Modal for login and registration
-    document.addEventListener('DOMContentLoaded', function() {
-        // Open modal function
-        window.openModal = function() {
-            document.getElementById('authModal').classList.remove('hidden');
-            document.getElementById('authModal').classList.add('flex');
-            showLogin();
-            document.getElementById('loginUsername').focus();
-        };
+        document.addEventListener('DOMContentLoaded', function() {
+            window.openModal = function() {
+                document.getElementById('authModal').classList.remove('hidden');
+                document.getElementById('authModal').classList.add('flex');
+                showLogin();
+                document.getElementById('loginUsername').focus();
+            };
 
-        // Close modal function
-        window.closeModal = function() {
-            document.getElementById('authModal').classList.add('hidden');
-            document.getElementById('authModal').classList.remove('flex');
-        };
+            window.closeModal = function() {
+                document.getElementById('authModal').classList.add('hidden');
+                document.getElementById('authModal').classList.remove('flex');
+            };
 
-        // Show login panel
-        window.showLogin = function() {
-            document.getElementById('loginPanel').classList.remove('hidden');
-            document.getElementById('registerPanel').classList.add('hidden');
-            document.getElementById('backButton').classList.add('hidden');
-            document.getElementById('loginUsername').focus();
-        };
+            window.showLogin = function() {
+                document.getElementById('loginPanel').classList.remove('hidden');
+                document.getElementById('registerPanel').classList.add('hidden');
+                document.getElementById('backButton').classList.add('hidden');
+                document.getElementById('loginUsername').focus();
+            };
 
-        // Show register panel
-        window.showRegister = function() {
-            document.getElementById('loginPanel').classList.add('hidden');
-            document.getElementById('registerPanel').classList.remove('hidden');
-            document.getElementById('backButton').classList.remove('hidden');
-            document.getElementById('registerUsername').focus();
-        };
+            window.showRegister = function() {
+                document.getElementById('loginPanel').classList.add('hidden');
+                document.getElementById('registerPanel').classList.remove('hidden');
+                document.getElementById('backButton').classList.remove('hidden');
+                document.getElementById('registerUsername').focus();
+            };
 
-        // Close modal when clicking outside
-        document.getElementById('authModal').addEventListener('click', function(event) {
-            if (event.target === this) {
-                closeModal();
+            document.getElementById('authModal').addEventListener('click', function(event) {
+                if (event.target === this) {
+                    closeModal();
+                }
+            });
+
+            const userIcon = document.querySelector('.user-menu img');
+            const dropdown = document.querySelector('.dropdown-content');
+
+            if (userIcon && dropdown) {
+                userIcon.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    dropdown.classList.toggle('hidden');
+                });
+
+                document.addEventListener('click', function() {
+                    if (!dropdown.classList.contains('hidden')) {
+                        dropdown.classList.add('hidden');
+                    }
+                });
+            }
+
+            const hamburgerBtn = document.getElementById('hamburgerBtn');
+            const mobileMenu = document.getElementById('mobileMenu');
+            const mobileMenuOverlay = document.getElementById('mobileMenuOverlay');
+
+            function toggleMobileMenu() {
+                hamburgerBtn.classList.toggle('active');
+
+                if (mobileMenu.classList.contains('-translate-x-full')) {
+                    mobileMenu.classList.remove('-translate-x-full');
+                    mobileMenu.classList.add('translate-x-0');
+                    mobileMenuOverlay.classList.remove('hidden');
+                    document.body.classList.add('overflow-hidden');
+                } else {
+                    mobileMenu.classList.remove('translate-x-0');
+                    mobileMenu.classList.add('-translate-x-full');
+                    mobileMenuOverlay.classList.add('hidden');
+                    document.body.classList.remove('overflow-hidden');
+                }
+            }
+
+            window.toggleMobileMenu = toggleMobileMenu;
+
+            if (hamburgerBtn && mobileMenu && mobileMenuOverlay) {
+                hamburgerBtn.addEventListener('click', toggleMobileMenu);
+                mobileMenuOverlay.addEventListener('click', toggleMobileMenu);
             }
         });
 
-        // User dropdown toggle
-        const userIcon = document.querySelector('.user-menu img');
-        const dropdown = document.querySelector('.dropdown-content');
 
-        if (userIcon && dropdown) {
-            userIcon.addEventListener('click', function(e) {
-                e.stopPropagation();
-                dropdown.classList.toggle('hidden');
-            });
+        function showClassDetail(classId) {
+            const classData = getClassData(classId);
 
-            // Close dropdown when clicking elsewhere
-            document.addEventListener('click', function() {
-                if (!dropdown.classList.contains('hidden')) {
-                    dropdown.classList.add('hidden');
+            if (classData) {
+                selectedLangganan = classData;
+
+                const imageElement = document.getElementById('detailClassImage');
+                const placeholderElement = document.getElementById('detailClassImagePlaceholder');
+
+                if (classData.gambar_subs) {
+                    imageElement.src = `/storage/langganan_images/${classData.gambar_subs}`;
+                    imageElement.classList.remove('hidden');
+                    placeholderElement.classList.add('hidden');
+                } else {
+                    imageElement.classList.add('hidden');
+                    placeholderElement.classList.remove('hidden');
                 }
-            });
-        }
 
-        // Mobile menu functionality
-        const hamburgerBtn = document.getElementById('hamburgerBtn');
-        const mobileMenu = document.getElementById('mobileMenu');
-        const mobileMenuOverlay = document.getElementById('mobileMenuOverlay');
+                document.getElementById('detailClassName').textContent = classData.pilihan_subs;
+                document.getElementById('detailClassPrice').textContent = `Rp. ${parseInt(classData.harga_subs).toLocaleString()}`;
+                document.getElementById('detailClassDescription').textContent = classData.penjelasan_subs;
 
-        function toggleMobileMenu() {
-            hamburgerBtn.classList.toggle('active');
+                const benefitsList = document.getElementById('detailClassBenefits');
+                benefitsList.innerHTML = '';
 
-            if (mobileMenu.classList.contains('-translate-x-full')) {
-                mobileMenu.classList.remove('-translate-x-full');
-                mobileMenu.classList.add('translate-x-0');
-                mobileMenuOverlay.classList.remove('hidden');
-                document.body.classList.add('overflow-hidden');
-            } else {
-                mobileMenu.classList.remove('translate-x-0');
-                mobileMenu.classList.add('-translate-x-full');
-                mobileMenuOverlay.classList.add('hidden');
-                document.body.classList.remove('overflow-hidden');
-            }
-        }
-
-        window.toggleMobileMenu = toggleMobileMenu;
-
-        if (hamburgerBtn && mobileMenu && mobileMenuOverlay) {
-            hamburgerBtn.addEventListener('click', toggleMobileMenu);
-            mobileMenuOverlay.addEventListener('click', toggleMobileMenu);
-        }
-    });
-
-
-    // Class Detail Modal Functions
-    function showClassDetail(classId) {
-        const classData = getClassData(classId);
-
-        if (classData) {
-            selectedLangganan = classData;  // **Simpan data yang dipilih ke variabel global**
-
-            const imageElement = document.getElementById('detailClassImage');
-            const placeholderElement = document.getElementById('detailClassImagePlaceholder');
-
-            if (classData.gambar_subs) {
-                imageElement.src = `/storage/langganan_images/${classData.gambar_subs}`;
-                imageElement.classList.remove('hidden');
-                placeholderElement.classList.add('hidden');
-            } else {
-                imageElement.classList.add('hidden');
-                placeholderElement.classList.remove('hidden');
-            }
-
-            document.getElementById('detailClassName').textContent = classData.pilihan_subs;
-            document.getElementById('detailClassPrice').textContent = `Rp. ${parseInt(classData.harga_subs).toLocaleString()}`;
-            document.getElementById('detailClassDescription').textContent = classData.penjelasan_subs;
-
-            const benefitsList = document.getElementById('detailClassBenefits');
-            benefitsList.innerHTML = '';
-
-            try {
-                const benefits = JSON.parse(classData.benefit_subs);
-                benefits.forEach(benefit => {
-                    if (benefit && benefit.trim() !== '') {
-                        const li = document.createElement('li');
-                        li.className = 'flex items-start';
-                        li.innerHTML = `
+                try {
+                    const benefits = JSON.parse(classData.benefit_subs);
+                    benefits.forEach(benefit => {
+                        if (benefit && benefit.trim() !== '') {
+                            const li = document.createElement('li');
+                            li.className = 'flex items-start';
+                            li.innerHTML = `
                             <svg class="h-5 w-5 text-green-500 mt-0.5 mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                             </svg>
                             <span class="text-gray-700">${benefit}</span>
                         `;
-                        benefitsList.appendChild(li);
-                    }
-                });
+                            benefitsList.appendChild(li);
+                        }
+                    });
 
-                if (benefitsList.children.length === 0) {
+                    if (benefitsList.children.length === 0) {
+                        benefitsList.innerHTML = '<li class="text-gray-500">No benefits listed</li>';
+                    }
+                } catch (e) {
                     benefitsList.innerHTML = '<li class="text-gray-500">No benefits listed</li>';
                 }
-            } catch (e) {
-                benefitsList.innerHTML = '<li class="text-gray-500">No benefits listed</li>';
+
+                document.getElementById('classDetailModal').classList.remove('hidden');
+                document.body.classList.add('overflow-hidden');
+            }
+        }
+
+        function closeClassDetail() {
+            document.getElementById('classDetailModal').classList.add('hidden');
+            document.body.classList.remove('overflow-hidden');
+        }
+
+        function getClassData(classId) {
+            const classes = @json($langganans);
+            return classes.find(c => c.id_langganan == classId);
+        }
+
+        document.getElementById('classDetailModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeClassDetail();
+            }
+        });
+
+        function showMemberInfo() {
+            document.getElementById('memberInfoModal').classList.remove('hidden');
+            document.getElementById('memberInfoModal').classList.add('flex');
+        }
+
+        function closeMemberInfo() {
+            document.getElementById('memberInfoModal').classList.add('hidden');
+            document.getElementById('memberInfoModal').classList.remove('flex');
+        }
+        document.getElementById('memberInfoModal').addEventListener('click', function(event) {
+            if (event.target === this) {
+                closeMemberInfo();
+            }
+        });
+
+        function onSubscribeClick() {
+            if (!selectedLangganan) {
+                alert('Pilih kelas terlebih dahulu lewat tombol DETAIL.');
+                return false;
             }
 
-            document.getElementById('classDetailModal').classList.remove('hidden');
-            document.body.classList.add('overflow-hidden');
-        }
-    }
-
-    function closeClassDetail() {
-        document.getElementById('classDetailModal').classList.add('hidden');
-        document.body.classList.remove('overflow-hidden');
-    }
-
-    function getClassData(classId) {
-        const classes = @json($langganans);
-        return classes.find(c => c.id_langganan == classId);
-    }
-
-    document.getElementById('classDetailModal').addEventListener('click', function(e) {
-        if (e.target === this) {
-            closeClassDetail();
-        }
-    });
-
-    function showMemberInfo() {
-        document.getElementById('memberInfoModal').classList.remove('hidden');
-        document.getElementById('memberInfoModal').classList.add('flex');
-    }
-
-    function closeMemberInfo() {
-        document.getElementById('memberInfoModal').classList.add('hidden');
-        document.getElementById('memberInfoModal').classList.remove('flex');
-    }
-    document.getElementById('memberInfoModal').addEventListener('click', function(event) {
-        if (event.target === this) {
-            closeMemberInfo();
-        }
-    });
-
-    function onSubscribeClick() {
-        if (!selectedLangganan) {
-            alert('Pilih kelas terlebih dahulu lewat tombol DETAIL.');
-            return false; 
+            localStorage.setItem('selectedLangganan', JSON.stringify(selectedLangganan));
+            return true;
         }
 
-        localStorage.setItem('selectedLangganan', JSON.stringify(selectedLangganan));
-        return true; 
-    }
-</script>
+
+        function printMemberCard() {
+            const memberCardContent = document.getElementById('memberCardArea').innerHTML;
+
+            const printWindow = window.open('', '', 'width=800,height=600');
+            printWindow.document.write(`
+        <html>
+            <head>
+                <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+                <style>
+                    body {
+                        font-family: sans-serif;
+                        padding: 20px;
+                    }
+                </style>
+            </head>
+            <body onload="window.print(); window.close();">
+                ${memberCardContent}
+            </body>
+        </html>
+    `);
+            printWindow.document.close();
+        }
+    </script>
 
 </body>
 

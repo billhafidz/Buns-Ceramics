@@ -6,11 +6,10 @@
     <title>Subscription Form</title>
     <script src="https://cdn.tailwindcss.com"></script>
 <script>
-    // Pindahkan fungsi ke global supaya bisa dipanggil dari mana saja
     function updateSubscriptionDetails() {
         const selectElement = document.getElementById('langganan_id');
         const selectedOption = selectElement.options[selectElement.selectedIndex];
-        
+        const gambar = selectedOption.getAttribute('data-gambar') || '';
         const langgananId = selectedOption.getAttribute('data-id-langganan');
         const harga = selectedOption.getAttribute('data-harga');
         const penjelasan = selectedOption.getAttribute('data-penjelasan');
@@ -41,6 +40,7 @@
         } else {
             benefitList.innerHTML = '<li class="text-gray-500">Tidak ada benefit tersedia</li>';
         }
+            setSubscriptionImage(gambar);
 
         updatePrice();
     }
@@ -61,6 +61,17 @@
         document.getElementById('harga_display').textContent = `Rp ${finalPrice.toFixed(2)}`;
         document.getElementById('harga_subs').value = finalPrice.toFixed(2);
     }
+
+    function setSubscriptionImage(gambar_subs) {
+    const imgElement = document.getElementById('subscriptionImage');
+    if (gambar_subs) {
+        imgElement.src = `/storage/langganan_images/${gambar_subs}`;
+        imgElement.classList.remove('hidden');
+    } else {
+        imgElement.src = '';
+        imgElement.classList.add('hidden');
+    }
+}
 
     document.addEventListener('DOMContentLoaded', function () {
         document.getElementById('langganan_id').addEventListener('change', updateSubscriptionDetails);
@@ -92,7 +103,7 @@
 
     <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
         <h2 class="text-2xl font-semibold text-center text-gray-700 mb-6">Subscription Form</h2>
-
+<img id="subscriptionImage" src="" alt="Subscription Image" class="w-40 h-40 object-cover rounded-xl shadow-lg mb-4" />
     <form method="POST" action="{{ route('subscribe.store') }}">
     @csrf
 
@@ -135,6 +146,7 @@
                                 data-harga="{{ $langganan->harga_subs }}"
                                 data-penjelasan="{{ $langganan->penjelasan_subs }}"
                                 data-benefits="{{ json_encode($langganan->benefit_subs) }}"
+                                data-gambar="{{ $langganan->gambar_subs }}"
                                 {{ isset($selectedLangganan) && $selectedLangganan->id_langganan == $langganan->id_langganan ? 'selected' : '' }}>
                             {{ $langganan->pilihan_subs }}
                         </option>

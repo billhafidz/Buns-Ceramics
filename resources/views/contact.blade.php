@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,9 +12,11 @@
         body {
             font-family: 'Montserrat', sans-serif;
         }
+
         .logo {
             font-family: 'Nico Moji', cursive, sans-serif;
         }
+
         .nav-center {
             font-family: 'Itim', cursive, sans-serif;
             position: absolute;
@@ -21,25 +24,33 @@
             transform: translateX(-50%);
             letter-spacing: 2px;
         }
-        .nav-item, .role-badge {
+
+        .nav-item,
+        .role-badge {
             font-family: 'Itim', cursive, sans-serif;
             letter-spacing: 2px;
         }
+
         #mobileMenu {
             overflow-y: auto;
             -webkit-overflow-scrolling: touch;
             transition: transform 0.3s ease-in-out, backdrop-filter 0.3s ease-in-out;
         }
+
         #menuToggle {
             z-index: 60;
         }
-        .font-playfair { font-family: 'Playfair Display', serif; }
+
+        .font-playfair {
+            font-family: 'Playfair Display', serif;
+        }
     </style>
 </head>
+
 <body class="min-h-screen bg-cover bg-center">
     <!-- Navbar -->
-     <header class="flex justify-between items-center py-6 px-6 md:px-20 bg-[#262626] fixed top-0 left-0 w-full z-50">
-    {{-- <header class="flex justify-between items-center py-8 px-20 bg-[#212529] bg-opacity-90 shadow-md"> --}}
+    <header class="flex justify-between items-center py-6 px-6 md:px-20 bg-[#262626] fixed top-0 left-0 w-full z-50">
+        {{-- <header class="flex justify-between items-center py-8 px-20 bg-[#212529] bg-opacity-90 shadow-md"> --}}
         <a href="{{ route('index') }}" class="text-4xl font-black tracking-wider text-white logo
         cursor-pointer hover:opacity-80 transition-opacity">
             BUNS
@@ -58,78 +69,77 @@
             <a href="{{ route('gallery') }}" class="font-bold text-lg text-white relative hover:after:content-[''] hover:after:absolute hover:after:-bottom-1 hover:after:left-0 hover:after:w-full hover:after:h-0.5 hover:after:bg-[#7D3E35]">Gallery</a>
             <a href="{{ route('contact') }}" class="font-bold text-lg text-white relative hover:after:content-[''] hover:after:absolute hover:after:-bottom-1 hover:after:left-0 hover:after:w-full hover:after:h-0.5 hover:after:bg-[#7D3E35]">Contact</a>
         </nav>
-        
+
         <div class="hidden lg:block">
             @if (session('user'))
-        @php
+            @php
             $role = strtolower(session('user')->role ?? '');
             $canClick = $role === 'member';
-        @endphp
-        <div class="user-menu-wrapper flex items-center gap-3 order-1 lg:order-2">
-            <span
-                class="role-badge bg-[#212529] bg-opacity-90 shadow-md border-white border-2 text-white px-4 py-1 rounded-full font-bold text-sm {{ $canClick ? 'cursor-pointer' : 'cursor-default' }}"
-                @if ($canClick)
+            @endphp
+            <div class="user-menu-wrapper flex items-center gap-3 order-1 lg:order-2">
+                <span
+                    class="role-badge bg-[#212529] bg-opacity-90 shadow-md border-white border-2 text-white px-4 py-1 rounded-full font-bold text-sm {{ $canClick ? 'cursor-pointer' : 'cursor-default' }}"
+                    @if ($canClick)
                     onclick="showMemberInfo()"
-                @endif
-            >
-                {{ strtoupper(session('user')->role ?? '') }}
-            </span>
-                    <div class="user-menu group relative">
-                        <img src="{{ $member && $member->foto_profil ? asset('storage/' . $member->foto_profil) : asset('images/user-icon.png') }}"
-                            alt="User Icon"
-                            class="w-10 h-10 rounded-full cursor-pointer border-2 border-white object-cover transition duration-300 transform group-hover:scale-110">
-                        <div
-                            class="dropdown-content hidden absolute top-12 right-0 bg-white rounded-lg py-3 px-4 min-w-[220px] shadow-lg group-hover:block">
-                            <a href="{{ route('account.profile') }}"
-                                class="flex items-center gap-2 py-2 px-2 text-black hover:bg-[#662f28] hover:text-white hover:rounded transition-all duration-200">
+                    @endif>
+                    {{ strtoupper(session('user')->role ?? '') }}
+                </span>
+                <div class="user-menu group relative">
+                    <img src="{{ $member && $member->foto_profil ? asset('storage/' . $member->foto_profil) : asset('images/user-icon.png') }}"
+                        alt="User Icon"
+                        class="w-10 h-10 rounded-full cursor-pointer border-2 border-white object-cover transition duration-300 transform group-hover:scale-110">
+                    <div
+                        class="dropdown-content hidden absolute top-12 right-0 bg-white rounded-lg py-3 px-4 min-w-[220px] shadow-lg group-hover:block">
+                        <a href="{{ route('account.profile') }}"
+                            class="flex items-center gap-2 py-2 px-2 text-black hover:bg-[#662f28] hover:text-white hover:rounded transition-all duration-200">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                            </svg>
+                            Profile
+                        </a>
+                        <a href="#"
+                            class="flex items-center gap-2 py-2 px-2 text-black hover:bg-[#662f28] hover:text-white hover:rounded transition-all duration-200">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            History
+                        </a>
+                        <form method="POST" action="/logout" class="w-full">
+                            @csrf
+                            <button type="submit"
+                                class="flex items-center gap-2 py-2 px-2 text-black hover:bg-[#662f28] hover:text-white hover:rounded transition-all duration-200 w-full text-left">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
                                     viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                        d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
                                 </svg>
-                                Profile
-                            </a>
-                            <a href="#"
-                                class="flex items-center gap-2 py-2 px-2 text-black hover:bg-[#662f28] hover:text-white hover:rounded transition-all duration-200">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
-                                    viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                </svg>
-                                History
-                            </a>
-                            <form method="POST" action="/logout" class="w-full">
-                                @csrf
-                                <button type="submit"
-                                    class="flex items-center gap-2 py-2 px-2 text-black hover:bg-[#662f28] hover:text-white hover:rounded transition-all duration-200 w-full text-left">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
-                                        viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-                                    </svg>
-                                    Logout
-                                </button>
-                            </form>
-                        </div>
+                                Logout
+                            </button>
+                        </form>
                     </div>
                 </div>
+            </div>
             @else
-                <button onclick="openModal()"
-                    class="order-1 lg:order-2 bg-[#262626] bg-opacity-90 shadow-md border-white border-2 text-white px-6 md:px-8 py-2 md:py-3 rounded-full font-bold hover:scale-105 transition-transform duration-200">
-                    LOGIN
-                </button>
+            <button onclick="openModal()"
+                class="order-1 lg:order-2 bg-[#262626] bg-opacity-90 shadow-md border-white border-2 text-white px-6 md:px-8 py-2 md:py-3 rounded-full font-bold hover:scale-105 transition-transform duration-200">
+                LOGIN
+            </button>
             @endif
         </div>
     </header>
 
     <!-- Member Info Modal -->
     @if (session('user') && $member)
-        <div id="memberInfoModal"
-            class="fixed hidden inset-0 z-50 bg-black bg-opacity-50 backdrop-blur-sm items-center justify-center p-2 sm:p-4">
+    <div id="memberInfoModal"
+        class="fixed hidden inset-0 z-50 bg-black bg-opacity-50 backdrop-blur-sm items-center justify-center p-2 sm:p-4">
 
-            <div class="relative w-full max-w-sm sm:max-w-2xl bg-white rounded-xl sm:rounded-2xl shadow-2xl overflow-hidden">
-                <div class="flex flex-col sm:flex-row">
-                        
+        <div class="relative w-full max-w-sm sm:max-w-2xl bg-white rounded-xl sm:rounded-2xl shadow-2xl overflow-hidden">
+            <div class="flex flex-col sm:flex-row">
+
                 <div class="w-full sm:w-1/2 bg-cover bg-center h-32 sm:h-auto sm:min-h-[300px] relative"
                     style="background-image: url('{{ asset('images/login.png') }}');">
                     <div class="absolute inset-0 bg-black bg-opacity-40 flex flex-col items-center justify-center text-center">
@@ -138,70 +148,70 @@
                     </div>
                 </div>
 
-                    <div class="w-full sm:w-1/2 p-6">
-                        <h2 class="text-xl font-bold text-gray-800 mb-6 text-center">Member Card</h2>
-                            
-                        <div class="text-center mb-4">
-                            <img src="{{ $member->foto_profil ? asset('storage/' . $member->foto_profil) : asset('images/user-icon.png') }}"
-                                alt="Profile Picture"
-                                class="w-20 h-20 rounded-full mx-auto object-cover shadow-lg">
-                        </div>
+                <div class="w-full sm:w-1/2 p-6">
+                    <h2 class="text-xl font-bold text-gray-800 mb-6 text-center">Member Card</h2>
 
-                        <div class="space-y-4">
-                            <div class="relative">
-                                <div class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
-                                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
-                                    </svg>
-                                </div>
-                                <div class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg bg-gray-50 text-gray-700 text-sm">
-                                    {{ $member->nama_member }}
-                                </div>
-                            </div>
-
-                            <div class="relative">
-                                <div class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
-                                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                                        <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"></path>
-                                        <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"></path>
-                                    </svg>
-                                </div>
-                                <div class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg bg-gray-50 text-gray-700 text-sm">
-                                    {{ $member->email_member }}
-                                </div>
-                            </div>
-
-                            <div class="relative">
-                                <div class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
-                                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                                        <path d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3zM3.31 9.397L5 10.12v4.102a8.969 8.969 0 00-1.05-.174 1 1 0 01-.89-.89 11.115 11.115 0 01.25-3.762zM9.3 16.573A9.026 9.026 0 007 14.935v-3.957l1.818.78a3 3 0 002.364 0l5.508-2.361a11.026 11.026 0 01.25 3.762 1 1 0 01-.89.89 8.968 8.968 0 00-5.75 2.524 9.026 9.026 0 00-.3.04z"></path>
-                                    </svg>
-                                </div>
-                                <div class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg bg-gray-50 text-gray-700 text-sm">
-                                    @php
-                                    $latestTransaction = $member->transactions()->latest('created_at')->first();
-                                    @endphp
-                                    {{ $latestTransaction ? $latestTransaction->nama_kelas : 'Belum ada kelas' }}
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="mt-8 flex justify-end">
-                            <button
-                                type="button"
-                                onclick="window.print()"
-                                class="px-4 py-2 bg-blue-600 text-white text-sm font-semibold rounded-lg shadow-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition ease-in-out duration-150 flex items-center gap-2">
-                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M5 4v3H4a2 2 0 00-2 2v3a2 2 0 002 2h1v2a2 2 0 002 2h6a2 2 0 002-2v-2h1a2 2 0 002-2V9a2 2 0 00-2-2h-1V4a2 2 0 00-2-2H7a2 2 0 00-2 2zm8 0H7v3h6V4zM5 14H4v-2h1v2zm1 0v2h6v-2H6zm9 0v-2h1v2h-1z" clip-rule="evenodd"></path>
-                                </svg>
-                                Print
-                            </button>
-                        </div>
-
+                    <div class="text-center mb-4">
+                        <img src="{{ $member->foto_profil ? asset('storage/' . $member->foto_profil) : asset('images/user-icon.png') }}"
+                            alt="Profile Picture"
+                            class="w-20 h-20 rounded-full mx-auto object-cover shadow-lg">
                     </div>
+
+                    <div class="space-y-4">
+                        <div class="relative">
+                            <div class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
+                                </svg>
+                            </div>
+                            <div class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg bg-gray-50 text-gray-700 text-sm">
+                                {{ $member->nama_member }}
+                            </div>
+                        </div>
+
+                        <div class="relative">
+                            <div class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"></path>
+                                    <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"></path>
+                                </svg>
+                            </div>
+                            <div class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg bg-gray-50 text-gray-700 text-sm">
+                                {{ $member->email_member }}
+                            </div>
+                        </div>
+
+                        <div class="relative">
+                            <div class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3zM3.31 9.397L5 10.12v4.102a8.969 8.969 0 00-1.05-.174 1 1 0 01-.89-.89 11.115 11.115 0 01.25-3.762zM9.3 16.573A9.026 9.026 0 007 14.935v-3.957l1.818.78a3 3 0 002.364 0l5.508-2.361a11.026 11.026 0 01.25 3.762 1 1 0 01-.89.89 8.968 8.968 0 00-5.75 2.524 9.026 9.026 0 00-.3.04z"></path>
+                                </svg>
+                            </div>
+                            <div class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg bg-gray-50 text-gray-700 text-sm">
+                                @php
+                                $latestTransaction = $member->transactions()->latest('created_at')->first();
+                                @endphp
+                                {{ $latestTransaction ? $latestTransaction->nama_kelas : 'Belum ada kelas' }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-8 flex justify-end">
+                        <button
+                            type="button"
+                            onclick="window.print()"
+                            class="px-4 py-2 bg-blue-600 text-white text-sm font-semibold rounded-lg shadow-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition ease-in-out duration-150 flex items-center gap-2">
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M5 4v3H4a2 2 0 00-2 2v3a2 2 0 002 2h1v2a2 2 0 002 2h6a2 2 0 002-2v-2h1a2 2 0 002-2V9a2 2 0 00-2-2h-1V4a2 2 0 00-2-2H7a2 2 0 00-2 2zm8 0H7v3h6V4zM5 14H4v-2h1v2zm1 0v2h6v-2H6zm9 0v-2h1v2h-1z" clip-rule="evenodd"></path>
+                            </svg>
+                            Print
+                        </button>
+                    </div>
+
                 </div>
             </div>
         </div>
+    </div>
     @endif
 
     <!-- Mobile Navigation Menu -->
@@ -213,9 +223,9 @@
             <a href="{{ route('contact') }}" class="nav-item font-bold text-xl text-white py-2 border-b border-gray-700">CONTACT</a>
 
             @if(!session('user'))
-            <button 
-            onclick="openModal(); toggleMobileMenu();" 
-            class="mt-4 bg-[#262626] bg-opacity-90 shadow-md border-white border-2 text-white px-8 py-3 rounded-full font-bold hover:bg-gradient-to-r hover:from-[#212529] hover:to-[#3a4148] transition-all duration-300">
+            <button
+                onclick="openModal(); toggleMobileMenu();"
+                class="mt-4 bg-[#262626] bg-opacity-90 shadow-md border-white border-2 text-white px-8 py-3 rounded-full font-bold hover:bg-gradient-to-r hover:from-[#212529] hover:to-[#3a4148] transition-all duration-300">
                 LOGIN
             </button>
             @endif
@@ -229,7 +239,7 @@
     {{-- <main class="container mx-auto px-20 py-8 m-8"> --}}
     <main class="container mx-auto px-4 md:px-20 py-8 mt-20 pt-20 mb-10 pb-10">
         <h1 class="text-3xl text-center font-bold mb-8">Contact Us</h1>
-        
+
         <div class="flex flex-col lg:flex-row gap-8">
             <!-- Map -->
             <div class="w-full lg:w-1/2 h-96 bg-gray-100 rounded-lg overflow-hidden shadow-md">
@@ -449,91 +459,82 @@
     <x-footer />
 
     <script>
-    // Modal for login and registration
-    document.addEventListener('DOMContentLoaded', function() {
-        // Open modal function
-        window.openModal = function() {
-            document.getElementById('authModal').classList.remove('hidden');
-            document.getElementById('authModal').classList.add('flex');
-            showLogin();
-            document.getElementById('loginUsername').focus();
-        };
+        document.addEventListener('DOMContentLoaded', function() {
+            window.openModal = function() {
+                document.getElementById('authModal').classList.remove('hidden');
+                document.getElementById('authModal').classList.add('flex');
+                showLogin();
+                document.getElementById('loginUsername').focus();
+            };
 
-        // Close modal function
-        window.closeModal = function() {
-            document.getElementById('authModal').classList.add('hidden');
-            document.getElementById('authModal').classList.remove('flex');
-        };
+            window.closeModal = function() {
+                document.getElementById('authModal').classList.add('hidden');
+                document.getElementById('authModal').classList.remove('flex');
+            };
 
-        // Show login panel
-        window.showLogin = function() {
-            document.getElementById('loginPanel').classList.remove('hidden');
-            document.getElementById('registerPanel').classList.add('hidden');
-            document.getElementById('backButton').classList.add('hidden');
-            document.getElementById('loginUsername').focus();
-        };
+            window.showLogin = function() {
+                document.getElementById('loginPanel').classList.remove('hidden');
+                document.getElementById('registerPanel').classList.add('hidden');
+                document.getElementById('backButton').classList.add('hidden');
+                document.getElementById('loginUsername').focus();
+            };
 
-        // Show register panel
-        window.showRegister = function() {
-            document.getElementById('loginPanel').classList.add('hidden');
-            document.getElementById('registerPanel').classList.remove('hidden');
-            document.getElementById('backButton').classList.remove('hidden');
-            document.getElementById('registerUsername').focus();
-        };
+            window.showRegister = function() {
+                document.getElementById('loginPanel').classList.add('hidden');
+                document.getElementById('registerPanel').classList.remove('hidden');
+                document.getElementById('backButton').classList.remove('hidden');
+                document.getElementById('registerUsername').focus();
+            };
 
-        // Close modal when clicking outside
-        document.getElementById('authModal').addEventListener('click', function(event) {
-            if (event.target === this) {
-                closeModal();
-            }
-        });
-
-        // User dropdown toggle
-        const userIcon = document.querySelector('.user-menu img');
-        const dropdown = document.querySelector('.dropdown-content');
-    
-        if (userIcon && dropdown) {
-            userIcon.addEventListener('click', function(e) {
-                e.stopPropagation();
-                dropdown.classList.toggle('hidden');
-            });
-        
-            // Close dropdown when clicking elsewhere
-            document.addEventListener('click', function() {
-                if (!dropdown.classList.contains('hidden')) {
-                    dropdown.classList.add('hidden');
+            document.getElementById('authModal').addEventListener('click', function(event) {
+                if (event.target === this) {
+                    closeModal();
                 }
             });
-        }
 
-        // Mobile menu functionality
-        const hamburgerBtn = document.getElementById('hamburgerBtn');
-        const mobileMenu = document.getElementById('mobileMenu');
-        const mobileMenuOverlay = document.getElementById('mobileMenuOverlay');
+            const userIcon = document.querySelector('.user-menu img');
+            const dropdown = document.querySelector('.dropdown-content');
 
-        function toggleMobileMenu() {
-            hamburgerBtn.classList.toggle('active');
-        
-            if(mobileMenu.classList.contains('-translate-x-full')) {
-                mobileMenu.classList.remove('-translate-x-full');
-                mobileMenu.classList.add('translate-x-0');
-                mobileMenuOverlay.classList.remove('hidden');
-                document.body.classList.add('overflow-hidden');
-            } else {
-                mobileMenu.classList.remove('translate-x-0');
-                mobileMenu.classList.add('-translate-x-full');
-                mobileMenuOverlay.classList.add('hidden');
-                document.body.classList.remove('overflow-hidden');
+            if (userIcon && dropdown) {
+                userIcon.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    dropdown.classList.toggle('hidden');
+                });
+
+                document.addEventListener('click', function() {
+                    if (!dropdown.classList.contains('hidden')) {
+                        dropdown.classList.add('hidden');
+                    }
+                });
             }
-        }
 
-        window.toggleMobileMenu = toggleMobileMenu;
+            const hamburgerBtn = document.getElementById('hamburgerBtn');
+            const mobileMenu = document.getElementById('mobileMenu');
+            const mobileMenuOverlay = document.getElementById('mobileMenuOverlay');
 
-        if (hamburgerBtn && mobileMenu && mobileMenuOverlay) {
-            hamburgerBtn.addEventListener('click', toggleMobileMenu);
-            mobileMenuOverlay.addEventListener('click', toggleMobileMenu);
-        }
-    });
+            function toggleMobileMenu() {
+                hamburgerBtn.classList.toggle('active');
+
+                if (mobileMenu.classList.contains('-translate-x-full')) {
+                    mobileMenu.classList.remove('-translate-x-full');
+                    mobileMenu.classList.add('translate-x-0');
+                    mobileMenuOverlay.classList.remove('hidden');
+                    document.body.classList.add('overflow-hidden');
+                } else {
+                    mobileMenu.classList.remove('translate-x-0');
+                    mobileMenu.classList.add('-translate-x-full');
+                    mobileMenuOverlay.classList.add('hidden');
+                    document.body.classList.remove('overflow-hidden');
+                }
+            }
+
+            window.toggleMobileMenu = toggleMobileMenu;
+
+            if (hamburgerBtn && mobileMenu && mobileMenuOverlay) {
+                hamburgerBtn.addEventListener('click', toggleMobileMenu);
+                mobileMenuOverlay.addEventListener('click', toggleMobileMenu);
+            }
+        });
 
         function showMemberInfo() {
             document.getElementById('memberInfoModal').classList.remove('hidden');
@@ -551,4 +552,5 @@
         });
     </script>
 </body>
+
 </html>

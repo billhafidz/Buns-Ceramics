@@ -88,36 +88,46 @@
 
         <div class="hidden lg:block">
             @if (session('user'))
-        @php
+            @php
             $role = strtolower(session('user')->role ?? '');
             $canClick = $role === 'member';
-        @endphp
-        <div class="user-menu-wrapper flex items-center gap-3 order-1 lg:order-2">
-            <span
-                class="role-badge bg-[#212529] bg-opacity-90 shadow-md border-white border-2 text-white px-4 py-1 rounded-full font-bold text-sm {{ $canClick ? 'cursor-pointer' : 'cursor-default' }}"
-                @if ($canClick)
+            @endphp
+            <div class="user-menu-wrapper flex items-center gap-3 order-1 lg:order-2">
+                <span
+                    class="role-badge bg-[#212529] bg-opacity-90 shadow-md border-white border-2 text-white px-4 py-1 rounded-full font-bold text-sm {{ $canClick ? 'cursor-pointer' : 'cursor-default' }}"
+                    @if ($canClick)
                     onclick="showMemberInfo()"
-                @endif
-            >
-                {{ strtoupper(session('user')->role ?? '') }}
-            </span>
-                    <div class="user-menu group relative">
-                        <img src="{{ $member && $member->foto_profil ? asset('storage/' . $member->foto_profil) : asset('images/user-icon.png') }}"
-                            alt="User Icon"
-                            class="w-10 h-10 rounded-full cursor-pointer border-2 border-white object-cover transition duration-300 transform group-hover:scale-110">
-                        <div
-                            class="dropdown-content hidden absolute top-12 right-0 bg-white rounded-lg py-3 px-4 min-w-[220px] shadow-lg group-hover:block">
-                            <a href="{{ route('account.profile') }}"
-                                class="flex items-center gap-2 py-2 px-2 text-black hover:bg-[#662f28] hover:text-white hover:rounded transition-all duration-200">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
-                                    viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                                </svg>
-                                Profile
-                            </a>
-                            <a href="#"
-                                class="flex items-center gap-2 py-2 px-2 text-black hover:bg-[#662f28] hover:text-white hover:rounded transition-all duration-200">
+                    @endif>
+                    {{ strtoupper(session('user')->role ?? '') }}
+                </span>
+                <div class="user-menu group relative">
+                    <img src="{{ $member && $member->foto_profil ? asset('storage/' . $member->foto_profil) : asset('images/user-icon.png') }}"
+                        alt="User Icon"
+                        class="w-10 h-10 rounded-full cursor-pointer border-2 border-white object-cover transition duration-300 transform group-hover:scale-110">
+                    <div
+                        class="dropdown-content hidden absolute top-12 right-0 bg-white rounded-lg py-3 px-4 min-w-[220px] shadow-lg group-hover:block">
+                        <a href="{{ route('account.profile') }}"
+                            class="flex items-center gap-2 py-2 px-2 text-black hover:bg-[#662f28] hover:text-white hover:rounded transition-all duration-200">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                            </svg>
+                            Profile
+                        </a>
+                        <a href="#"
+                            class="flex items-center gap-2 py-2 px-2 text-black hover:bg-[#662f28] hover:text-white hover:rounded transition-all duration-200">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            History
+                        </a>
+                        <form method="POST" action="/logout" class="w-full">
+                            @csrf
+                            <button type="submit"
+                                class="flex items-center gap-2 py-2 px-2 text-black hover:bg-[#662f28] hover:text-white hover:rounded transition-all duration-200 w-full text-left">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
                                     viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -246,7 +256,7 @@
         <div class="flex items-center justify-between gap-4 mb-6">
 
             <div class="flex-1 relative min-w-0">
-                <input type="text" id="searchInput" placeholder="Cari kelas berdasarkan Nama Kelas, Deskripsi, Harga, atau Benefit..."
+                <input type="text" id="searchInput" placeholder="Search by class, name or benefit..."
                     class="w-full p-3 pl-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#f3f4f6] text-sm sm:text-base">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400 absolute left-3 top-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -340,7 +350,7 @@
                         class="w-full h-full object-cover">
                     @else
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                     </svg>
                     @endif
                 </div>
@@ -430,10 +440,10 @@
                         <div class="flex justify-center">
                             @if(session('user'))
                             <a href="{{ route('subscribe') }}"
-   onclick="return onSubscribeClick()"
-   class="w-full md:w-auto px-8 py-3 bg-[#592727] text-white rounded-lg font-bold hover:bg-[#662f28] transition-colors text-center">
-   Subscribe Now
-</a>
+                                onclick="return onSubscribeClick()"
+                                class="w-full md:w-auto px-8 py-3 bg-[#592727] text-white rounded-lg font-bold hover:bg-[#662f28] transition-colors text-center">
+                                Subscribe Now
+                            </a>
                             @else
                             <button onclick="openModal(); closeClassDetail();" class="w-full md:w-auto px-8 py-3 bg-[#592727] text-white rounded-lg font-bold hover:bg-[#662f28] transition-colors">
                                 Subscribe Now
@@ -646,7 +656,6 @@
                 document.getElementById('loginUsername').focus();
             };
 
-            // Show register panel
             window.showRegister = function() {
                 document.getElementById('loginPanel').classList.add('hidden');
                 document.getElementById('registerPanel').classList.remove('hidden');
@@ -654,14 +663,12 @@
                 document.getElementById('registerUsername').focus();
             };
 
-            // Close modal when clicking outside
             document.getElementById('authModal').addEventListener('click', function(event) {
                 if (event.target === this) {
                     closeModal();
                 }
             });
 
-            // User dropdown toggle
             const userIcon = document.querySelector('.user-menu img');
             const dropdown = document.querySelector('.dropdown-content');
 
@@ -671,7 +678,6 @@
                     dropdown.classList.toggle('hidden');
                 });
 
-                // Close dropdown when clicking elsewhere
                 document.addEventListener('click', function() {
                     if (!dropdown.classList.contains('hidden')) {
                         dropdown.classList.add('hidden');
@@ -684,7 +690,6 @@
                 document.body.classList.remove('overflow-hidden');
             }
 
-            // Mobile menu functionality
             const hamburgerBtn = document.getElementById('hamburgerBtn');
             const mobileMenu = document.getElementById('mobileMenu');
             const mobileMenuOverlay = document.getElementById('mobileMenuOverlay');
@@ -714,57 +719,57 @@
         });
 
         function showClassDetail(classId) {
-        const classData = getClassData(classId);
+            const classData = getClassData(classId);
 
-        if (classData) {
-            selectedLangganan = classData;  // **Simpan data yang dipilih ke variabel global**
+            if (classData) {
+                selectedLangganan = classData; 
 
-            const imageElement = document.getElementById('detailClassImage');
-            const placeholderElement = document.getElementById('detailClassImagePlaceholder');
+                const imageElement = document.getElementById('detailClassImage');
+                const placeholderElement = document.getElementById('detailClassImagePlaceholder');
 
-            if (classData.gambar_subs) {
-                imageElement.src = `/storage/langganan_images/${classData.gambar_subs}`;
-                imageElement.classList.remove('hidden');
-                placeholderElement.classList.add('hidden');
-            } else {
-                imageElement.classList.add('hidden');
-                placeholderElement.classList.remove('hidden');
-            }
+                if (classData.gambar_subs) {
+                    imageElement.src = `/storage/langganan_images/${classData.gambar_subs}`;
+                    imageElement.classList.remove('hidden');
+                    placeholderElement.classList.add('hidden');
+                } else {
+                    imageElement.classList.add('hidden');
+                    placeholderElement.classList.remove('hidden');
+                }
 
-            document.getElementById('detailClassName').textContent = classData.pilihan_subs;
-            document.getElementById('detailClassPrice').textContent = `Rp. ${parseInt(classData.harga_subs).toLocaleString()}`;
-            document.getElementById('detailClassDescription').textContent = classData.penjelasan_subs;
+                document.getElementById('detailClassName').textContent = classData.pilihan_subs;
+                document.getElementById('detailClassPrice').textContent = `Rp. ${parseInt(classData.harga_subs).toLocaleString()}`;
+                document.getElementById('detailClassDescription').textContent = classData.penjelasan_subs;
 
-            const benefitsList = document.getElementById('detailClassBenefits');
-            benefitsList.innerHTML = '';
+                const benefitsList = document.getElementById('detailClassBenefits');
+                benefitsList.innerHTML = '';
 
-            try {
-                const benefits = JSON.parse(classData.benefit_subs);
-                benefits.forEach(benefit => {
-                    if (benefit && benefit.trim() !== '') {
-                        const li = document.createElement('li');
-                        li.className = 'flex items-start';
-                        li.innerHTML = `
+                try {
+                    const benefits = JSON.parse(classData.benefit_subs);
+                    benefits.forEach(benefit => {
+                        if (benefit && benefit.trim() !== '') {
+                            const li = document.createElement('li');
+                            li.className = 'flex items-start';
+                            li.innerHTML = `
                             <svg class="h-5 w-5 text-green-500 mt-0.5 mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                             </svg>
                             <span class="text-gray-700">${benefit}</span>
                         `;
-                        benefitsList.appendChild(li);
-                    }
-                });
+                            benefitsList.appendChild(li);
+                        }
+                    });
 
-                if (benefitsList.children.length === 0) {
+                    if (benefitsList.children.length === 0) {
+                        benefitsList.innerHTML = '<li class="text-gray-500">No benefits listed</li>';
+                    }
+                } catch (e) {
                     benefitsList.innerHTML = '<li class="text-gray-500">No benefits listed</li>';
                 }
-            } catch (e) {
-                benefitsList.innerHTML = '<li class="text-gray-500">No benefits listed</li>';
-            }
 
-            document.getElementById('classDetailModal').classList.remove('hidden');
-            document.body.classList.add('overflow-hidden');
+                document.getElementById('classDetailModal').classList.remove('hidden');
+                document.body.classList.add('overflow-hidden');
+            }
         }
-    }
 
         function closeClassDetail() {
             document.getElementById('classDetailModal').classList.add('hidden');
@@ -782,9 +787,7 @@
             }
         });
 
-        // Search and Filter Functionality
         document.addEventListener('DOMContentLoaded', function() {
-            // Toggle filter dropdown
             document.getElementById('filterButton').addEventListener('click', function(e) {
                 e.stopPropagation();
                 document.getElementById('filterDropdown').classList.toggle('hidden');
@@ -794,7 +797,6 @@
                 document.getElementById('filterDropdown').classList.add('hidden');
             });
 
-            // Search functionality
             document.getElementById('searchInput').addEventListener('input', function() {
                 filterClasses();
             });
@@ -901,14 +903,14 @@
         });
 
         function onSubscribeClick() {
-        if (!selectedLangganan) {
-            alert('Pilih kelas terlebih dahulu lewat tombol DETAIL.');
-            return false; 
-        }
+            if (!selectedLangganan) {
+                alert('Pilih kelas terlebih dahulu lewat tombol DETAIL.');
+                return false;
+            }
 
-        localStorage.setItem('selectedLangganan', JSON.stringify(selectedLangganan));
-        return true; 
-    }
+            localStorage.setItem('selectedLangganan', JSON.stringify(selectedLangganan));
+            return true;
+        }
     </script>
 </body>
 

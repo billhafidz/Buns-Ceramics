@@ -131,6 +131,7 @@ class GalleryController extends Controller
             $gallery->nama = $request->nama;
             $gallery->jenis = $request->jenis;
 
+
             // Handle image removal
             if ($request->remove_image == '1') {
                 // Remove old image if exists

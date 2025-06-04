@@ -78,11 +78,11 @@
                     <!-- Profile picture section -->
                     <div class="w-full md:w-1/3 flex flex-col items-center">
                         <div class="relative mb-6 profile-image-container">
-                            <img src="{{ $member->foto_profil ? asset('storage/' . $member->foto_profil) : asset('images/user-icon.png') }}"
+                            <img src="{{ isset($member) && $member->foto_profil ? asset('storage/' . $member->foto_profil) : asset('images/user-icon.png') }}"
                                 alt="Foto Profil"
                                 class="profile-image w-44 h-44 object-cover rounded-full border-4 border-gray-200 shadow-xl">
 
-                            @if ($member->foto_profil)
+                          @if (isset($member) && $member->foto_profil)
                                 <div
                                     class="profile-image-overlay absolute inset-0 bg-black bg-opacity-50 rounded-full flex items-center justify-center opacity-0">
                                     <button type="button"
@@ -113,7 +113,7 @@
                             </label>
                             <div class="relative">
                                 <input type="text" id="nama_member" name="nama_member"
-                                    value="{{ old('nama_member', $member->nama_member) }}"
+                                    value="{{ old('nama_member', $member->nama_member ?? '') }}"
                                     class="input-focus block w-full rounded-xl border-2 border-gray-200 shadow-sm px-4 py-3 transition duration-200 ease-in-out bg-gray-50 focus:bg-white">
                                 <div class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none">
                                     <i class="fas fa-user text-gray-400"></i>
@@ -131,7 +131,7 @@
                             </label>
                             <div class="relative">
                                 <input type="text" id="alamat_member" name="alamat_member"
-                                    value="{{ old('alamat_member', $member->alamat_member) }}"
+                                    value="{{ old('alamat_member', $member->alamat_member ?? '') }}"
                                     class="input-focus block w-full rounded-xl border-2 border-gray-200 shadow-sm px-4 py-3 transition duration-200 ease-in-out bg-gray-50 focus:bg-white">
                                 <div class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none">
                                     <i class="fas fa-map-marker-alt text-gray-400"></i>
@@ -149,7 +149,7 @@
                             </label>
                             <div class="relative">
                                 <input type="text" id="no_telp" name="no_telp"
-                                    value="{{ old('no_telp', $member->no_telp) }}"
+                                    value="{{ old('no_telp', $member->no_telp ?? '') }}"
                                     class="input-focus block w-full rounded-xl border-2 border-gray-200 shadow-sm px-4 py-3 transition duration-200 ease-in-out bg-gray-50 focus:bg-white">
                                 <div class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none">
                                     <i class="fas fa-phone text-gray-400"></i>
@@ -166,7 +166,7 @@
                                 Sisa Hari Berlangganan
                             </label>
                             <div class="relative">
-                                <input type="text" value="{{ $member->day }} hari"
+                                <input type="text" value="{{ $member->day ?? 'Belum berlangganan' }}"
                                     class="block w-full rounded-xl bg-gray-100 border-2 border-gray-200 shadow-sm px-4 py-3 cursor-not-allowed text-gray-600"
                                     readonly>
                                 <div class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none">

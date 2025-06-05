@@ -3,7 +3,7 @@
 @section('content')
     <div class="p-4">
         <div class="flex justify-center">
-            <h2 class="text-4xl font-bold mb-6 text-gray-800">Manage Kelas</h2>
+            <h2 class="text-4xl font-bold mb-6 text-gray-800">Manage Class</h2>
         </div>
 
         @if (session('success'))
@@ -16,7 +16,7 @@
             <!-- Tombol Tambah Kelas -->
             <button onclick="openModal('createModal')"
                 class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded shadow transition-transform duration-200 transform hover:-translate-y-1">
-                + Add Kelas
+                + Add Class
             </button>
 
             <!-- Form Pencarian - Dipindahkan ke kanan -->

@@ -8,13 +8,15 @@
     {{-- <link href="/src/styles.css" rel="stylesheet"> --}}
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Grand+Hotel&display=swap" rel="stylesheet">
+    
     <style>
         body {
             font-family: 'Montserrat', sans-serif;
         }
 
         .logo {
-            font-family: 'Nico Moji', cursive, sans-serif;
+            font-family: 'Grand Hotel', cursive, sans-serif;
         }
 
         .nav-center {
@@ -66,7 +68,7 @@
         }
 
         .hero-content {
-            font-family: 'Nico Moji', cursive, sans-serif;
+            font-family: 'Itim', cursive, sans-serif;
             letter-spacing: 10px;
             position: relative;
             z-index: 1;
@@ -180,7 +182,7 @@
         <a href="{{ route('index') }}"
             class="text-4xl font-black tracking-wider text-white logo
         cursor-pointer hover:opacity-80 transition-opacity">
-            BUNS
+            Buns
         </a>
 
         <!-- Hamburger Menu -->
@@ -194,7 +196,7 @@
         <!-- Desktop Navigation -->
         <nav class="nav-center hidden lg:flex items-center gap-10">
             <a href="{{ route('index') }}"
-                class="font-bold text-lg text-white relative hover:after:content-[''] hover:after:absolute hover:after:-bottom-1 hover:after:left-0 hover:after:w-full hover:after:h-0.5 hover:after:bg-[#7D3E35]">Home</a>
+                class="font-bold text-lg text-white relative after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-full after:h-0.5 after:bg-[#7D3E35]">Home</a>
             <a href="{{ route('class') }}"
                 class="font-bold text-lg text-white relative hover:after:content-[''] hover:after:absolute hover:after:-bottom-1 hover:after:left-0 hover:after:w-full hover:after:h-0.5 hover:after:bg-[#7D3E35]">Class</a>
             <a href="{{ route('gallery') }}"
@@ -264,6 +266,7 @@
             @endif
         </div>
     </header>
+    
     <!-- Member Info Modal -->
     @if (session('user') && $member)
     <div id="memberInfoModal"
@@ -405,7 +408,8 @@
                 class="flex flex-wrap {{ $index % 2 == 1 ? 'md:flex-row-reverse' : '' }} items-center mb-12 md:mb-16">
                 <div class="w-full md:w-1/2 mb-6 md:mb-0">
                     <img src="{{ asset('storage/langganan_images/' . $langganan->gambar_subs) }}"
-                        alt="{{ $langganan->pilihan_subs }}" class="rounded-lg shadow-lg mx-auto" />
+                        alt="{{ $langganan->pilihan_subs }}" class="rounded-lg shadow-lg mx-auto" 
+                        style="width: 100%; height: 400px; object-fit: cover;"/>
                 </div>
                 <div class="w-full md:w-1/2 px-4 md:px-6">
                     <h3 class="text-2xl md:text-3xl font-bold mb-3 md:mb-4">{{ $langganan->pilihan_subs }}</h3>

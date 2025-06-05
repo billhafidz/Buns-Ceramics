@@ -115,7 +115,9 @@
                                 <div class="image-upload-wrapper" style="display: flex; align-items: center;">
                                     <div class="image-preview" id="imagePreview" style="flex: 1;">
                                         <div class="placeholder" style="text-align: left; padding: 10px;">
-                                            <i class="fas fa-cloud-upload-alt" style="font-size: 2rem; color: #007bff;"></i>
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-gray-400 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                            </svg> <br>
                                             <p style="color: #333; margin-left: 10px;"><b>Pilih gambar</b></p>
                                         </div>
                                         <img src="" alt="Preview" id="previewImg" style="display: none; max-width: 100%; height: auto; object-fit: cover;">
@@ -1128,28 +1130,7 @@
         min-height: auto !important;
     }
 
-    @keyframes shake {
 
-        0%,
-        100% {
-            transform: translateX(0);
-        }
-
-        10%,
-        30%,
-        50%,
-        70%,
-        90% {
-            transform: translateX(-5px);
-        }
-
-        20%,
-        40%,
-        60%,
-        80% {
-            transform: translateX(5px);
-        }
-    }
 
     #deleteConfirmModal .modal-content {
         animation: shake 0.5s cubic-bezier(.36, .07, .19, .97) both;
@@ -1182,7 +1163,7 @@
             modal.style.display = 'block';
             setTimeout(() => {
                 modal.classList.add('show');
-            }, 10);
+            }, 5);
 
             // Reset form and validation states
             if (galleryForm) {
@@ -1219,7 +1200,7 @@
             modal.classList.remove('show');
             setTimeout(() => {
                 modal.style.display = 'none';
-            }, 300);
+            }, 100);
         });
 
         // Close when clicking outside
@@ -1379,6 +1360,7 @@
         let activeDeleteForm = null;
 
         // Form validation with AJAX
+        // Form validation with AJAX - COMPLETE FIXED VERSION
         if (galleryForm) {
             galleryForm.addEventListener('submit', function(e) {
                 e.preventDefault();
@@ -1464,12 +1446,24 @@
                 // Create form data for submission
                 const formData = new FormData(this);
 
-                // Disable submit button during submission
+                // Get submit button and store original text - FIXED
                 const submitButton = this.querySelector('button[type="submit"]');
+                const originalButtonText = submitButton ? submitButton.innerHTML : 'Submit';
+
+                // Disable submit button during submission - FIXED
                 if (submitButton) {
                     submitButton.disabled = true;
                     submitButton.classList.add('btn-loading');
-                    submitButton.innerHTML = '';
+                    // DON'T EMPTY innerHTML - let CSS handle loading state
+                }
+
+                // Function to reset button state - ADDED
+                function resetButton() {
+                    if (submitButton) {
+                        submitButton.disabled = false;
+                        submitButton.classList.remove('btn-loading');
+                        submitButton.innerHTML = originalButtonText;
+                    }
                 }
 
                 // Send AJAX request
@@ -1487,11 +1481,8 @@
                         if (contentType && contentType.includes('application/json')) {
                             return response.json().then(data => {
                                 if (data.errors) {
-                                    if (submitButton) {
-                                        submitButton.disabled = false;
-                                        submitButton.classList.remove('btn-loading');
-                                        submitButton.innerHTML = 'Submit';
-                                    }
+                                    // Reset button on error - FIXED
+                                    resetButton();
 
                                     Object.keys(data.errors).forEach(field => {
                                         const errorElement = document.getElementById(field + '-error');
@@ -1507,6 +1498,36 @@
                                         }
                                     });
                                 } else if (data.success) {
+                                    // RESET BUTTON BEFORE CLOSING MODAL - THIS WAS MISSING!
+                                    resetButton();
+
+                                    // Reset form completely
+                                    this.reset();
+
+                                    // Clear all validation states
+                                    document.querySelectorAll('.is-invalid, .is-valid').forEach(el => {
+                                        el.classList.remove('is-invalid', 'is-valid');
+                                    });
+
+                                    document.querySelectorAll('.invalid-feedback').forEach(el => {
+                                        el.textContent = '';
+                                        el.classList.remove('show');
+                                    });
+
+                                    // Reset image preview
+                                    const previewImg = document.getElementById('previewImg');
+                                    const placeholder = document.querySelector('.placeholder');
+                                    if (previewImg && placeholder) {
+                                        previewImg.style.display = 'none';
+                                        placeholder.style.display = 'block';
+                                    }
+
+                                    // Reset image upload wrapper
+                                    const wrapper = document.querySelector('.image-upload-wrapper');
+                                    if (wrapper) {
+                                        wrapper.classList.remove('is-invalid', 'is-valid');
+                                    }
+
                                     // Close modal
                                     const modal = document.getElementById('createGalleryModal');
                                     modal.classList.remove('show');
@@ -1514,7 +1535,7 @@
                                     setTimeout(() => {
                                         modal.style.display = 'none';
 
-                                        // Tampilkan pesan sukses
+                                        // Show success message
                                         const alertContainer = document.createElement('div');
                                         alertContainer.className = 'alert alert-success alert-dismissible fade show mb-4';
                                         alertContainer.setAttribute('role', 'alert');
@@ -1554,7 +1575,8 @@
                                 }
                             });
                         } else {
-                            // Handle error
+                            // Reset button on error - FIXED
+                            resetButton();
                             window.location.href = window.location.href;
                             return null;
                         }
@@ -1562,11 +1584,8 @@
                     .catch(error => {
                         console.error('Error:', error);
 
-                        if (submitButton) {
-                            submitButton.disabled = false;
-                            submitButton.classList.remove('btn-loading');
-                            submitButton.innerHTML = 'Submit';
-                        }
+                        // Reset button on error - FIXED
+                        resetButton();
 
                         const alertContainer = document.createElement('div');
                         alertContainer.className = 'alert alert-danger alert-dismissible fade show mb-4';
@@ -1597,7 +1616,6 @@
                     });
             });
         }
-
         // Real-time validation
         const namaSelect = document.getElementById('nama');
         const jenisSelect = document.getElementById('jenis');

@@ -23,6 +23,8 @@ class Member extends Model
     ];
 
     // Define the relationship with the Transaction model
+
+    protected $nullable = ['day'];
     public function transactions()
     {
         return $this->hasMany(Transaction::class, 'id_pelanggan', 'id_member');

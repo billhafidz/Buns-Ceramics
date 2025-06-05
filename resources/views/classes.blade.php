@@ -8,13 +8,14 @@
     {{-- <link href="/src/styles.css" rel="stylesheet"> --}}
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Grand+Hotel&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Montserrat', sans-serif;
         }
 
         .logo {
-            font-family: 'Nico Moji', cursive, sans-serif;
+            font-family: 'Grand Hotel', cursive, sans-serif;
         }
 
         .nav-center {
@@ -69,7 +70,7 @@
         {{-- <header class="flex justify-between items-center py-8 px-20 bg-[#212529] bg-opacity-90 shadow-md"> --}}
         <a href="{{ route('index') }}" class="text-4xl font-black tracking-wider text-white logo
         cursor-pointer hover:opacity-80 transition-opacity">
-            BUNS
+            Buns
         </a>
 
         <!-- Hamburger Menu -->
@@ -81,7 +82,7 @@
 
         <nav class="nav-center hidden lg:flex items-center gap-10">
             <a href="{{ route('index') }}" class="font-bold text-lg text-white relative hover:after:content-[''] hover:after:absolute hover:after:-bottom-1 hover:after:left-0 hover:after:w-full hover:after:h-0.5 hover:after:bg-[#7D3E35]">Home</a>
-            <a href="#" class="font-bold text-lg text-white relative hover:after:content-[''] hover:after:absolute hover:after:-bottom-1 hover:after:left-0 hover:after:w-full hover:after:h-0.5 hover:after:bg-[#7D3E35]">Class</a>
+            <a href="#" class="font-bold text-lg text-white relative after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-full after:h-0.5 after:bg-[#7D3E35]">Class</a>
             <a href="{{ route('gallery') }}" class="font-bold text-lg text-white relative hover:after:content-[''] hover:after:absolute hover:after:-bottom-1 hover:after:left-0 hover:after:w-full hover:after:h-0.5 hover:after:bg-[#7D3E35]">Gallery</a>
             <a href="{{ route('contact') }}" class="font-bold text-lg text-white relative hover:after:content-[''] hover:after:absolute hover:after:-bottom-1 hover:after:left-0 hover:after:w-full hover:after:h-0.5 hover:after:bg-[#7D3E35]">Contact</a>
         </nav>

@@ -4,7 +4,7 @@
     <section id="edit-gallery" class="bg-light py-5">
         <div class="container">
             <div class="pb-2 mb-4 d-flex justify-content-center">
-                <h2 class="text-3xl font-bold text-gray-800">Edit Gallery</h2>
+                <h2 class="text-2xl md:text-3xl font-bold text-gray-800">Edit Gallery</h2>
             </div>
 
             <form method="POST" action="{{ route('admin-buns.gallery.update', $gallery->id) }}" enctype="multipart/form-data"
@@ -13,116 +13,118 @@
                 @method('PUT')
 
                 <div class="bg-white rounded-lg shadow-md overflow-hidden mb-1">
-                    <!-- Table Layout -->
-                    <table class="w-full">
-                        <thead>
-                            <tr class="bg-gray-800 text-white">
-                                <th colspan="2" class="text-left p-4 font-semibold">Information Gallery</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <!-- Nama Member row -->
-                            <tr class="border-b border-gray-200">
-                                <td class="p-4 bg-gray-50 w-1/4 font-medium">Nama Member</td>
-                                <td class="p-4">
-                                    <div class="font-normal text-gray-700">{{ $gallery->nama }}</div>
-                                    <input type="hidden" name="nama" value="{{ $gallery->nama }}">
-                                </td>
-                            </tr>
+                    <!-- Responsive Table Layout -->
+                    <div class="overflow-x-auto">
+                        <table class="w-full">
+                            <thead>
+                                <tr class="bg-gray-800 text-white">
+                                    <th colspan="2" class="text-left p-3 md:p-4 font-semibold">Information Gallery</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Nama Member row -->
+                                <tr class="border-b border-gray-200">
+                                    <td class="p-3 md:p-4 bg-gray-50 w-1/4 font-medium">Nama Member</td>
+                                    <td class="p-3 md:p-4">
+                                        <div class="font-normal text-gray-700">{{ $gallery->nama }}</div>
+                                        <input type="hidden" name="nama" value="{{ $gallery->nama }}">
+                                    </td>
+                                </tr>
 
-                            <!-- Jenis row -->
-                            <tr class="border-b border-gray-200">
-                                <td class="p-4 bg-gray-50 font-medium">Jenis</td>
-                                <td class="p-4">
-                                    <select
-                                        class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-gray-300 focus:border-transparent"
-                                        id="jenis" name="jenis" required>
-                                        <option value="gelas" {{ $gallery->jenis == 'gelas' ? 'selected' : '' }}>Gelas
-                                        </option>
-                                        <option value="mangkuk" {{ $gallery->jenis == 'mangkuk' ? 'selected' : '' }}>Mangkuk
-                                        </option>
-                                        <option value="piring" {{ $gallery->jenis == 'piring' ? 'selected' : '' }}>Piring
-                                        </option>
-                                    </select>
-                                    <div class="text-red-500 text-sm mt-1 error-msg" id="error-jenis"></div>
-                                </td>
-                            </tr>
+                                <!-- Jenis row -->
+                                <tr class="border-b border-gray-200">
+                                    <td class="p-3 md:p-4 bg-gray-50 font-medium">Jenis</td>
+                                    <td class="p-3 md:p-4">
+                                        <select
+                                            class="w-full p-2 md:p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-gray-300 focus:border-transparent"
+                                            id="jenis" name="jenis" required>
+                                            <option value="gelas" {{ $gallery->jenis == 'gelas' ? 'selected' : '' }}>Gelas
+                                            </option>
+                                            <option value="mangkuk" {{ $gallery->jenis == 'mangkuk' ? 'selected' : '' }}>Mangkuk
+                                            </option>
+                                            <option value="piring" {{ $gallery->jenis == 'piring' ? 'selected' : '' }}>Piring
+                                            </option>
+                                        </select>
+                                        <div class="text-red-500 text-xs md:text-sm mt-1 error-msg" id="error-jenis"></div>
+                                    </td>
+                                </tr>
 
-                            <!-- Gambar row -->
-                            <tr class="border-b border-gray-200">
-                                <td class="p-4 bg-gray-50 font-medium">Gambar Gallery</td>
-                                <td class="p-4">
-                                    <div class="border-2 border-dashed border-gray-300 rounded-md p-4 text-center">
-                                        <!-- Current Image Display -->
-                                        <div id="currentImageContainer" class="{{ $gallery->gambar ? '' : 'hidden' }} mb-3">
-                                            <img id="currentImage" src="{{ asset('storage/' . $gallery->gambar) }}"
-                                                class="max-h-40 mx-auto rounded" alt="">
-                                            <p id="current-file-name" class="text-sm text-gray-700 mt-2">
-                                                {{ $gallery->gambar }}</p>
-                                        </div>
+                                <!-- Gambar row -->
+                                <tr class="border-b border-gray-200">
+                                    <td class="p-3 md:p-4 bg-gray-50 font-medium">Gambar Gallery</td>
+                                    <td class="p-3 md:p-4">
+                                        <div class="border-2 border-dashed border-gray-300 rounded-md p-3 md:p-4 text-center">
+                                            <!-- Current Image Display -->
+                                            <div id="currentImageContainer" class="{{ $gallery->gambar ? '' : 'hidden' }} mb-3">
+                                                <img id="currentImage" src="{{ asset('storage/' . $gallery->gambar) }}"
+                                                    class="max-h-32 md:max-h-40 mx-auto rounded" alt="">
+                                                <p id="current-file-name" class="text-xs md:text-sm text-gray-700 mt-2 truncate">
+                                                    {{ $gallery->gambar }}</p>
+                                            </div>
 
-                                        <!-- Upload Area -->
-                                        <div id="uploadArea"
-                                            class="{{ $gallery->gambar ? 'hidden' : 'flex flex-col items-center justify-center space-y-2' }}">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-gray-400 mx-auto"
-                                                fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                                            </svg> <br>
-                                            <label for="gambar" required
-                                                class="cursor-pointer mt-2 bg-gray-100 hover:bg-gray-200 text-gray-800 py-2 px-4 rounded-md text-sm font-medium transition duration-150 ease-in-out"
-                                                id="uploadButton">
-                                                Pilih Gambar
-                                                <input type="file" id="gambar" name="gambar" class="hidden"
-                                                    accept="image/*">
-                                            </label>
-                                        </div>
-
-                                        <!-- New Image Preview (Initially Hidden) -->
-                                        <div id="imagePreviewContainer" class="hidden mt-2">
-                                            <img id="imagePreview" class="max-h-40 mx-auto rounded" alt="Preview">
-                                            <p id="new-file-name" class="text-sm text-gray-700 mt-2"></p>
-                                            <button type="button" onclick="removeImage()"
-                                                class="mt-1 text-red-500 hover:text-red-700 text-sm flex items-center justify-center mx-auto">
-                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none"
-                                                    viewBox="0 0 24 24" stroke="currentColor">
+                                            <!-- Upload Area -->
+                                            <div id="uploadArea"
+                                                class="{{ $gallery->gambar ? 'hidden' : 'flex flex-col items-center justify-center space-y-2' }}">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-10 md:h-12 w-10 md:w-12 text-gray-400 mx-auto"
+                                                    fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                                </svg>
-                                                Hapus Gambar
-                                            </button>
-                                        </div>
+                                                        d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                                </svg> <br>
+                                                <label for="gambar" required
+                                                    class="cursor-pointer mt-2 bg-gray-100 hover:bg-gray-200 text-gray-800 py-2 px-3 md:px-4 rounded-md text-xs md:text-sm font-medium transition duration-150 ease-in-out"
+                                                    id="uploadButton">
+                                                    Pilih Gambar
+                                                    <input type="file" id="gambar" name="gambar" class="hidden"
+                                                        accept="image/*">
+                                                </label>
+                                            </div>
 
-                                        <!-- Hapus Gambar Button -->
-                                        <div id="changeImageButtonContainer"
-                                            class="{{ $gallery->gambar ? '' : 'hidden' }} mt-3">
-                                            <button type="button" onclick="removeCurrentImage()"
-                                                class="mt-1 text-red-500 hover:text-red-700 text-sm flex items-center justify-center mx-auto">
-                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none"
-                                                    viewBox="0 0 24 24" stroke="currentColor">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                                </svg>
-                                                Hapus Gambar
-                                            </button>
+                                            <!-- New Image Preview (Initially Hidden) -->
+                                            <div id="imagePreviewContainer" class="hidden mt-2">
+                                                <img id="imagePreview" class="max-h-32 md:max-h-40 mx-auto rounded" alt="Preview">
+                                                <p id="new-file-name" class="text-xs md:text-sm text-gray-700 mt-2 truncate"></p>
+                                                <button type="button" onclick="removeImage()"
+                                                    class="mt-1 text-red-500 hover:text-red-700 text-xs md:text-sm flex items-center justify-center mx-auto">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-3 md:h-4 w-3 md:w-4 mr-1" fill="none"
+                                                        viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                                    </svg>
+                                                    Hapus Gambar
+                                                </button>
+                                            </div>
+
+                                            <!-- Hapus Gambar Button -->
+                                            <div id="changeImageButtonContainer"
+                                                class="{{ $gallery->gambar ? '' : 'hidden' }} mt-3">
+                                                <button type="button" onclick="removeCurrentImage()"
+                                                    class="mt-1 text-red-500 hover:text-red-700 text-xs md:text-sm flex items-center justify-center mx-auto">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-3 md:h-4 w-3 md:w-4 mr-1" fill="none"
+                                                        viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                                    </svg>
+                                                    Hapus Gambar
+                                                </button>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <p class="mt-1 text-xs text-gray-500">Format: JPG, PNG, JPEG. Maksimal 10MB.</p>
-                                    <div class="text-red-500 text-sm mt-1 error-msg" id="error-gambar"></div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                                        <p class="mt-1 text-xs text-gray-500">Format: JPG, PNG, JPEG. Maksimal 10MB.</p>
+                                        <div class="text-red-500 text-xs md:text-sm mt-1 error-msg" id="error-gambar"></div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
 
                 <!-- Hidden input untuk menandai gambar yang dihapus -->
                 <input type="hidden" name="remove_image" id="remove_image" value="0">
 
                 <!-- Action Buttons -->
-                <div class="flex justify-between items-center pt-4">
+                <div class="flex flex-col sm:flex-row justify-between items-center pt-4 gap-2 sm:gap-0">
                     <a href="{{ route('admin-buns.gallery') }}"
-                        class="px-4 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600 focus:outline-none focus:ring-0 transition-transform duration-200">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline mr-1" fill="none"
+                        class="px-3 py-2 sm:px-4 sm:py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600 focus:outline-none focus:ring-0 transition-transform duration-200 w-full sm:w-auto text-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 md:h-5 w-4 md:w-5 inline mr-1" fill="none"
                             viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M10 19l-7-7m0 0l7-7m-7 7h18" />
@@ -130,7 +132,7 @@
                         Back
                     </a>
                     <button type="submit"
-                        class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-0 focus:ring-offset-2 transition-transform duration-200">
+                        class="px-3 py-2 sm:px-4 sm:py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-0 focus:ring-offset-2 transition-transform duration-200 w-full sm:w-auto text-center">
                         Update
                     </button>
                 </div>
@@ -357,7 +359,7 @@
         });
     </script>
 
-    <!-- Tailwind CSS styles -->
+    <!-- Responsive CSS styles -->
     <style>
         .bg-gray-800 {
             background-color: #1f2937;
@@ -371,7 +373,11 @@
             text-align: left;
         }
 
-        .p-4 {
+        .p-3 {
+            padding: 0.75rem;
+        }
+
+        .md\:p-4 {
             padding: 1rem;
         }
 
@@ -395,7 +401,7 @@
             background-color: #f9fafb;
         }
 
-        .w-1 {
+        .w-1\/4 {
             width: 25%;
         }
 
@@ -434,9 +440,12 @@
             color: #ef4444;
         }
 
-        .text-sm {
+        .text-xs {
+            font-size: 0.75rem;
+        }
+
+        .md\:text-sm {
             font-size: 0.875rem;
-            line-height: 1.25rem;
         }
 
         .mt-1 {
@@ -463,7 +472,11 @@
             margin-bottom: 0.75rem;
         }
 
-        .max-h-40 {
+        .max-h-32 {
+            max-height: 8rem;
+        }
+
+        .md\:max-h-40 {
             max-height: 10rem;
         }
 
@@ -496,7 +509,7 @@
             justify-content: center;
         }
 
-        .space-y-2> :not([hidden])~ :not([hidden]) {
+        .space-y-2 > :not([hidden]) ~ :not([hidden]) {
             --tw-space-y-reverse: 0;
             margin-top: calc(0.5rem * calc(1 - var(--tw-space-y-reverse)));
             margin-bottom: calc(0.5rem * var(--tw-space-y-reverse));
@@ -527,14 +540,14 @@
             padding-bottom: 0.5rem;
         }
 
-        .px-4 {
-            padding-left: 1rem;
-            padding-right: 1rem;
+        .px-3 {
+            padding-left: 0.75rem;
+            padding-right: 0.75rem;
         }
 
-        .text-sm {
-            font-size: 0.875rem;
-            line-height: 1.25rem;
+        .md\:px-4 {
+            padding-left: 1rem;
+            padding-right: 1rem;
         }
 
         .font-medium {
@@ -563,13 +576,16 @@
             margin-top: 0.75rem;
         }
 
-        .text-xs {
-            font-size: 0.75rem;
-            line-height: 1rem;
-        }
-
         .text-gray-500 {
             color: #6b7280;
+        }
+
+        .flex-col {
+            flex-direction: column;
+        }
+
+        .sm\:flex-row {
+            flex-direction: row;
         }
 
         .justify-between {
@@ -656,13 +672,96 @@
             justify-content: center;
         }
 
-        .text-3xl {
+        .text-2xl {
+            font-size: 1.5rem;
+            line-height: 2rem;
+        }
+
+        .md\:text-3xl {
             font-size: 1.875rem;
             line-height: 2.25rem;
         }
 
         .font-bold {
             font-weight: 700;
+        }
+
+        .gap-2 {
+            gap: 0.5rem;
+        }
+
+        .sm\:gap-0 {
+            gap: 0;
+        }
+
+        .w-full {
+            width: 100%;
+        }
+
+        .sm\:w-auto {
+            width: auto;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .h-4 {
+            height: 1rem;
+        }
+
+        .w-4 {
+            width: 1rem;
+        }
+
+        .md\:h-5 {
+            height: 1.25rem;
+        }
+
+        .md\:w-5 {
+            width: 1.25rem;
+        }
+
+        .h-10 {
+            height: 2.5rem;
+        }
+
+        .w-10 {
+            width: 2.5rem;
+        }
+
+        .md\:h-12 {
+            height: 3rem;
+        }
+
+        .md\:w-12 {
+            width: 3rem;
+        }
+
+        .h-3 {
+            height: 0.75rem;
+        }
+
+        .w-3 {
+            width: 0.75rem;
+        }
+
+        .md\:h-4 {
+            height: 1rem;
+        }
+
+        .md\:w-4 {
+            width: 1rem;
+        }
+
+        .truncate {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .overflow-x-auto {
+            overflow-x: auto;
         }
     </style>
 @endsection

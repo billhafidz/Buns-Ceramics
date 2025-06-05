@@ -1,9 +1,9 @@
 @extends('layouts.admin')
 
 @section('content')
-    <div class="p-4">
+    <div class="p-2 md:p-4">
         <div class="pb-2 mb-4 flex justify-center">
-            <h2 class="text-3xl font-bold text-gray-800">Edit Class</h2>
+            <h2 class="text-2xl md:text-3xl font-bold text-gray-800">Edit Class</h2>
         </div>
 
         <form action="{{ route('admin-buns.classes.update', $langganan->id_langganan) }}" method="POST" id="editClassForm"
@@ -11,144 +11,145 @@
             @csrf
 
             <div class="bg-white rounded-lg shadow-md overflow-hidden mb-1">
-                <!-- Table Layout -->
-                <table class="w-full">
-                    <thead>
-                        <tr class="bg-gray-800 text-white">
-                            <th colspan="2" class="text-left p-4 font-semibold">Class Information</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <!-- Nama Kelas -->
-                        <tr class="border-b border-gray-200">
-                            <td class="p-4 bg-gray-50 w-1/4 font-medium">Class Name</td>
-                            <td class="p-4">
-                                <input type="text" name="pilihan_subs" value="{{ $langganan->pilihan_subs }}" required
-                                    class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-gray-300 focus:border-transparent">
-                                <div class="text-red-500 text-sm mt-1 error-msg" id="error-pilihan_subs"></div>
-                            </td>
-                        </tr>
+                <!-- Responsive Table Layout -->
+                <div class="overflow-x-auto">
+                    <table class="w-full">
+                        <thead>
+                            <tr class="bg-gray-800 text-white">
+                                <th colspan="2" class="text-left p-3 md:p-4 font-semibold">Class Information</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Nama Kelas -->
+                            <tr class="border-b border-gray-200">
+                                <td class="p-3 md:p-4 bg-gray-50 w-1/4 font-medium">Class Name</td>
+                                <td class="p-3 md:p-4">
+                                    <input type="text" name="pilihan_subs" value="{{ $langganan->pilihan_subs }}" required
+                                        class="w-full p-2 md:p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-gray-300 focus:border-transparent">
+                                    <div class="text-red-500 text-xs md:text-sm mt-1 error-msg" id="error-pilihan_subs"></div>
+                                </td>
+                            </tr>
 
-                        <!-- Harga -->
-                        <tr class="border-b border-gray-200">
-                            <td class="p-4 bg-gray-50 font-medium">Price</td>
-                            <td class="p-4">
-                                <input type="number" step="0.01" name="harga_subs" value="{{ $langganan->harga_subs }}"
-                                    required
-                                    class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-gray-300 focus:border-transparent">
-                                <div class="text-red-500 text-sm mt-1 error-msg" id="error-harga_subs"></div>
-                            </td>
-                        </tr>
+                            <!-- Harga -->
+                            <tr class="border-b border-gray-200">
+                                <td class="p-3 md:p-4 bg-gray-50 font-medium">Price</td>
+                                <td class="p-3 md:p-4">
+                                    <input type="number" step="0.01" name="harga_subs" value="{{ $langganan->harga_subs }}"
+                                        required
+                                        class="w-full p-2 md:p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-gray-300 focus:border-transparent">
+                                    <div class="text-red-500 text-xs md:text-sm mt-1 error-msg" id="error-harga_subs"></div>
+                                </td>
+                            </tr>
 
-                        <!-- Penjelasan -->
-                        <tr class="border-b border-gray-200">
-                            <td class="p-4 bg-gray-50 font-medium">Explanation</td>
-                            <td class="p-4 max-h-[100px]">
-                                <textarea name="penjelasan_subs" required
-                                    class="w-full h-32 p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-gray-300 focus:border-transparent">{{ $langganan->penjelasan_subs }}</textarea>
-                                <div class="text-red-500 text-sm mt-1 error-msg" id="error-penjelasan_subs"></div>
-                            </td>
-                        </tr>
-                        <!-- Gambar Kelas -->
-                        <tr class="border-b border-gray-200">
-                            <td class="p-4 bg-gray-50 font-medium">Class Image</td>
-                            <td class="p-4">
-                                <div class="border-2 border-dashed border-gray-300 rounded-md p-4 text-center">
-                                    <!-- Current Image Display -->
-                                    <div id="currentImageContainer"
-                                        class="{{ $langganan->gambar_subs ? '' : 'hidden' }} mb-3">
-                                        <img id="currentImage"
-                                            src="{{ asset('storage/langganan_images/' . $langganan->gambar_subs) }}"
-                                            class="max-h-40 mx-auto rounded" alt="">
-                                        <p id="current-file-name" class="text-sm text-gray-700 mt-2">
-                                            {{ $langganan->gambar_subs }}</p>
-                                    </div>
-                                    <!-- Upload Area -->
-                                    <div id="uploadArea"
-                                        class="{{ $langganan->gambar_subs ? 'hidden' : 'flex flex-col items-center justify-center space-y-2' }}">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-gray-400 mx-auto"
-                                            fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                                        </svg> <br>
-                                        <label for="gambar_subs"
-                                            class="cursor-pointer mt-2 bg-gray-100 hover:bg-gray-200 text-gray-800 py-2 px-4 rounded-md text-sm font-medium transition duration-150 ease-in-out"
-                                            id="uploadButton">
-                                            Select Image
-                                            <input type="file" id="gambar_subs" name="gambar_subs" class="hidden"
-                                                accept="image/*">
-                                        </label>
-                                    </div>
-
-                                    <!-- New Image Preview (Initially Hidden) -->
-                                    <div id="imagePreviewContainer" class="hidden mt-2">
-                                        <img id="imagePreview" class="max-h-40 mx-auto rounded" alt="Preview">
-                                        <p id="new-file-name" class="text-sm text-gray-700 mt-2"></p>
-                                        <button type="button" onclick="removeImage()"
-                                            class="mt-1 text-red-500 hover:text-red-700 text-sm flex items-center justify-center mx-auto">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none"
-                                                viewBox="0 0 24 24" stroke="currentColor">
+                            <!-- Penjelasan -->
+                            <tr class="border-b border-gray-200">
+                                <td class="p-3 md:p-4 bg-gray-50 font-medium">Explanation</td>
+                                <td class="p-3 md:p-4">
+                                    <textarea name="penjelasan_subs" required
+                                        class="w-full h-24 md:h-32 p-2 md:p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-gray-300 focus:border-transparent">{{ $langganan->penjelasan_subs }}</textarea>
+                                    <div class="text-red-500 text-xs md:text-sm mt-1 error-msg" id="error-penjelasan_subs"></div>
+                                </td>
+                            </tr>
+                            <!-- Gambar Kelas -->
+                            <tr class="border-b border-gray-200">
+                                <td class="p-3 md:p-4 bg-gray-50 font-medium">Class Image</td>
+                                <td class="p-3 md:p-4">
+                                    <div class="border-2 border-dashed border-gray-300 rounded-md p-3 md:p-4 text-center">
+                                        <!-- Current Image Display -->
+                                        <div id="currentImageContainer"
+                                            class="{{ $langganan->gambar_subs ? '' : 'hidden' }} mb-3">
+                                            <img id="currentImage"
+                                                src="{{ asset('storage/langganan_images/' . $langganan->gambar_subs) }}"
+                                                class="max-h-32 md:max-h-40 mx-auto rounded" alt="">
+                                            <p id="current-file-name" class="text-xs md:text-sm text-gray-700 mt-2 truncate">
+                                                {{ $langganan->gambar_subs }}</p>
+                                        </div>
+                                        <!-- Upload Area -->
+                                        <div id="uploadArea"
+                                            class="{{ $langganan->gambar_subs ? 'hidden' : 'flex flex-col items-center justify-center space-y-2' }}">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-10 md:h-12 w-10 md:w-12 text-gray-400 mx-auto"
+                                                fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                            </svg>
-                                            Delete Image
-                                        </button>
-                                    </div>
+                                                    d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                            </svg> <br>
+                                            <label for="gambar_subs"
+                                                class="cursor-pointer mt-2 bg-gray-100 hover:bg-gray-200 text-gray-800 py-2 px-3 md:px-4 rounded-md text-xs md:text-sm font-medium transition duration-150 ease-in-out"
+                                                id="uploadButton">
+                                                Select Image
+                                                <input type="file" id="gambar_subs" name="gambar_subs" class="hidden"
+                                                    accept="image/*">
+                                            </label>
+                                        </div>
 
-                                    <!-- Hapus Gambar Button -->
-                                    <div id="changeImageButtonContainer"
-                                        class="{{ $langganan->gambar_subs ? '' : 'hidden' }} mt-3">
-                                        <button type="button" onclick="removeCurrentImage()"
-                                            class="mt-1 text-red-500 hover:text-red-700 text-sm flex items-center justify-center mx-auto">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none"
-                                                viewBox="0 0 24 24" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                            </svg>
-                                            Delete Image
-                                        </button>
-                                    </div>
-                                </div>
-                                <p class="mt-1 text-xs text-gray-500">Format: JPG, PNG, JPEG. Maksimal 2MB.</p>
-                                <div class="text-red-500 text-sm mt-1 error-msg" id="error-gambar_subs"></div>
-                            </td>
-                        </tr>
-
-                        <!-- Benefit -->
-                        <tr class="border-b border-gray-200">
-                            <td class="p-4 bg-gray-50 font-medium align-top">Benefit</td>
-                            <td class="p-4">
-                                <div id="benefitListEdit" class="max-h-[150px] overflow-y-auto space-y-2 rounded-md p-2">
-                                    @foreach (json_decode($langganan->benefit_subs, true) as $benefit)
-                                        <div class="flex items-center gap-2 mb-2">
-                                            <input type="text" name="benefit_subs[]" value="{{ $benefit }}"
-                                                required
-                                                class="flex-1 p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-gray-300 focus:border-transparent benefit-input">
-                                            <button type="button" onclick="removeBenefitEdit(this)"
-                                                class="text-gray-500 hover:text-red-500">
-                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
+                                        <!-- New Image Preview (Initially Hidden) -->
+                                        <div id="imagePreviewContainer" class="hidden mt-2">
+                                            <img id="imagePreview" class="max-h-32 md:max-h-40 mx-auto rounded" alt="Preview">
+                                            <p id="new-file-name" class="text-xs md:text-sm text-gray-700 mt-2 truncate"></p>
+                                            <button type="button" onclick="removeImage()"
+                                                class="mt-1 text-red-500 hover:text-red-700 text-xs md:text-sm flex items-center justify-center mx-auto">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-3 md:h-4 w-3 md:w-4 mr-1" fill="none"
                                                     viewBox="0 0 24 24" stroke="currentColor">
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                        d="M6 18L18 6M6 6l12 12" />
+                                                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                                                 </svg>
+                                                Delete Image
                                             </button>
                                         </div>
-                                    @endforeach
-                                </div>
-                                <button type="button" onclick="addBenefitEdit()"
-                                    class="mt-2 flex items-center text-blue-600 hover:text-blue-800">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none"
-                                        viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                                    </svg>
-                                    Add Benefit
-                                </button>
-                                {{-- <div class="text-red-500 text-sm mt-1 error-msg" id="error-benefit_subs"></div> --}}
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+
+                                        <!-- Hapus Gambar Button -->
+                                        <div id="changeImageButtonContainer"
+                                            class="{{ $langganan->gambar_subs ? '' : 'hidden' }} mt-3">
+                                            <button type="button" onclick="removeCurrentImage()"
+                                                class="mt-1 text-red-500 hover:text-red-700 text-xs md:text-sm flex items-center justify-center mx-auto">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-3 md:h-4 w-3 md:w-4 mr-1" fill="none"
+                                                    viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                                </svg>
+                                                Delete Image
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <p class="mt-1 text-xs text-gray-500">Format: JPG, PNG, JPEG. Maksimal 2MB.</p>
+                                    <div class="text-red-500 text-xs md:text-sm mt-1 error-msg" id="error-gambar_subs"></div>
+                                </td>
+                            </tr>
+
+                            <!-- Benefit -->
+                            <tr class="border-b border-gray-200">
+                                <td class="p-3 md:p-4 bg-gray-50 font-medium align-top">Benefit</td>
+                                <td class="p-3 md:p-4">
+                                    <div id="benefitListEdit" class="max-h-[150px] overflow-y-auto space-y-2 rounded-md p-2">
+                                        @foreach (json_decode($langganan->benefit_subs, true) as $benefit)
+                                            <div class="flex items-center gap-2 mb-2">
+                                                <input type="text" name="benefit_subs[]" value="{{ $benefit }}"
+                                                    required
+                                                    class="flex-1 p-2 md:p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-gray-300 focus:border-transparent benefit-input">
+                                                <button type="button" onclick="removeBenefitEdit(this)"
+                                                    class="text-gray-500 hover:text-red-500">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 md:h-5 w-4 md:w-5" fill="none"
+                                                        viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                            d="M6 18L18 6M6 6l12 12" />
+                                                    </svg>
+                                                </button>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                    <button type="button" onclick="addBenefitEdit()"
+                                        class="mt-2 flex items-center text-blue-600 hover:text-blue-800 text-sm">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 md:h-5 w-4 md:w-5 mr-1" fill="none"
+                                            viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                                        </svg>
+                                        Add Benefit
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
 
             <!-- Hidden input untuk menandai gambar yang dihapus -->
@@ -180,14 +181,14 @@
             const div = document.createElement('div');
             div.classList.add('flex', 'items-center', 'gap-2', 'mb-2');
             div.innerHTML = `
-        <input type="text" name="benefit_subs[]" placeholder="Masukkan Benefit" required
-               class="flex-1 p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-gray-300 focus:border-transparent benefit-input">
-        <button type="button" onclick="removeBenefitEdit(this)" class="text-gray-500 hover:text-red-500">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-            </svg>
-        </button>
-    `;
+                <input type="text" name="benefit_subs[]" placeholder="Enter Benefit" required
+                       class="flex-1 p-2 md:p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-gray-300 focus:border-transparent benefit-input">
+                <button type="button" onclick="removeBenefitEdit(this)" class="text-gray-500 hover:text-red-500">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 md:h-5 w-4 md:w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            `;
             container.appendChild(div);
         }
 
@@ -230,16 +231,11 @@
                 }
             });
 
-            // if (hasEmptyBenefit) {
-            //     document.getElementById('error-benefit_subs').textContent = 'Kolom benefit harus diisi.';
-            //     return;
-            // }
-
             // Disable submit button to prevent double submission
             const submitButton = form.querySelector('button[type="submit"]');
             if (submitButton) {
                 submitButton.disabled = true;
-                submitButton.innerText = 'Renew...';
+                submitButton.innerText = 'Updating...';
             }
 
             // Send AJAX request
@@ -262,7 +258,7 @@
                                 // Re-enable submit button
                                 if (submitButton) {
                                     submitButton.disabled = false;
-                                    submitButton.innerText = 'Perbarui';
+                                    submitButton.innerText = 'Update';
                                 }
 
                                 // Display validation errors
@@ -292,7 +288,7 @@
                     // Re-enable submit button on error
                     if (submitButton) {
                         submitButton.disabled = false;
-                        submitButton.innerText = 'Perbarui';
+                        submitButton.innerText = 'Update';
                     }
                 });
         });

@@ -7,13 +7,14 @@
     <title>BUNS CERAMICS - Gallery</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Grand+Hotel&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Montserrat', sans-serif;
         }
 
         .logo {
-            font-family: 'Nico Moji', cursive, sans-serif;
+            font-family: 'Grand Hotel', cursive, sans-serif;
         }
 
         .nav-center {
@@ -51,7 +52,6 @@
         .font-playfair {
             font-family: 'Playfair Display', serif;
         }
-
     </style>
 </head>
 
@@ -60,7 +60,7 @@
     <header class="flex justify-between items-center py-6 px-6 md:px-20 bg-[#212529] fixed top-0 left-0 w-full z-50">
         <a href="{{ route('index') }}" class="text-4xl font-black tracking-wider text-white logo
         cursor-pointer hover:opacity-80 transition-opacity">
-            BUNS
+            Buns
         </a>
 
         <!-- Hamburger Menu -->
@@ -129,7 +129,6 @@
                         </form>
                     </div>
                 </div>
-
             </div>
             @else
             <button onclick="openModal()"
@@ -218,14 +217,12 @@
 
                 </div>
             </div>
-            @else
-            <button onclick="openModal()" class="order-1 lg:order-2 bg-[#212529] bg-opacity-90 shadow-md border-white border-2 text-white px-6 md:px-8 py-2 md:py-3 rounded-full font-bold hover:scale-105 transition-transform duration-200">
-                LOGIN
-            </button>
-            @endif
         </div>
     </div>
     @endif
+
+
+
 
     <!-- Mobile Navigation Menu -->
     <div id="mobileMenu" class="fixed top-0 left-0 w-full h-screen bg-[#212529] z-40 transform -translate-x-full pt-24 px-8">
@@ -681,6 +678,23 @@
             if (hamburgerBtn && mobileMenu && mobileMenuOverlay) {
                 hamburgerBtn.addEventListener('click', toggleMobileMenu);
                 mobileMenuOverlay.addEventListener('click', toggleMobileMenu);
+            }
+
+
+        });
+
+        function showMemberInfo() {
+            document.getElementById('memberInfoModal').classList.remove('hidden');
+            document.getElementById('memberInfoModal').classList.add('flex');
+        }
+
+        function closeMemberInfo() {
+            document.getElementById('memberInfoModal').classList.add('hidden');
+            document.getElementById('memberInfoModal').classList.remove('flex');
+        }
+        document.getElementById('memberInfoModal').addEventListener('click', function(event) {
+            if (event.target === this) {
+                closeMemberInfo();
             }
         });
     </script>

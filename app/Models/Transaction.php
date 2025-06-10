@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -9,13 +8,13 @@ class Transaction extends Model
 {
     use HasFactory;
 
-    protected $table = 'transactions';
-    protected $primaryKey = 'id'; 
+    protected $table      = 'transactions';
+    protected $primaryKey = 'id';
 
     protected $fillable = [
-        'nama_kelas', 
-        'total_transaksi', 
-        'id_pelanggan', 
+        'nama_kelas',
+        'total_transaksi',
+        'id_pelanggan',
         'tanggal_transaksi',
         'order_id',
         'payment_method',
@@ -27,7 +26,10 @@ class Transaction extends Model
         return $this->belongsTo(Member::class, 'id_pelanggan', 'id_member');
     }
 
-    protected $dates = ['tanggal_transaksi','ended_date']; 
+    protected $casts = [
+        'tanggal_transaksi' => 'datetime',
+        'ended_date'        => 'datetime',
+    ];
 
     public $timestamps = true;
 }

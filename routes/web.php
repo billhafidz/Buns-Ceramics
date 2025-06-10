@@ -88,3 +88,6 @@ Route::get('/verify-otp', [ForgetPasswordController::class, 'showOtpForm'])->nam
 Route::post('/verify-otp', [ForgetPasswordController::class, 'verifyOtp'])->name('otp.verify');
 Route::get('/reset-password', [ForgetPasswordController::class, 'showResetForm'])->name('password.reset.form');
 Route::post('/reset-password', [ForgetPasswordController::class, 'resetPassword'])->name('password.reset');
+
+Route::get('/account/history', [AccountController::class, 'history'])->name('account.history');
+Route::get('/transaction/{order_id}/invoice', [AccountController::class, 'getInvoice'])->name('transaction.invoice');

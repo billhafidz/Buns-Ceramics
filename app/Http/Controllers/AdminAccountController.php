@@ -21,7 +21,7 @@ class AdminAccountController extends Controller
                     ->orWhere('email', 'like', '%' . $search . '%');
             })
             ->orderBy('created_at', 'desc')
-            ->paginate(5);
+            ->paginate(10);
 
         return view('admin-buns.users.index', compact('accounts'));
     }

@@ -33,7 +33,7 @@ class CheckSubscription extends Command
                 if ($daysLeft <= 5 && $daysLeft > 0) {
                     Mail::raw("Halo {$member->nama_member}, langganan Anda akan berakhir dalam 5 hari. Jangan lupa perpanjang ya!", function ($message) use ($member) {
                         $message->to($member->email_member)
-                                ->subject('Peringatan: Langganan Akan Segera Berakhir');
+                            ->subject('Peringatan: Langganan Akan Segera Berakhir');
                     });
 
                     Log::info("Email peringatan dikirim ke {$member->email_member}");
@@ -49,11 +49,12 @@ class CheckSubscription extends Command
                     }
 
                     if ($daysLeft < -1) {
-                        Log::info("Member {$member->email_member} expired > 7 hari, menghapus...");
+                        Log::info("Member {$member->email_member} expired > 1 hari, menghapus field day...");
 
-                        $member->delete();
+                        $member->day = null;
+                        $member->save();
 
-                        Log::info("Member {$member->email_member} berhasil dihapus dari database.");
+                        Log::info("Field day untuk member {$member->email_member} berhasil dihapus (di-set null/0).");
                     }
                 }
             } else {

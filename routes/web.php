@@ -14,8 +14,6 @@ use App\Http\Controllers\ClassController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\ForgetPasswordController;
 use App\Http\Controllers\ListGalleryController;
-use App\Http\Controllers\AdminAccountController;
-use App\Http\Controllers\AdminMemberController;
 
 Route::get('/', [MainPageController::class, 'index'])->name('index');
 Route::get('/gallery', function () {
@@ -30,7 +28,12 @@ Route::get('/class', function () {
     return view('classes');
 })->name('class');
 
-
+Route::get('/member/dashboard', function () {
+    if (!session('user')) {
+        return redirect('/')->with('error', 'Silakan login terlebih dahulu');
+    }
+    return view('member.dashboard');
+})->name('member.dashboard');
 
 Route::post('/logout', function () {
     session()->forget('user');
@@ -64,11 +67,11 @@ Route::delete('/admin-buns/gallery/{id}', [GalleryController::class, 'delete'])-
 Route::get('/admin-buns/gallery/edit/{id}', [GalleryController::class, 'edit'])->name('admin-buns.gallery.edit');
 Route::put('/admin-buns/gallery/update/{id}', [GalleryController::class, 'update'])->name('admin-buns.gallery.update');
 
-Route::get('/admin-buns/users', [AdminAccountController::class, 'index'])->name('admin-buns.users.index');
 
 Route::get('/gallery', [ListGalleryController::class, 'view'])->name('gallery');
 
-Route::get('/admin-buns/members', [AdminMemberController::class, 'index'])->name('admin-buns.members.index');
+Route::get('/admin-buns/users', fn() => view('admin-buns.users'))->name('admin.users');
+Route::get('/admin-buns/members', fn() => view('admin-buns.members'))->name('admin.members');
 Route::get('/admin-buns/classes', [LanggananController::class, 'index'])->name('admin-buns.classes.index');
 Route::post('/admin-buns/classes', [LanggananController::class, 'store'])->name('admin-buns.classes.store');
 Route::get('/admin-buns/classes/edit/{id}', [LanggananController::class, 'edit'])->name('admin-buns.classes.edit');
@@ -88,3 +91,6 @@ Route::get('/verify-otp', [ForgetPasswordController::class, 'showOtpForm'])->nam
 Route::post('/verify-otp', [ForgetPasswordController::class, 'verifyOtp'])->name('otp.verify');
 Route::get('/reset-password', [ForgetPasswordController::class, 'showResetForm'])->name('password.reset.form');
 Route::post('/reset-password', [ForgetPasswordController::class, 'resetPassword'])->name('password.reset');
+
+Route::get('/account/history', [AccountController::class, 'history'])->name('account.history');
+Route::get('/transaction/{order_id}/invoice', [AccountController::class, 'getInvoice'])->name('transaction.invoice');

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Profil</title>
+    <title>Edit Profile</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <style>
@@ -32,7 +32,7 @@
         <div class="w-full max-w-4xl bg-white rounded-2xl shadow-2xl overflow-hidden">
             <!-- Header -->
             <div class="bg-black px-6 py-6">
-                <h1 class="text-2xl font-bold text-white text-center">Edit Profil</h1>
+                <h1 class="text-2xl font-bold text-white text-center">Edit Profile</h1>
             </div>
 
             <!-- Success message -->

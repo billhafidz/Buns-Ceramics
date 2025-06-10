@@ -13,7 +13,7 @@ use Carbon\Carbon;
 class CheckSubscription extends Command
 {
     protected $signature = 'subscription:check';
-    protected $description = 'Cek masa aktif subscription dan kirim notifikasi jika hampir habis atau habis.';
+    protected $description = 'Cek masa aktif subscription dan kirim notifikasi jika hampir habis atau habis. Hapus member expired.';
 
     public function handle()
     {
@@ -39,7 +39,6 @@ class CheckSubscription extends Command
                     Log::info("Email peringatan dikirim ke {$member->email_member}");
                 }
 
-                // Jika masa aktif sudah habis
                 if ($daysLeft < 0) {
                     $account = $member->account;
                     if ($account && $account->role !== 'Non Member') {
@@ -47,6 +46,14 @@ class CheckSubscription extends Command
                         $account->save();
 
                         Log::info("Role {$member->email_member} diubah jadi Non Member karena langganan habis.");
+                    }
+
+                    if ($daysLeft < -1) {
+                        Log::info("Member {$member->email_member} expired > 7 hari, menghapus...");
+
+                        $member->delete();
+
+                        Log::info("Member {$member->email_member} berhasil dihapus dari database.");
                     }
                 }
             } else {

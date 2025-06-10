@@ -57,7 +57,7 @@
 
 <body class="min-h-screen bg-cover bg-center">
     <!-- Navbar -->
-    <header class="flex justify-between items-center py-6 px-6 md:px-20 bg-[#212529] fixed top-0 left-0 w-full z-50">
+    <header class="flex justify-between items-center py-6 px-6 md:px-20 bg-[#262626] fixed top-0 left-0 w-full z-50">
         <a href="{{ route('index') }}" class="text-4xl font-black tracking-wider text-white logo
         cursor-pointer hover:opacity-80 transition-opacity">
             Buns
@@ -106,7 +106,7 @@
                             </svg>
                             Profile
                         </a>
-                        <a href="#"
+                        <a href="{{ route('account.history') }}"
                             class="flex items-center gap-2 py-2 px-2 text-black hover:bg-[#662f28] hover:text-white hover:rounded transition-all duration-200">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
                                 viewBox="0 0 24 24" stroke="currentColor">

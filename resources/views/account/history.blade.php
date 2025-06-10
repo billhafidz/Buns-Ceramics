@@ -108,7 +108,7 @@
                                 </svg>
                                 Profile
                             </a>
-                            <a href="#"
+                        <a href="{{ route('account.history') }}"
                                 class="flex items-center gap-2 py-2 px-2 text-black hover:bg-[#662f28] hover:text-white hover:rounded transition-all duration-200">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
                                     viewBox="0 0 24 24" stroke="currentColor">
@@ -261,19 +261,21 @@
     <!-- Mobile Menu Overlay -->
     <div class="fixed inset-0 bg-black bg-opacity-50 z-30 hidden backdrop-blur-sm" id="mobileMenuOverlay"></div>
 
-    <!-- History Content -->
-    <section class="pt-32 pb-16 px-6 md:px-20">
-        <div class="container mx-auto">
-            <div class="relative flex justify-center items-center mb-8">
-                <a href="/" class="absolute left-0 text-[#592727] hover:text-[#7D3E35] p-2 rounded-full">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24"
-                        stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-                    </svg>
-                </a>
-                <h1 class="history text-3xl md:text-4xl font-bold text-center text-[#262626]">History</h1>
-            </div>
+<!-- History Content -->
+<section class="pt-32 pb-16 px-6 md:px-20">
+    <div class="container mx-auto">
+        <div class="relative flex justify-center items-center mb-8">
+            <a href="/" class="absolute left-0 text-[#592727] hover:text-[#7D3E35] p-2 rounded-full">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                </svg>
+            </a>
+            <h1 class="history text-3xl md:text-4xl font-bold text-center text-[#262626]">History</h1>
+        </div>
 
+        @if (session('user') && strtolower(session('user')))
+            <!-- Member View -->
             @if ($transactions->isEmpty())
                 <div class="text-center py-8">
                     <p class="text-gray-500">You don't have any transaction history yet</p>
@@ -344,8 +346,44 @@
                     {{ $transactions->links() }}
                 </div>
             @endif
-        </div>
-    </section>
+        @else
+            <!-- Non-Member View -->
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-[#262626]">
+                            <tr class="history">
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                                    Class
+                                </th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                                    Date
+                                </th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                                    Completion
+                                </th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                                    Invoice
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200">
+                            <!-- Empty table body -->
+                        </tbody>
+                    </table>
+                </div>
+                <div class="text-center py-12">
+                    <p class="text-gray-500 text-lg">No transaction history available</p>
+                    {{-- <p class="text-gray-400 mt-2">Only members have access to transaction history</p> --}}
+                </div>
+            </div>
+        @endif
+    </div>
+</section>
 
     <div id="invoiceModal"
         class="fixed hidden inset-0 z-50 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center p-4">

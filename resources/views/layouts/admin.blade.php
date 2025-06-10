@@ -73,11 +73,11 @@
                     <i data-lucide="image" class="w-5 h-5"></i>
                     <span class="ml-3 sidebar-text">Gallery</span>
                 </a>
-                <a href="{{ route('admin.users') }}" class="flex items-center p-2 rounded hover:bg-gray-200">
+                <a href="{{ route('admin-buns.users.index') }}" class="flex items-center p-2 rounded hover:bg-gray-200">
                     <i data-lucide="users" class="w-5 h-5"></i>
                     <span class="ml-3 sidebar-text">Users</span>
                 </a>
-                <a href="{{ route('admin.members') }}" class="flex items-center p-2 rounded hover:bg-gray-200">
+                <a href="{{ route('admin-buns.members.index') }}" class="flex items-center p-2 rounded hover:bg-gray-200">
                     <i data-lucide="credit-card" class="w-5 h-5"></i>
                     <span class="ml-3 sidebar-text">Members</span>
                 </a>

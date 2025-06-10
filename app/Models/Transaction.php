@@ -20,6 +20,7 @@ class Transaction extends Model
         'tanggal_transaksi',
         'order_id',
         'payment_method',
+        'ended_date',
     ];
 
     public function member()
@@ -27,7 +28,7 @@ class Transaction extends Model
         return $this->belongsTo(Member::class, 'id_pelanggan', 'id_member');
     }
 
-    protected $dates = ['tanggal_transaksi']; 
+    protected $dates = ['tanggal_transaksi','ended_date']; 
 
     public $timestamps = true;
 }

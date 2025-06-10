@@ -9,7 +9,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Grand+Hotel&display=swap" rel="stylesheet">
-    
+
     <style>
         body {
             font-family: 'Montserrat', sans-serif;
@@ -266,7 +266,7 @@
             @endif
         </div>
     </header>
-    
+
     <!-- Member Info Modal -->
     @if (session('user') && $member)
     <div id="memberInfoModal"
@@ -408,8 +408,8 @@
                 class="flex flex-wrap {{ $index % 2 == 1 ? 'md:flex-row-reverse' : '' }} items-center mb-12 md:mb-16">
                 <div class="w-full md:w-1/2 mb-6 md:mb-0">
                     <img src="{{ asset('storage/langganan_images/' . $langganan->gambar_subs) }}"
-                        alt="{{ $langganan->pilihan_subs }}" class="rounded-lg shadow-lg mx-auto" 
-                        style="width: 100%; height: 400px; object-fit: cover;"/>
+                        alt="{{ $langganan->pilihan_subs }}" class="rounded-lg shadow-lg mx-auto"
+                        style="width: 100%; height: 400px; object-fit: cover;" />
                 </div>
                 <div class="w-full md:w-1/2 px-4 md:px-6">
                     <h3 class="text-2xl md:text-3xl font-bold mb-3 md:mb-4">{{ $langganan->pilihan_subs }}</h3>
@@ -956,22 +956,91 @@
 
 
         function printMemberCard() {
-            const memberCardContent = document.getElementById('memberCardArea').innerHTML;
+            // Get the member card content
+            const memberCardArea = document.getElementById('memberCardArea');
+
+            // Create a copy of the content so we can modify it
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = memberCardArea.innerHTML;
+
+            // Remove the print button from the copied content
+            const printButton = tempDiv.querySelector('.no-print');
+            if (printButton) {
+                printButton.remove();
+            }
+
+            const memberCardContent = tempDiv.innerHTML;
+            const baseUrl = window.location.origin;
 
             const printWindow = window.open('', '', 'width=800,height=600');
             printWindow.document.write(`
         <html>
             <head>
                 <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+                <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&display=swap" rel="stylesheet">
                 <style>
+                    @media print {
+                        body * {
+                            -webkit-print-color-adjust: exact !important;
+                            color-adjust: exact !important;
+                            print-color-adjust: exact !important;
+                        }
+                    }
                     body {
                         font-family: sans-serif;
                         padding: 20px;
                     }
+                    .print-card {
+                        display: flex;
+                        border-radius: 0.75rem;
+                        overflow: hidden;
+                        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+                        max-width: 650px;
+                        margin: 0 auto;
+                    }
+                    .card-image-container {
+                        width: 40%;
+                        position: relative;
+                        background-color: #262626;
+                    }
+                    .card-image {
+                        width: 100%;
+                        height: 100%;
+                        object-fit: cover;
+                    }
+                    .card-overlay {
+                        position: absolute;
+                        inset: 0;
+                        background-color: rgba(0, 0, 0, 0.4);
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                        justify-content: center;
+                        text-align: center;
+                        color: white;
+                    }
+                    .card-content {
+                        width: 60%;
+                        padding: 1.5rem;
+                    }
+                    .font-playfair {
+                        font-family: 'Playfair Display', serif;
+                    }
                 </style>
             </head>
             <body onload="window.print(); window.close();">
-                ${memberCardContent}
+                <div class="print-card">
+                    <div class="card-image-container">
+                        <img src="${baseUrl}/images/login.png" class="card-image" alt="Buns Ceramics">
+                        <div class="card-overlay">
+                            <h3 class="font-playfair text-3xl font-semibold mb-2 tracking-wide drop-shadow-lg">Buns</h3>
+                            <h3 class="font-playfair text-3xl font-light tracking-widest drop-shadow-lg">Ceramics</h3>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        ${memberCardContent}
+                    </div>
+                </div>
             </body>
         </html>
     `);

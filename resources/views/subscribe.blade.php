@@ -117,12 +117,12 @@
         document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('langganan_id').addEventListener('change', function() {
         updateSubscriptionDetails();
-        updatePilihanHariHidden(); // update juga pilihan hari hidden setiap ganti subscription
+        updatePilihanHariHidden();
     });
 
     document.getElementById('pilihan_hari').addEventListener('change', function() {
         updatePrice();
-        updatePilihanHariHidden(); // update pilihan hari hidden setiap ganti durasi
+        updatePilihanHariHidden();
     });
 
     // LocalStorage logic
@@ -391,15 +391,6 @@
                     <div class="w-full">
                         <h3 class="text-xl font-bold text-gray-800 mb-4">Subscription Details</h3>
                         
-                        <!-- <div class="mb-4">
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Price</label>
-                            <p id="harga_display" class="text-2xl font-bold text-[#7D3E35]">
-                                Rp {{ $selectedLangganan ? number_format($selectedLangganan->harga_subs, 0, ',', '.') : '0' }}
-                            </p>
-                            <input type="hidden" name="harga_subs" id="harga_subs"
-                                value="{{ $selectedLangganan ? $selectedLangganan->harga_subs : '' }}">
-                        </div> -->
-                        
                         <div class="mb-4">
                             <label for="pilihan_hari" class="block text-sm font-medium text-gray-700 mb-1">Duration</label>
                             <select id="pilihan_hari" name="pilihan_hari"
@@ -427,7 +418,7 @@
                         @csrf
                         <input type="hidden" name="email_member" value="{{ $data['email_member'] }}">
                         <input type="hidden" name="id_account" id="id_account" value="{{ $data['id_account'] }}">
-                        <input type="hidden" name="pilihan_hari" id="pilihan_hari_hidden" value="30"> <!-- default 30 -->
+                        <input type="hidden" name="pilihan_hari" id="pilihan_hari_hidden" value="30">
 
                         
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">

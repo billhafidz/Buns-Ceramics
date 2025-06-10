@@ -12,4 +12,10 @@ class Account extends Model
     protected $fillable = [
         'username', 'email', 'password', 'role'
     ];
+
+    
+    public function member()
+    {
+        return $this->hasOne(Member::class, 'id_account', 'id_account');
+    }
 }

@@ -12,23 +12,23 @@ class LanggananController extends Controller
 {
     public function index(Request $request)
     {
-        if(session('user')) {
-          redirect('/')->with('error', 'nyasar bang?');
+        if (session('user')) {
+            redirect('/')->with('error', 'nyasar bang?');
         }
-        if(!session('admin_logged_in')) {
-          return redirect('/')->with('error', 'Mau ngapain bang');
+        if (!session('admin_logged_in')) {
+            return redirect('/')->with('error', 'Mau ngapain bang');
         }
-        
+
         $search = $request->input('search');
-    
-        $langganans = Langganan::when($search, function($query) use ($search) {
-            return $query->where('pilihan_subs', 'like', '%'.$search.'%')
-                        ->orWhere('penjelasan_subs', 'like', '%'.$search.'%')
-                        ->orWhere('harga_subs', 'like', '%'.$search.'%')
-                        ->orWhereJsonContains('benefit_subs', $search);
+
+        $langganans = Langganan::when($search, function ($query) use ($search) {
+            return $query->where('pilihan_subs', 'like', '%' . $search . '%')
+                ->orWhere('penjelasan_subs', 'like', '%' . $search . '%')
+                ->orWhere('harga_subs', 'like', '%' . $search . '%')
+                ->orWhereJsonContains('benefit_subs', $search);
         })
-        ->paginate(1)
-        ->appends(['search' => $search]);
+            ->paginate(1)
+            ->appends(['search' => $search]);
 
         return view('admin-buns.classes.index', compact('langganans', 'search'));
     }
@@ -69,7 +69,7 @@ class LanggananController extends Controller
         if ($request->has('remove_image') && $request->remove_image == '1') {
             // Delete existing image if any
             if ($langganan->gambar_subs) {
-                Storage::delete('public/langganan_images/'.$langganan->gambar_subs);
+                Storage::delete('public/langganan_images/' . $langganan->gambar_subs);
                 $data['gambar_subs'] = null;
             }
         }
@@ -78,9 +78,9 @@ class LanggananController extends Controller
         if ($request->hasFile('gambar_subs')) {
             // Delete existing image if any
             if ($langganan->gambar_subs) {
-                Storage::delete('public/langganan_images/'.$langganan->gambar_subs);
+                Storage::delete('public/langganan_images/' . $langganan->gambar_subs);
             }
-            
+
             $imagePath = $request->file('gambar_subs')->store('langganan_images', 'public');
             $data['gambar_subs'] = basename($imagePath);
         }
@@ -95,17 +95,17 @@ class LanggananController extends Controller
         }
 
         return redirect()->route('admin-buns.classes.index')
-                       ->with('success', 'Kelas berhasil diperbarui.');
+            ->with('success', 'Kelas berhasil diperbarui.');
     }
 
     public function destroy($id)
     {
         $langganan = Langganan::findOrFail($id);
-        
+
         if ($langganan->gambar_subs) {
-            Storage::delete('public/langganan_images/'.$langganan->gambar_subs);
+            Storage::delete('public/langganan_images/' . $langganan->gambar_subs);
         }
-        
+
         $langganan->delete();
 
         return redirect()->route('admin-buns.classes.index')->with('success', 'Kelas berhasil dihapus.');

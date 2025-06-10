@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Subscription Form</title>
+    <title>BUNS CERAMICS</title>
+    {{-- <link href="/src/styles.css" rel="stylesheet"> --}}
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Grand+Hotel&display=swap" rel="stylesheet">
@@ -23,6 +24,10 @@
             left: 50%;
             transform: translateX(-50%);
             letter-spacing: 2px;
+        }
+
+        .history {
+            font-family: 'Itim', cursive, sans-serif;
         }
 
         .nav-item,
@@ -45,122 +50,12 @@
             font-family: 'Playfair Display', serif;
         }
     </style>
-    <script>
-        function updateSubscriptionDetails() {
-            const selectElement = document.getElementById('langganan_id');
-            const selectedOption = selectElement.options[selectElement.selectedIndex];
-            const gambar = selectedOption.getAttribute('data-gambar') || '';
-            const langgananId = selectedOption.getAttribute('data-id-langganan');
-            const harga = selectedOption.getAttribute('data-harga');
-            const penjelasan = selectedOption.getAttribute('data-penjelasan');
-            const benefits = JSON.parse(selectedOption.getAttribute('data-benefits') || '[]');
-
-            document.getElementById('langganan_id_hidden').value = langgananId;
-            document.getElementById('harga_subs').value = harga;
-            document.getElementById('harga_display').textContent = 'Rp ' + harga;
-            document.getElementById('penjelasan_subs').value = penjelasan;
-
-            const benefitList = document.getElementById('benefitList');
-            benefitList.innerHTML = '';
-
-            if (benefits && benefits.length > 0) {
-                benefits.forEach(benefit => {
-                    if (benefit && benefit.trim() !== '') {
-                        const li = document.createElement('li');
-                        li.className = 'flex items-start';
-                        li.innerHTML = `
-                        <svg class="h-5 w-5 text-green-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                        </svg>
-                        ${benefit.replace(/["\[\]]/g, '')}
-                    `;
-                        benefitList.appendChild(li);
-                    }
-                });
-            } else {
-                benefitList.innerHTML = '<li class="text-gray-500">No benefits available</li>';
-            }
-            setSubscriptionImage(gambar);
-
-            updatePrice();
-        }
-
-        function updatePrice() {
-            const duration = document.getElementById('pilihan_hari').value;
-            const selectedOption = document.getElementById('langganan_id').options[document.getElementById('langganan_id')
-                .selectedIndex];
-            let basePrice = parseFloat(selectedOption.getAttribute('data-harga'));
-
-            let finalPrice = basePrice;
-
-            if (duration === '15') {
-                finalPrice = basePrice * 0.9;
-            } else if (duration === '5') {
-                finalPrice = basePrice * 0.8;
-            }
-
-            document.getElementById('harga_display').textContent = `Rp ${finalPrice.toFixed(2)}`;
-            document.getElementById('harga_subs').value = finalPrice.toFixed(2);
-        }
-
-        function setSubscriptionImage(gambar_subs) {
-            const imgElement = document.getElementById('subscriptionImage');
-            if (gambar_subs) {
-                imgElement.src = `/storage/langganan_images/${gambar_subs}`;
-                imgElement.classList.remove('hidden');
-            } else {
-                imgElement.src = '';
-                imgElement.classList.add('hidden');
-            }
-        }
-
-        document.addEventListener('DOMContentLoaded', function() {
-    document.getElementById('langganan_id').addEventListener('change', function() {
-        updateSubscriptionDetails();
-        updatePilihanHariHidden();
-    });
-
-    document.getElementById('pilihan_hari').addEventListener('change', function() {
-        updatePrice();
-        updatePilihanHariHidden();
-    });
-
-    // LocalStorage logic
-    const storedLangganan = localStorage.getItem('selectedLangganan');
-    if (storedLangganan) {
-        const langganan = JSON.parse(storedLangganan);
-
-        const select = document.getElementById('langganan_id');
-        const options = select.options;
-        for (let i = 0; i < options.length; i++) {
-            if (options[i].getAttribute('data-id-langganan') == langganan.id_langganan) {
-                options[i].selected = true;
-                break;
-            }
-        }
-
-        updateSubscriptionDetails();
-        updatePilihanHariHidden();
-
-        localStorage.removeItem('selectedLangganan');
-    } else {
-        updateSubscriptionDetails();
-        updatePilihanHariHidden();
-    }
-});
-
-
-    function updatePilihanHariHidden() {
-    const duration = document.getElementById('pilihan_hari').value;
-    document.getElementById('pilihan_hari_hidden').value = duration;
-}
-
-    </script>
 </head>
 
 <body class="min-h-screen bg-cover bg-center">
     <!-- Navbar -->
     <header class="flex justify-between items-center py-6 px-6 md:px-20 bg-[#262626] fixed top-0 left-0 w-full z-50">
+        {{-- <header class="flex justify-between items-center py-8 px-20 bg-[#212529] bg-opacity-90 shadow-md"> --}}
         <a href="{{ route('index') }}"
             class="text-4xl font-black tracking-wider text-white logo
         cursor-pointer hover:opacity-80 transition-opacity">
@@ -183,7 +78,7 @@
             <a href="{{ route('gallery') }}"
                 class="font-bold text-lg text-white relative hover:after:content-[''] hover:after:absolute hover:after:-bottom-1 hover:after:left-0 hover:after:w-full hover:after:h-0.5 hover:after:bg-[#7D3E35]">Gallery</a>
             <a href="{{ route('contact') }}"
-                class="font-bold text-lg text-white relative hover:after:content-[''] hover:after:absolute hover:after:-bottom-1 hover:after:left-0 hover:after:w-full hover:after:h-0.5 hover:after:bg-[#7D3E35]">Contact</a>
+                class="ont-bold text-lg text-white relative hover:after:content-[''] hover:after:absolute hover:after:-bottom-1 hover:after:left-0 hover:after:w-full hover:after:h-0.5 hover:after:bg-[#7D3E35]">Contact</a>
         </nav>
 
         <div class="hidden lg:block">
@@ -280,8 +175,8 @@
                                 <div class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
                                     <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                                         <path fill-rule="evenodd"
-                                            d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
-                                            clip-rule="evenodd"></path>
+                                            d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd">
+                                        </path>
                                     </svg>
                                 </div>
                                 <div
@@ -292,7 +187,7 @@
 
                             <div class="relative">
                                 <div class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
-                                    <svg class="w-5 w-5" fill="currentColor" viewBox="0 0 20 20">
+                                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                                         <path
                                             d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z">
                                         </path>
@@ -318,7 +213,7 @@
                                     @php
                                         $latestTransaction = $member->transactions()->latest('created_at')->first();
                                     @endphp
-                                    {{ $latestTransaction ? $latestTransaction->nama_kelas : 'No class yet' }}
+                                    {{ $latestTransaction ? $latestTransaction->nama_kelas : 'Belum ada kelas' }}
                                 </div>
                             </div>
                         </div>
@@ -366,127 +261,299 @@
     <!-- Mobile Menu Overlay -->
     <div class="fixed inset-0 bg-black bg-opacity-50 z-30 hidden backdrop-blur-sm" id="mobileMenuOverlay"></div>
 
-    <!-- Subscription Content -->
-    <div class="pt-28 pb-12 px-6 md:px-20 min-h-screen">
-        <!-- Back Button -->
-        <div class="max-w-4xl mx-auto mb-4">
-            <a href="{{ route('class') }}" class="inline-flex items-center text-[#7D3E35] hover:text-[#662f28] transition-colors">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
-                    <path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd" />
-                </svg>
-                Back to Classes
-            </a>
-        </div>
+    <!-- History Content -->
+    <section class="pt-32 pb-16 px-6 md:px-20">
+        <div class="container mx-auto">
+            <div class="relative flex justify-center items-center mb-8">
+                <a href="/" class="absolute left-0 text-[#592727] hover:text-[#7D3E35] p-2 rounded-full">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                    </svg>
+                </a>
+                <h1 class="history text-3xl md:text-4xl font-bold text-center text-[#262626]">History</h1>
+            </div>
 
-        <div class="max-w-4xl mx-auto bg-white rounded-xl shadow-lg overflow-hidden">
-            <div class="md:flex">
-                <!-- Subscription Image with Shadow -->
-                <div class="md:w-1/3 p-6 flex flex-col items-center">
-                    <div class="w-full mb-6">
-                        <img id="subscriptionImage" src="" alt="Subscription Image"
-                            class="w-full h-48 object-cover rounded-lg hidden md:block transform transition-all duration-300 hover:scale-105"
-                            style="box-shadow: 8px 8px 0px rgba(0, 0, 0, 0.3);">
+            @if ($transactions->isEmpty())
+                <div class="text-center py-8">
+                    <p class="text-gray-500">You don't have any transaction history yet</p>
+                </div>
+            @else
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-[#262626]">
+                                <tr class="history">
+                                    <th scope="col"
+                                        class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                                        Class
+                                    </th>
+                                    <th scope="col"
+                                        class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                                        Date
+                                    </th>
+                                    <th scope="col"
+                                        class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                                        Completion
+                                    </th>
+                                    <th scope="col"
+                                        class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                                        Invoice
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200">
+                                @foreach ($transactions as $transaction)
+                                    <tr>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="text-sm font-medium text-gray-900">
+                                                {{ $transaction->nama_kelas }}</div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="text-sm text-gray-500">
+                                                {{ $transaction->tanggal_transaksi->format('d M Y') }}</div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="text-sm text-gray-500">
+                                                @if ($transaction->ended_date)
+                                                    {{ $transaction->ended_date->format('d M Y') }}
+                                                @else
+                                                    -
+                                                @endif
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                            <button onclick="showInvoiceModal('{{ $transaction->order_id }}')"
+                                                class="bg-[#592727] hover:bg-[#7D3E35] text-white font-bold py-2 px-4 rounded-lg inline-flex items-center">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2"
+                                                    fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        stroke-width="2"
+                                                        d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                                </svg>
+                                                Invoice
+                                            </button>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
                     </div>
-                    
-                    <div class="w-full">
-                        <h3 class="text-xl font-bold text-gray-800 mb-4">Subscription Details</h3>
-                        
-                        <div class="mb-4">
-                            <label for="pilihan_hari" class="block text-sm font-medium text-gray-700 mb-1">Duration</label>
-                            <select id="pilihan_hari" name="pilihan_hari"
-                                class="w-full border border-gray-300 rounded-lg py-2 px-3 focus:outline-none focus:ring-2 focus:ring-[#7D3E35] focus:border-[#7D3E35]">
-                                <option value="30">30 Days</option>
-                                <option value="15">15 Days</option>
-                                <option value="5">5 Days</option>
-                            </select>
+                </div>
+                <div class="mt-8">
+                    {{ $transactions->links() }}
+                </div>
+            @endif
+        </div>
+    </section>
+
+    <div id="invoiceModal"
+        class="fixed hidden inset-0 z-50 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="relative bg-white rounded-lg shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+            <button onclick="closeInvoiceModal()"
+                class="absolute top-4 right-4 text-gray-500 hover:text-gray-700 transition-colors rounded-full w-8 h-8 flex items-center justify-center bg-white hover:bg-gray-100 z-10">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+
+            <div class="p-6 md:p-8">
+                <h2 class="text-2xl font-bold text-center text-gray-800 mb-6">Invoice Details</h2>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                    <div>
+                        <h3 class="text-lg font-semibold text-gray-700 mb-2">Order Information</h3>
+                        <div class="space-y-3">
+                            <div>
+                                <p class="text-sm text-gray-500">Order ID</p>
+                                <p id="invoiceOrderId" class="font-medium text-gray-900"></p>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-500">Class Name</p>
+                                <p id="invoiceClassName" class="font-medium text-gray-900"></p>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-500">Order Date</p>
+                                <p id="invoiceOrderDate" class="font-medium text-gray-900"></p>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-500">Completion Date</p>
+                                <p id="invoiceCompletionDate" class="font-medium text-gray-900"></p>
+                            </div>
                         </div>
-                        
-                        <div class="mb-4">
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Benefits</label>
-                            <ul id="benefitList" class="space-y-2">
-                                <li class="text-gray-500">No benefits available</li>
-                            </ul>
+                    </div>
+
+                    <div>
+                        <h3 class="text-lg font-semibold text-gray-700 mb-2">Payment Information</h3>
+                        <div class="space-y-3">
+                            <div>
+                                <p class="text-sm text-gray-500">Payment Method</p>
+                                <p id="invoicePaymentMethod" class="font-medium text-gray-900"></p>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-500">Total Amount</p>
+                                <p id="invoiceAmount" class="font-medium text-gray-900"></p>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Subscription Form -->
-                <div class="md:w-2/3 p-6">
-                    <h2 class="text-2xl font-bold text-gray-800 mb-6">Subscription Form</h2>
-                    
-                    <form method="POST" action="{{ route('subscribe.store') }}" class="space-y-4">
-                        @csrf
-                        <input type="hidden" name="email_member" value="{{ $data['email_member'] }}">
-                        <input type="hidden" name="id_account" id="id_account" value="{{ $data['id_account'] }}">
-                        <input type="hidden" name="pilihan_hari" id="pilihan_hari_hidden" value="30">
-
-                        
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div>
-                                <label for="nama_member" class="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
-                                <input type="text" name="nama_member" id="nama_member"
-                                    value="{{ old('nama_member', $data['nama_member']) }}"
-                                    class="w-full border border-gray-300 rounded-lg py-2 px-3 focus:outline-none focus:ring-2 focus:ring-[#7D3E35] focus:border-[#7D3E35]"
-                                    required>
-                            </div>
-                            
-                            <div>
-                                <label for="no_telp" class="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
-                                <input type="text" name="no_telp" id="no_telp"
-                                    value="{{ old('no_telp', $data['no_telp']) }}"
-                                    class="w-full border border-gray-300 rounded-lg py-2 px-3 focus:outline-none focus:ring-2 focus:ring-[#7D3E35] focus:border-[#7D3E35]"
-                                    required>
-                            </div>
-                        </div>
-
-                        <div>
-                            <label for="alamat_member" class="block text-sm font-medium text-gray-700 mb-1">Address</label>
-                            <input type="text" name="alamat_member" id="alamat_member"
-                                value="{{ old('alamat_member', $data['alamat_member']) }}"
-                                class="w-full border border-gray-300 rounded-lg py-2 px-3 focus:outline-none focus:ring-2 focus:ring-[#7D3E35] focus:border-[#7D3E35]"
-                                required>
-                        </div>
-
-                        <div>
-                            <label for="langganan_id" class="block text-sm font-medium text-gray-700 mb-1">Subscription Type</label>
-                            <select name="pilihan_subs" id="langganan_id"
-                                class="w-full border border-gray-300 rounded-lg py-2 px-3 focus:outline-none focus:ring-2 focus:ring-[#7D3E35] focus:border-[#7D3E35]"
-                                required>
-                                <option value="">Select Subscription</option>
-                                @foreach ($data['langganans'] as $langganan)
-                                    <option value="{{ $langganan->pilihan_subs }}"
-                                        data-id-langganan="{{ $langganan->id_langganan }}" 
-                                        data-harga="{{ $langganan->harga_subs }}"
-                                        data-penjelasan="{{ $langganan->penjelasan_subs }}"
-                                        data-benefits="{{ json_encode($langganan->benefit_subs) }}"
-                                        data-gambar="{{ $langganan->gambar_subs }}"
-                                        {{ isset($selectedLangganan) && $selectedLangganan->id_langganan == $langganan->id_langganan ? 'selected' : '' }}>
-                                        {{ $langganan->pilihan_subs }}
-                                    </option>
-                                @endforeach
-                            </select>
-                            <input type="hidden" name="langganan_id" id="langganan_id_hidden" value="">
-                        </div>
-
-                        <div>
-                            <label for="penjelasan_subs" class="block text-sm font-medium text-gray-700 mb-1">Description</label>
-                            <textarea name="penjelasan_subs" id="penjelasan_subs"
-                                class="w-full border border-gray-300 rounded-lg py-2 px-3 focus:outline-none focus:ring-2 focus:ring-[#7D3E35] focus:border-[#7D3E35] h-32"
-                                readonly></textarea>
-                        </div>
-                          <div class="mb-4">
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Price</label>
-                            <p id="harga_display" class="text-2xl font-bold text-[#7D3E35]">
-                                Rp {{ $selectedLangganan ? number_format($selectedLangganan->harga_subs, 0, ',', '.') : '0' }}
-                            </p>
-                            <input type="hidden" name="harga_subs" id="harga_subs"
-                                value="{{ $selectedLangganan ? $selectedLangganan->harga_subs : '' }}">
-                        </div>
-                        <button type="submit"
-                            class="w-full bg-[#7D3E35] text-white py-3 px-6 rounded-lg font-semibold hover:bg-[#662f28] transition-colors duration-200 shadow-md hover:shadow-lg">
-                            Subscribe Now
+                <div class="border-t border-gray-200 pt-6">
+                    <div class="flex justify-between items-center">
+                        <button onclick="printInvoice()"
+                            class="bg-[#592727] hover:bg-[#7D3E35] text-white font-bold py-2 px-4 rounded-lg inline-flex items-center transition-colors">
+                            <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd"
+                                    d="M5 4v3H4a2 2 0 00-2 2v3a2 2 0 002 2h1v2a2 2 0 002 2h6a2 2 0 002-2v-2h1a2 2 0 002-2V9a2 2 0 00-2-2h-1V4a2 2 0 00-2-2H7a2 2 0 00-2 2zm8 0H7v3h6V4zM5 14H4v-2h1v2zm1 0v2h6v-2H6zm9 0v-2h1v2h-1z"
+                                    clip-rule="evenodd"></path>
+                            </svg>
+                            Print
                         </button>
-                    </form>
+                        <button onclick="closeInvoiceModal()"
+                            class="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-100 transition-colors">
+                            Close
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="invoiceModal"
+        class="fixed hidden inset-0 z-50 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="relative bg-white rounded-lg shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+            <button onclick="closeInvoiceModal()"
+                class="absolute top-4 right-4 text-gray-500 hover:text-gray-700 transition-colors rounded-full w-8 h-8 flex items-center justify-center bg-white hover:bg-gray-100 z-10">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+
+            <div class="p-6 md:p-8">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6">Invoice Details</h2>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                    <div>
+                        <h3 class="text-lg font-semibold text-gray-700 mb-2">Order Information</h3>
+                        <div class="space-y-3">
+                            <div>
+                                <p class="text-sm text-gray-500">Order ID</p>
+                                <p id="invoiceOrderId" class="font-medium text-gray-900"></p>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-500">Class Name</p>
+                                <p id="invoiceClassName" class="font-medium text-gray-900"></p>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-500">Order Date</p>
+                                <p id="invoiceOrderDate" class="font-medium text-gray-900"></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h3 class="text-lg font-semibold text-gray-700 mb-2">Payment Information</h3>
+                        <div class="space-y-3">
+                            <div>
+                                <p class="text-sm text-gray-500">Payment Method</p>
+                                <p id="invoicePaymentMethod" class="font-medium text-gray-900"></p>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-500">Total Amount</p>
+                                <p id="invoiceAmount" class="font-medium text-gray-900"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="border-t border-gray-200 pt-6">
+                    <div class="flex justify-between items-center">
+                        <button onclick="printInvoice()"
+                            class="bg-[#592727] hover:bg-[#7D3E35] text-white font-bold py-2 px-4 rounded-lg inline-flex items-center transition-colors">
+                            <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd"
+                                    d="M5 4v3H4a2 2 0 00-2 2v3a2 2 0 002 2h1v2a2 2 0 002 2h6a2 2 0 002-2v-2h1a2 2 0 002-2V9a2 2 0 00-2-2h-1V4a2 2 0 00-2-2H7a2 2 0 00-2 2zm8 0H7v3h6V4zM5 14H4v-2h1v2zm1 0v2h6v-2H6zm9 0v-2h1v2h-1z"
+                                    clip-rule="evenodd"></path>
+                            </svg>
+                            Print
+                        </button>
+                        <button onclick="closeInvoiceModal()"
+                            class="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-100 transition-colors">
+                            Close
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Invoice Modal -->
+    <div id="invoiceModal"
+        class="fixed hidden inset-0 z-50 bg-black bg-opacity-50 backdrop-blur-sm items-center justify-center p-4">
+        <div class="relative bg-white rounded-lg shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+            <button onclick="closeInvoiceModal()"
+                class="absolute top-4 right-4 text-gray-500 hover:text-gray-700 transition-colors rounded-full w-8 h-8 flex items-center justify-center bg-white hover:bg-gray-100">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+
+            <div class="p-6">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6">Invoice Details</h2>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                    <div>
+                        <h3 class="text-lg font-semibold text-gray-700 mb-2">Order Information</h3>
+                        <div class="space-y-3">
+                            <div>
+                                <p class="text-sm text-gray-500">Order ID</p>
+                                <p id="invoiceOrderId" class="font-medium"></p>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-500">Class Name</p>
+                                <p id="invoiceClassName" class="font-medium"></p>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-500">Order Date</p>
+                                <p id="invoiceOrderDate" class="font-medium"></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h3 class="text-lg font-semibold text-gray-700 mb-2">Payment Information</h3>
+                        <div class="space-y-3">
+                            <div>
+                                <p class="text-sm text-gray-500">Payment Method</p>
+                                <p id="invoicePaymentMethod" class="font-medium"></p>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-500">Total Amount</p>
+                                <p id="invoiceAmount" class="font-medium"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="border-t border-gray-200 pt-6">
+                    <div class="flex justify-between">
+                        <button onclick="printInvoice()"
+                            class="bg-[#592727] hover:bg-[#7D3E35] text-white font-bold py-2 px-4 rounded-lg inline-flex items-center">
+                            <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd"
+                                    d="M5 4v3H4a2 2 0 00-2 2v3a2 2 0 002 2h1v2a2 2 0 002 2h6a2 2 0 002-2v-2h1a2 2 0 002-2V9a2 2 0 00-2-2h-1V4a2 2 0 00-2-2H7a2 2 0 00-2 2zm8 0H7v3h6V4zM5 14H4v-2h1v2zm1 0v2h6v-2H6zm9 0v-2h1v2h-1z"
+                                    clip-rule="evenodd"></path>
+                            </svg>
+                            Print
+                        </button>
+                        <button onclick="closeInvoiceModal()"
+                            class="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-100 transition-colors">
+                            Close
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -568,13 +635,15 @@
                             Login
                         </button>
 
+                        {{-- Link lupa password --}}
                         <div class="text-center">
                             <a href="{{ route('password.request') }}"
                                 class="text-sm text-gray-500 hover:text-gray-800 underline transition-all">
-                                Forgot Password?
+                                Lupa Password?
                             </a>
                         </div>
                     </form>
+
 
                     <!-- Mobile Only Sign Up Link -->
                     <div class="sm:hidden mt-4 text-center">
@@ -757,6 +826,73 @@
                 closeMemberInfo();
             }
         });
+
+        function showInvoiceModal(orderId) {
+            const modal = document.getElementById('invoiceModal');
+            modal.classList.remove('hidden');
+            document.body.classList.add('overflow-hidden');
+
+            document.getElementById('invoiceOrderId').textContent = 'Loading...';
+            document.getElementById('invoiceClassName').textContent = 'Loading...';
+            document.getElementById('invoiceOrderDate').textContent = 'Loading...';
+            document.getElementById('invoicePaymentMethod').textContent = 'Loading...';
+            document.getElementById('invoiceAmount').textContent = 'Loading...';
+            document.getElementById('invoiceCompletionDate').textContent = 'Loading...';
+
+            fetch(`/transaction/${orderId}/invoice`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        document.getElementById('invoiceOrderId').textContent = data.data.order_id;
+                        document.getElementById('invoiceClassName').textContent = data.data.nama_kelas;
+                        document.getElementById('invoiceOrderDate').textContent = data.data.tanggal_transaksi;
+                        document.getElementById('invoicePaymentMethod').textContent = data.data.payment_method;
+                        document.getElementById('invoiceAmount').textContent = data.data.total_transaksi;
+                        document.getElementById('invoiceCompletionDate').textContent = data.data.ended_date;
+                    } else {
+                        alert('Gagal memuat data invoice');
+                        closeInvoiceModal();
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Terjadi kesalahan saat memuat data');
+                    closeInvoiceModal();
+                });
+        }
+
+        function closeInvoiceModal() {
+            const modal = document.getElementById('invoiceModal');
+            modal.classList.add('hidden');
+            document.body.classList.remove('overflow-hidden');
+        }
+
+        function printInvoice() {
+            const printContent = `
+            <div style="padding: 20px; font-family: Arial, sans-serif;">
+                <h1 style="text-align: center; margin-bottom: 30px;">Buns Ceramics Invoice</h1>
+                <div style="margin-bottom: 20px;">
+                    <p><strong>Order ID:</strong> ${document.getElementById('invoiceOrderId').textContent}</p>
+                    <p><strong>Order Date:</strong> ${document.getElementById('invoiceOrderDate').textContent}</p>
+                    <p><strong>Completion Date:</strong> ${document.getElementById('invoiceCompletionDate').textContent}</p>
+                </div>
+                <h2 style="border-bottom: 1px solid #ddd; padding-bottom: 5px;">Order Details</h2>
+                <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
+                    <tr><td style="padding: 8px 0;"><strong>Class:</strong></td><td style="padding: 8px 0;">${document.getElementById('invoiceClassName').textContent}</td></tr>
+                    <tr><td style="padding: 8px 0;"><strong>Payment Method:</strong></td><td style="padding: 8px 0;">${document.getElementById('invoicePaymentMethod').textContent}</td></tr>
+                    <tr><td style="padding: 8px 0;"><strong>Total:</strong></td><td style="padding: 8px 0;">${document.getElementById('invoiceAmount').textContent}</td></tr>
+                </table>
+                <div style="margin-top: 40px; text-align: center; font-size: 12px; color: #777;"><p>Thank you for choosing Buns Ceramics</p></div>
+            </div>
+        `;
+            const printWindow = window.open('', '', 'width=800,height=600');
+            printWindow.document.open();
+            printWindow.document.write(
+                `<html><head><title>Invoice</title></head><body>${printContent}<script>window.onload = function() { window.print(); setTimeout(function() { window.close(); }, 100); };<\/script></body></html>`
+                );
+            printWindow.document.close();
+        }
     </script>
 </body>
+
 </html>

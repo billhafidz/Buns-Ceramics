@@ -7,7 +7,7 @@
         <!-- Header Section with Title -->
         <div class="header-section mb-5">
             <h2 class="page-title">
-                Daftar Users
+                List Users
             </h2>
         </div>
 

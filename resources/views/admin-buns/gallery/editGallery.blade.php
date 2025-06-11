@@ -40,9 +40,11 @@
                                             id="jenis" name="jenis" required>
                                             <option value="gelas" {{ $gallery->jenis == 'gelas' ? 'selected' : '' }}>Gelas
                                             </option>
-                                            <option value="mangkuk" {{ $gallery->jenis == 'mangkuk' ? 'selected' : '' }}>Mangkuk
+                                            <option value="mangkuk" {{ $gallery->jenis == 'mangkuk' ? 'selected' : '' }}>
+                                                Mangkuk
                                             </option>
-                                            <option value="piring" {{ $gallery->jenis == 'piring' ? 'selected' : '' }}>Piring
+                                            <option value="piring" {{ $gallery->jenis == 'piring' ? 'selected' : '' }}>
+                                                Piring
                                             </option>
                                         </select>
                                         <div class="text-red-500 text-xs md:text-sm mt-1 error-msg" id="error-jenis"></div>
@@ -53,20 +55,24 @@
                                 <tr class="border-b border-gray-200">
                                     <td class="p-3 md:p-4 bg-gray-50 font-medium">Gambar Gallery</td>
                                     <td class="p-3 md:p-4">
-                                        <div class="border-2 border-dashed border-gray-300 rounded-md p-3 md:p-4 text-center">
+                                        <div
+                                            class="border-2 border-dashed border-gray-300 rounded-md p-3 md:p-4 text-center">
                                             <!-- Current Image Display -->
-                                            <div id="currentImageContainer" class="{{ $gallery->gambar ? '' : 'hidden' }} mb-3">
+                                            <div id="currentImageContainer"
+                                                class="{{ $gallery->gambar ? '' : 'hidden' }} mb-3">
                                                 <img id="currentImage" src="{{ asset('storage/' . $gallery->gambar) }}"
                                                     class="max-h-32 md:max-h-40 mx-auto rounded" alt="">
-                                                <p id="current-file-name" class="text-xs md:text-sm text-gray-700 mt-2 truncate">
+                                                <p id="current-file-name"
+                                                    class="text-xs md:text-sm text-gray-700 mt-2 truncate">
                                                     {{ $gallery->gambar }}</p>
                                             </div>
 
                                             <!-- Upload Area -->
                                             <div id="uploadArea"
                                                 class="{{ $gallery->gambar ? 'hidden' : 'flex flex-col items-center justify-center space-y-2' }}">
-                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-10 md:h-12 w-10 md:w-12 text-gray-400 mx-auto"
-                                                    fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <svg xmlns="http://www.w3.org/2000/svg"
+                                                    class="h-10 md:h-12 w-10 md:w-12 text-gray-400 mx-auto" fill="none"
+                                                    viewBox="0 0 24 24" stroke="currentColor">
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                         d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                                                 </svg> <br>
@@ -81,13 +87,17 @@
 
                                             <!-- New Image Preview (Initially Hidden) -->
                                             <div id="imagePreviewContainer" class="hidden mt-2">
-                                                <img id="imagePreview" class="max-h-32 md:max-h-40 mx-auto rounded" alt="Preview">
-                                                <p id="new-file-name" class="text-xs md:text-sm text-gray-700 mt-2 truncate"></p>
+                                                <img id="imagePreview" class="max-h-32 md:max-h-40 mx-auto rounded"
+                                                    alt="Preview">
+                                                <p id="new-file-name"
+                                                    class="text-xs md:text-sm text-gray-700 mt-2 truncate"></p>
                                                 <button type="button" onclick="removeImage()"
                                                     class="mt-1 text-red-500 hover:text-red-700 text-xs md:text-sm flex items-center justify-center mx-auto">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-3 md:h-4 w-3 md:w-4 mr-1" fill="none"
+                                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                                        class="h-3 md:h-4 w-3 md:w-4 mr-1" fill="none"
                                                         viewBox="0 0 24 24" stroke="currentColor">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            stroke-width="2"
                                                             d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                                                     </svg>
                                                     Hapus Gambar
@@ -99,9 +109,11 @@
                                                 class="{{ $gallery->gambar ? '' : 'hidden' }} mt-3">
                                                 <button type="button" onclick="removeCurrentImage()"
                                                     class="mt-1 text-red-500 hover:text-red-700 text-xs md:text-sm flex items-center justify-center mx-auto">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-3 md:h-4 w-3 md:w-4 mr-1" fill="none"
+                                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                                        class="h-3 md:h-4 w-3 md:w-4 mr-1" fill="none"
                                                         viewBox="0 0 24 24" stroke="currentColor">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            stroke-width="2"
                                                             d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                                                     </svg>
                                                     Hapus Gambar
@@ -142,7 +154,7 @@
 
     <!-- Script for image preview and validation -->
     <script>
-        // Form validation dengan AJAX support dan image validation
+        // Script for image preview and validation with success popup
         document.getElementById('editGalleryForm').addEventListener('submit', function(e) {
             e.preventDefault();
 
@@ -199,21 +211,47 @@
                                     }
                                 });
                             } else if (data.success) {
-                                // SUCCESS CASE - Store success message and redirect
-                                sessionStorage.setItem('gallery_update_success', data.message ||
-                                    'Gallery berhasil diperbarui.');
-                                window.location.href = "{{ route('admin-buns.gallery') }}";
+                                // SUCCESS CASE - Show success popup
+                                Swal.fire({
+                                    title: 'Berhasil!',
+                                    text: data.message || 'Data kelas berhasil diperbarui.',
+                                    icon: 'success',
+                                    confirmButtonColor: '#3085d6',
+                                    confirmButtonText: 'OK',
+                                    backdrop: 'rgba(0,0,0,0.7)',
+                                    background: '#ffffff',
+                                    customClass: {
+                                        popup: 'success-popup'
+                                    }
+                                }).then(() => {
+                                    window.location.href = "{{ route('admin-buns.gallery') }}";
+                                });
                             } else {
-                                // Fallback for other JSON responses - assume success
-                                sessionStorage.setItem('gallery_update_success',
-                                    'Gallery berhasil diperbarui.');
-                                window.location.href = "{{ route('admin-buns.gallery') }}";
+                                // Fallback success case
+                                Swal.fire({
+                                    title: 'Berhasil!',
+                                    text: 'Data kelas berhasil diperbarui.',
+                                    icon: 'success',
+                                    confirmButtonColor: '#3085d6',
+                                    confirmButtonText: 'OK',
+                                    backdrop: 'rgba(0,0,0,0.7)'
+                                }).then(() => {
+                                    window.location.href = "{{ route('admin-buns.gallery') }}";
+                                });
                             }
                         });
                     } else {
-                        // Non-JSON response (e.g. HTML redirect) - assume success
-                        sessionStorage.setItem('gallery_update_success', 'Gallery berhasil diperbarui.');
-                        window.location.href = "{{ route('admin-buns.gallery') }}";
+                        // Non-JSON response - show success popup
+                        Swal.fire({
+                            title: 'Berhasil!',
+                            text: 'Data kelas berhasil diperbarui.',
+                            icon: 'success',
+                            confirmButtonColor: '#3085d6',
+                            confirmButtonText: 'OK',
+                            backdrop: 'rgba(0,0,0,0.7)'
+                        }).then(() => {
+                            window.location.href = "{{ route('admin-buns.gallery') }}";
+                        });
                         return null;
                     }
                 })
@@ -226,7 +264,14 @@
                     }
 
                     // Show error message
-                    alert('Terjadi kesalahan saat memperbarui data. Silakan coba lagi.');
+                    Swal.fire({
+                        title: 'Error!',
+                        text: 'Terjadi kesalahan saat memperbarui data. Silakan coba lagi.',
+                        icon: 'error',
+                        confirmButtonColor: '#d33',
+                        confirmButtonText: 'OK',
+                        backdrop: 'rgba(0,0,0,0.7)'
+                    });
                 });
         });
 
@@ -324,7 +369,7 @@
                 const maxSize = 10 * 1024 * 1024; // 10MB
                 if (file.size > maxSize) {
                     document.getElementById('error-gambar').textContent =
-                    'Ukuran file tidak boleh lebih dari 10MB.';
+                        'Ukuran file tidak boleh lebih dari 10MB.';
                     this.value = '';
                     return;
                 }
@@ -358,6 +403,7 @@
             document.getElementById('error-gambar').style.color = '#ef4444';
         });
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <!-- Responsive CSS styles -->
     <style>
@@ -509,7 +555,7 @@
             justify-content: center;
         }
 
-        .space-y-2 > :not([hidden]) ~ :not([hidden]) {
+        .space-y-2> :not([hidden])~ :not([hidden]) {
             --tw-space-y-reverse: 0;
             margin-top: calc(0.5rem * calc(1 - var(--tw-space-y-reverse)));
             margin-bottom: calc(0.5rem * var(--tw-space-y-reverse));

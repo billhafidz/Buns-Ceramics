@@ -24,9 +24,11 @@
                             <tr class="border-b border-gray-200">
                                 <td class="p-3 md:p-4 bg-gray-50 w-1/4 font-medium">Class Name</td>
                                 <td class="p-3 md:p-4">
-                                    <input type="text" name="pilihan_subs" value="{{ $langganan->pilihan_subs }}" required
+                                    <input type="text" name="pilihan_subs" value="{{ $langganan->pilihan_subs }}"
+                                        required
                                         class="w-full p-2 md:p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-gray-300 focus:border-transparent">
-                                    <div class="text-red-500 text-xs md:text-sm mt-1 error-msg" id="error-pilihan_subs"></div>
+                                    <div class="text-red-500 text-xs md:text-sm mt-1 error-msg" id="error-pilihan_subs">
+                                    </div>
                                 </td>
                             </tr>
 
@@ -34,8 +36,8 @@
                             <tr class="border-b border-gray-200">
                                 <td class="p-3 md:p-4 bg-gray-50 font-medium">Price</td>
                                 <td class="p-3 md:p-4">
-                                    <input type="number" step="0.01" name="harga_subs" value="{{ $langganan->harga_subs }}"
-                                        required
+                                    <input type="number" step="0.01" name="harga_subs"
+                                        value="{{ $langganan->harga_subs }}" required
                                         class="w-full p-2 md:p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-gray-300 focus:border-transparent">
                                     <div class="text-red-500 text-xs md:text-sm mt-1 error-msg" id="error-harga_subs"></div>
                                 </td>
@@ -47,7 +49,8 @@
                                 <td class="p-3 md:p-4">
                                     <textarea name="penjelasan_subs" required
                                         class="w-full h-24 md:h-32 p-2 md:p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-gray-300 focus:border-transparent">{{ $langganan->penjelasan_subs }}</textarea>
-                                    <div class="text-red-500 text-xs md:text-sm mt-1 error-msg" id="error-penjelasan_subs"></div>
+                                    <div class="text-red-500 text-xs md:text-sm mt-1 error-msg" id="error-penjelasan_subs">
+                                    </div>
                                 </td>
                             </tr>
                             <!-- Gambar Kelas -->
@@ -61,14 +64,16 @@
                                             <img id="currentImage"
                                                 src="{{ asset('storage/langganan_images/' . $langganan->gambar_subs) }}"
                                                 class="max-h-32 md:max-h-40 mx-auto rounded" alt="">
-                                            <p id="current-file-name" class="text-xs md:text-sm text-gray-700 mt-2 truncate">
+                                            <p id="current-file-name"
+                                                class="text-xs md:text-sm text-gray-700 mt-2 truncate">
                                                 {{ $langganan->gambar_subs }}</p>
                                         </div>
                                         <!-- Upload Area -->
                                         <div id="uploadArea"
                                             class="{{ $langganan->gambar_subs ? 'hidden' : 'flex flex-col items-center justify-center space-y-2' }}">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-10 md:h-12 w-10 md:w-12 text-gray-400 mx-auto"
-                                                fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                class="h-10 md:h-12 w-10 md:w-12 text-gray-400 mx-auto" fill="none"
+                                                viewBox="0 0 24 24" stroke="currentColor">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                     d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                                             </svg> <br>
@@ -83,12 +88,14 @@
 
                                         <!-- New Image Preview (Initially Hidden) -->
                                         <div id="imagePreviewContainer" class="hidden mt-2">
-                                            <img id="imagePreview" class="max-h-32 md:max-h-40 mx-auto rounded" alt="Preview">
-                                            <p id="new-file-name" class="text-xs md:text-sm text-gray-700 mt-2 truncate"></p>
+                                            <img id="imagePreview" class="max-h-32 md:max-h-40 mx-auto rounded"
+                                                alt="Preview">
+                                            <p id="new-file-name" class="text-xs md:text-sm text-gray-700 mt-2 truncate">
+                                            </p>
                                             <button type="button" onclick="removeImage()"
                                                 class="mt-1 text-red-500 hover:text-red-700 text-xs md:text-sm flex items-center justify-center mx-auto">
-                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-3 md:h-4 w-3 md:w-4 mr-1" fill="none"
-                                                    viewBox="0 0 24 24" stroke="currentColor">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-3 md:h-4 w-3 md:w-4 mr-1"
+                                                    fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                         d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                                                 </svg>
@@ -101,8 +108,8 @@
                                             class="{{ $langganan->gambar_subs ? '' : 'hidden' }} mt-3">
                                             <button type="button" onclick="removeCurrentImage()"
                                                 class="mt-1 text-red-500 hover:text-red-700 text-xs md:text-sm flex items-center justify-center mx-auto">
-                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-3 md:h-4 w-3 md:w-4 mr-1" fill="none"
-                                                    viewBox="0 0 24 24" stroke="currentColor">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-3 md:h-4 w-3 md:w-4 mr-1"
+                                                    fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                         d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                                                 </svg>
@@ -111,7 +118,8 @@
                                         </div>
                                     </div>
                                     <p class="mt-1 text-xs text-gray-500">Format: JPG, PNG, JPEG. Maksimal 2MB.</p>
-                                    <div class="text-red-500 text-xs md:text-sm mt-1 error-msg" id="error-gambar_subs"></div>
+                                    <div class="text-red-500 text-xs md:text-sm mt-1 error-msg" id="error-gambar_subs">
+                                    </div>
                                 </td>
                             </tr>
 
@@ -119,7 +127,8 @@
                             <tr class="border-b border-gray-200">
                                 <td class="p-3 md:p-4 bg-gray-50 font-medium align-top">Benefit</td>
                                 <td class="p-3 md:p-4">
-                                    <div id="benefitListEdit" class="max-h-[150px] overflow-y-auto space-y-2 rounded-md p-2">
+                                    <div id="benefitListEdit"
+                                        class="max-h-[150px] overflow-y-auto space-y-2 rounded-md p-2">
                                         @foreach (json_decode($langganan->benefit_subs, true) as $benefit)
                                             <div class="flex items-center gap-2 mb-2">
                                                 <input type="text" name="benefit_subs[]" value="{{ $benefit }}"
@@ -127,10 +136,10 @@
                                                     class="flex-1 p-2 md:p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-gray-300 focus:border-transparent benefit-input">
                                                 <button type="button" onclick="removeBenefitEdit(this)"
                                                     class="text-gray-500 hover:text-red-500">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 md:h-5 w-4 md:w-5" fill="none"
-                                                        viewBox="0 0 24 24" stroke="currentColor">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                            d="M6 18L18 6M6 6l12 12" />
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 md:h-5 w-4 md:w-5"
+                                                        fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                                                     </svg>
                                                 </button>
                                             </div>
@@ -138,8 +147,8 @@
                                     </div>
                                     <button type="button" onclick="addBenefitEdit()"
                                         class="mt-2 flex items-center text-blue-600 hover:text-blue-800 text-sm">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 md:h-5 w-4 md:w-5 mr-1" fill="none"
-                                            viewBox="0 0 24 24" stroke="currentColor">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 md:h-5 w-4 md:w-5 mr-1"
+                                            fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                 d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                                         </svg>
@@ -249,19 +258,15 @@
                     credentials: 'same-origin'
                 })
                 .then(response => {
-                    // Check if it's JSON response
                     const contentType = response.headers.get('content-type');
                     if (contentType && contentType.includes('application/json')) {
                         return response.json().then(data => {
-                            // JSON response handling
                             if (data.errors) {
-                                // Re-enable submit button
                                 if (submitButton) {
                                     submitButton.disabled = false;
                                     submitButton.innerText = 'Update';
                                 }
 
-                                // Display validation errors
                                 Object.keys(data.errors).forEach(field => {
                                     const errorElement = document.getElementById('error-' +
                                         field);
@@ -270,22 +275,44 @@
                                     }
                                 });
                             } else if (data.success) {
-                                // Success - redirect to index page
-                                window.location.href = "{{ route('admin-buns.classes.index') }}";
+                                Swal.fire({
+                                    title: 'Successfully!',
+                                    text: 'Class successfully updated.',
+                                    icon: 'success',
+                                    confirmButtonColor: '#3085d6',
+                                    confirmButtonText: 'OK'
+                                }).then(() => {
+                                    window.location.href =
+                                        "{{ route('admin-buns.classes.index') }}";
+                                });
                             } else {
-                                // Fallback for other JSON responses - assume success
-                                window.location.href = "{{ route('admin-buns.classes.index') }}";
+                                Swal.fire({
+                                    title: 'Successfully!',
+                                    text: 'Class successfully updated.',
+                                    icon: 'success',
+                                    confirmButtonColor: '#3085d6',
+                                    confirmButtonText: 'OK'
+                                }).then(() => {
+                                    window.location.href =
+                                        "{{ route('admin-buns.classes.index') }}";
+                                });
                             }
                         });
                     } else {
-                        // Non-JSON response (e.g. HTML redirect) - assume success
-                        window.location.href = "{{ route('admin-buns.classes.index') }}";
+                        Swal.fire({
+                            title: 'Successfully!',
+                            text: 'Class successfully updated.',
+                            icon: 'success',
+                            confirmButtonColor: '#3085d6',
+                            confirmButtonText: 'OK'
+                        }).then(() => {
+                            window.location.href = "{{ route('admin-buns.classes.index') }}";
+                        });
                         return null;
                     }
                 })
                 .catch(error => {
                     console.error('Error:', error);
-                    // Re-enable submit button on error
                     if (submitButton) {
                         submitButton.disabled = false;
                         submitButton.innerText = 'Update';
@@ -352,4 +379,5 @@
             document.getElementById('remove_image').value = '1';
         }
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 @endsection

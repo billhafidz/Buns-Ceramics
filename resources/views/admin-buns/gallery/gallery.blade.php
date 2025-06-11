@@ -1,239 +1,254 @@
 @extends('layouts.admin')
 
 @section('content')
+    <section id="gallery" class="bg-light py-5">
+        <div class="container">
+            <!-- Header Section with Title -->
+            <div class="header-section mb-5">
+                <h2 class="page-title">
+                    Manage Gallery
+                </h2>
+            </div>
 
-<section id="gallery" class="bg-light py-5">
-    <div class="container">
-        <!-- Header Section with Title -->
-        <div class="header-section mb-5">
-            <h2 class="page-title">
-                Manage Gallery
-            </h2>
-        </div>
-
-        <!-- Success Alert -->
-        @if(session('success'))
+            {{-- <!-- Success Alert -->
+        @if (session('success'))
         <div class="alert alert-success alert-dismissible fade show mb-4" role="alert">
             {{ session('success') }}
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
-        @endif
+        @endif --}}
 
-        <!-- Error Alert -->
-        @if(session('error'))
-        <div class="alert alert-danger alert-dismissible fade show mb-4" role="alert">
-            {{ session('error') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-        @endif
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-        <!-- Action Bar - Button Add & Search -->
-        <div class="action-bar mb-4">
-            <div class="action-left">
-                <button class="btn-add-modern" id="openModalButton">
-                    <div class="btn-content">
-                        <i class="fas fa-plus-circle"></i>
-                        <span>Add Gallery</span>
-                    </div>
-                    <div class="btn-shine"></div>
-                </button>
-            </div>
-
-            <div class="action-right">
-                <form action="{{ route('admin-buns.gallery') }}" method="GET" class="search-form-modern">
-                    <div class="search-container">
-                        <div class="search-input-wrapper">
-                            <i class="fas fa-search search-icon"></i>
-                            <input
-                                type="text"
-                                id="searchInput"
-                                name="search"
-                                class="search-input"
-                                value="{{ request('search') }}"
-                                placeholder="Search galleries by name or type..."
-                                autocomplete="off" />
-                            @if(request('search'))
-                            <button type="button" class="clear-search" onclick="clearSearch()">
-                                <i class="fas fa-times"></i>
-                            </button>
-                            @endif
+            <!-- Error Alert -->
+            @if (session('error'))
+                <div class="alert alert-danger alert-dismissible fade show mb-4" role="alert">
+                    {{ session('error') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @endif
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+            <!-- Action Bar - Button Add & Search -->
+            <div class="action-bar mb-4">
+                <div class="action-left">
+                    <button class="btn-add-modern" id="openModalButton">
+                        <div class="btn-content">
+                            <i class="fas fa-plus-circle"></i>
+                            <span>Add Gallery</span>
                         </div>
-                        <button type="submit" class="search-btn">
-                            <i class="fas fa-search"></i>
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
+                        <div class="btn-shine"></div>
+                    </button>
+                </div>
 
-        <!-- Modal -->
-        <div class="modal" id="createGalleryModal">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header" style="background-color: #333; color: white; border-radius: 10px 10px 0 0; padding: 20px 30px;">
-                        <h5 class="modal-title">Tambah Gallery</h5>
-                    </div>
-                    <form method="POST" action="{{ route('admin-buns.gallery.store') }}" enctype="multipart/form-data" id="galleryForm">
-                        @csrf
-                        <div class="modal-body" style="background-color: #f8f9fa; padding: 30px; border-radius: 0 0 10px 10px; box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);">
-                            <div class="mb-3">
-                                <label for="nama" class="form-label" style="font-weight: bold; color: #333;">
-                                    Nama Member <span class="required-asterisk">*</span>
-                                </label>
-                                <select class="form-select" id="nama" name="nama" style="border: 1px solid #ccc; border-radius: 8px; padding: 10px 12px; width: 620px;">
-                                    <option value="" disabled selected>Pilih Nama Member</option>
-                                    @foreach ($members as $member)
-                                    <option value="{{ $member->nama_member }}">{{ $member->nama_member }}</option>
-                                    @endforeach
-                                </select>
-                                <div class="invalid-feedback" id="nama-error">
-                                    @if($errors->has('nama'))
-                                    {{ $errors->first('nama') }}
-                                    @endif
-                                </div>
+                <div class="action-right">
+                    <form action="{{ route('admin-buns.gallery') }}" method="GET" class="search-form-modern">
+                        <div class="search-container">
+                            <div class="search-input-wrapper">
+                                <i class="fas fa-search search-icon"></i>
+                                <input type="text" id="searchInput" name="search" class="search-input"
+                                    value="{{ request('search') }}" placeholder="Search galleries by name or type..."
+                                    autocomplete="off" />
+                                @if (request('search'))
+                                    <button type="button" class="clear-search" onclick="clearSearch()">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                @endif
                             </div>
-                            <div class="mb-3">
-                                <label for="jenis" class="form-label" style="font-weight: bold; color: #333;">
-                                    Jenis <span class="required-asterisk">*</span>
-                                </label>
-                                <select class="form-select" id="jenis" name="jenis" style="border: 1px solid #ccc; border-radius: 8px; padding: 10px 12px; width: 620px;">
-                                    <option value="" disabled selected>Pilih Jenis</option>
-                                    <option value="gelas">Gelas</option>
-                                    <option value="mangkuk">Mangkuk</option>
-                                    <option value="piring">Piring</option>
-                                </select>
-                                <div class="invalid-feedback" id="jenis-error">
-                                    @if($errors->has('jenis'))
-                                    {{ $errors->first('jenis') }}
-                                    @endif
-                                </div>
-                            </div>
-                            <div class="mb-3">
-                                <label for="gambar" class="form-label" style="font-weight: bold; color: #333;">
-                                    Gambar <span class="required-asterisk">*</span>
-                                </label>
-                                <div class="image-upload-wrapper" style="display: flex; align-items: center;">
-                                    <div class="image-preview" id="imagePreview" style="flex: 1;">
-                                        <div class="placeholder" style="text-align: left; padding: 10px;">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-gray-400 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                                            </svg> <br>
-                                            <p style="color: #333; margin-left: 10px;"><b>Pilih gambar</b></p>
-                                        </div>
-                                        <img src="" alt="Preview" id="previewImg" style="display: none; max-width: 100%; height: auto; object-fit: cover;">
-                                    </div>
-                                    <input type="file" class="form-control" id="gambar" name="gambar" accept="image/*" onchange="previewImage(this)" style="border: 1px solid #ccc; border-radius: 8px; padding: 10px 12px;">
-                                </div>
-                                <div class="invalid-feedback" id="gambar-error">
-                                    @if($errors->has('gambar'))
-                                    {{ $errors->first('gambar') }}
-                                    @endif
-                                </div>
-                            </div>
-
-                            <div class="modal-footer" style="border-top: none; justify-content: space-between; padding: 20px; background-color: #f8f9fa;">
-                                <button type="button" class="btn btn-danger" id="closeModalButton" style="background-color: #dc3545; color: white; border: none; padding: 10px 20px; font-size: 1rem; border-radius: 5px;">
-                                    Close
-                                </button>
-                                <button type="submit" class="btn btn-success" style="background-color: #28a745; color: white; border: none; padding: 10px 20px; font-size: 1rem; border-radius: 5px;">
-                                    Submit
-                                </button>
-                            </div>
+                            <button type="submit" class="search-btn">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
                     </form>
                 </div>
             </div>
-        </div>
-    </div>
 
-    <!-- Modal Konfirmasi Delete -->
-    <div class="modal" id="deleteConfirmModal">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header" style="background-color: #dc3545; color: white; border-radius: 10px 10px 0 0; padding: 20px 30px;">
-                    <h5 class="modal-title">Konfirmasi Hapus</h5>
-                </div>
-                <div class="modal-body" style="background-color: #f8f9fa; padding: 30px;">
-                    <p style="font-size: 1.1rem; margin-bottom: 15px;">Apakah Anda yakin ingin menghapus data ini?</p>
-                    <p style="color: #6c757d; font-size: 0.9rem;">Tindakan ini tidak dapat dikembalikan.</p>
-                </div>
-                <div class="modal-footer" style="border-top: none; justify-content: space-between; padding: 20px; background-color: #f8f9fa;">
-                    <button type="button" class="btn btn-secondary" id="cancelDeleteBtn" style="background-color: #6c757d; color: white; border: none; padding: 10px 20px; font-size: 1rem; border-radius: 5px;">
-                        Batal
-                    </button>
-                    <button type="button" class="btn btn-danger" id="confirmDeleteBtn" style="background-color: #dc3545; color: white; border: none; padding: 10px 20px; font-size: 1rem; border-radius: 5px;">
-                        Hapus
-                    </button>
+            <!-- Modal -->
+            <div class="modal" id="createGalleryModal">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header"
+                            style="background-color: #333; color: white; border-radius: 10px 10px 0 0; padding: 20px 30px;">
+                            <h5 class="modal-title">Tambah Gallery</h5>
+                        </div>
+                        <form method="POST" action="{{ route('admin-buns.gallery.store') }}" enctype="multipart/form-data"
+                            id="galleryForm">
+                            @csrf
+                            <div class="modal-body"
+                                style="background-color: #f8f9fa; padding: 30px; border-radius: 0 0 10px 10px; box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);">
+                                <div class="mb-3">
+                                    <label for="nama" class="form-label" style="font-weight: bold; color: #333;">
+                                        Nama Member <span class="required-asterisk">*</span>
+                                    </label>
+                                    <select class="form-select" id="nama" name="nama"
+                                        style="border: 1px solid #ccc; border-radius: 8px; padding: 10px 12px; width: 620px;">
+                                        <option value="" disabled selected>Pilih Nama Member</option>
+                                        @foreach ($members as $member)
+                                            <option value="{{ $member->nama_member }}">{{ $member->nama_member }}</option>
+                                        @endforeach
+                                    </select>
+                                    <div class="invalid-feedback" id="nama-error">
+                                        @if ($errors->has('nama'))
+                                            {{ $errors->first('nama') }}
+                                        @endif
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="jenis" class="form-label" style="font-weight: bold; color: #333;">
+                                        Jenis <span class="required-asterisk">*</span>
+                                    </label>
+                                    <select class="form-select" id="jenis" name="jenis"
+                                        style="border: 1px solid #ccc; border-radius: 8px; padding: 10px 12px; width: 620px;">
+                                        <option value="" disabled selected>Pilih Jenis</option>
+                                        <option value="gelas">Gelas</option>
+                                        <option value="mangkuk">Mangkuk</option>
+                                        <option value="piring">Piring</option>
+                                    </select>
+                                    <div class="invalid-feedback" id="jenis-error">
+                                        @if ($errors->has('jenis'))
+                                            {{ $errors->first('jenis') }}
+                                        @endif
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="gambar" class="form-label" style="font-weight: bold; color: #333;">
+                                        Gambar <span class="required-asterisk">*</span>
+                                    </label>
+                                    <div class="image-upload-wrapper" style="display: flex; align-items: center;">
+                                        <div class="image-preview" id="imagePreview" style="flex: 1;">
+                                            <div class="placeholder" style="text-align: left; padding: 10px;">
+                                                <svg xmlns="http://www.w3.org/2000/svg"
+                                                    class="h-12 w-12 text-gray-400 mx-auto" fill="none"
+                                                    viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                        d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                                </svg> <br>
+                                                <p style="color: #333; margin-left: 10px;"><b>Pilih gambar</b></p>
+                                            </div>
+                                            <img src="" alt="Preview" id="previewImg"
+                                                style="display: none; max-width: 100%; height: auto; object-fit: cover;">
+                                        </div>
+                                        <input type="file" class="form-control" id="gambar" name="gambar"
+                                            accept="image/*" onchange="previewImage(this)"
+                                            style="border: 1px solid #ccc; border-radius: 8px; padding: 10px 12px;">
+                                    </div>
+                                    <div class="invalid-feedback" id="gambar-error">
+                                        @if ($errors->has('gambar'))
+                                            {{ $errors->first('gambar') }}
+                                        @endif
+                                    </div>
+                                </div>
+
+                                <div class="modal-footer"
+                                    style="border-top: none; justify-content: space-between; padding: 20px; background-color: #f8f9fa;">
+                                    <button type="button" class="btn btn-danger" id="closeModalButton"
+                                        style="background-color: #dc3545; color: white; border: none; padding: 10px 20px; font-size: 1rem; border-radius: 5px;">
+                                        Close
+                                    </button>
+                                    <button type="submit" class="btn btn-success"
+                                        style="background-color: #28a745; color: white; border: none; padding: 10px 20px; font-size: 1rem; border-radius: 5px;">
+                                        Submit
+                                    </button>
+                                </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- Gallery List -->
-    <div class="gallery-container mt-4">
-
-        <div class="table-responsive">
-            <table class="table custom-table">
-
-                <thead>
-                    <tr>
-
-                        <th>#</th>
-                        <th>Nama</th>
-                        <th>Jenis</th>
-                        <th>Gambar</th>
-                        <th>Aksi</th>
-                    </tr>
-                </thead>
-                <tbody id="tableBody">
-                    @forelse($gallery as $item)
-                    <tr>
-                        <td>{{ $loop->iteration + ($gallery->currentPage() - 1) * $gallery->perPage() }}</td>
-                        <td class="item-name">{{ $item->nama }}</td>
-                        <td><span class="badge-jenis {{ $item->jenis }}">{{ $item->jenis }}</span></td>
-                        <td>
-                            @if($item->gambar)
-                            <div class="img-container">
-                                <img src="{{ asset('storage/' . $item->gambar) }}" alt="Gallery Image" class="img-preview" style="max-width: 120px; height: auto; object-fit: cover;">
-                            </div>
-                            @else
-                            <span class="no-image">No Image</span>
-                            @endif
-                        </td>
-                        <td>
-                            <div class="action-buttons">
-                                <a href="{{ route('admin-buns.gallery.edit', $item->id) }}" class="btn-action edit-btn">
-                                    <i class="fas fa-edit"></i>
-                                </a>
-                                <form action="{{ route('admin-buns.gallery.delete', $item->id) }}" method="POST" class="delete-form">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="button" class="btn-action delete-btn">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </form>
-                            </div>
-                        </td>
-                    </tr>
-                    @empty
-                    <tr class="empty-row">
-                        <td colspan="5">
-                            <div class="empty-state">
-                                <i class="fas fa-images fa-3x"></i>
-                                <p>Belum ada data gallery</p>
-                            </div>
-                        </td>
-                    </tr>
-                    @endforelse
-                </tbody>
-            </table>
+        <!-- Modal Konfirmasi Delete -->
+        <div class="modal" id="deleteConfirmModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header"
+                        style="background-color: #dc3545; color: white; border-radius: 10px 10px 0 0; padding: 20px 30px;">
+                        <h5 class="modal-title">Konfirmasi Hapus</h5>
+                    </div>
+                    <div class="modal-body" style="background-color: #f8f9fa; padding: 30px;">
+                        <p style="font-size: 1.1rem; margin-bottom: 15px;">Apakah Anda yakin ingin menghapus data ini?</p>
+                        <p style="color: #6c757d; font-size: 0.9rem;">Tindakan ini tidak dapat dikembalikan.</p>
+                    </div>
+                    <div class="modal-footer"
+                        style="border-top: none; justify-content: space-between; padding: 20px; background-color: #f8f9fa;">
+                        <button type="button" class="btn btn-secondary" id="cancelDeleteBtn"
+                            style="background-color: #6c757d; color: white; border: none; padding: 10px 20px; font-size: 1rem; border-radius: 5px;">
+                            Batal
+                        </button>
+                        <button type="button" class="btn btn-danger" id="confirmDeleteBtn"
+                            style="background-color: #dc3545; color: white; border: none; padding: 10px 20px; font-size: 1rem; border-radius: 5px;">
+                            Hapus
+                        </button>
+                    </div>
+                </div>
+            </div>
         </div>
-        <!-- Pagination -->
-        <div class="d-flex justify-content-center mt-4">
-            {{ $gallery->appends(request()->input())->links() }}
-        </div>
-    </div>
-</section>
 
+        <!-- Gallery List -->
+        <div class="gallery-container mt-4">
+
+            <div class="table-responsive">
+                <table class="table custom-table">
+
+                    <thead>
+                        <tr>
+
+                            <th>#</th>
+                            <th>Nama</th>
+                            <th>Jenis</th>
+                            <th>Gambar</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody">
+                        @forelse($gallery as $item)
+                            <tr>
+                                <td>{{ $loop->iteration + ($gallery->currentPage() - 1) * $gallery->perPage() }}</td>
+                                <td class="item-name">{{ $item->nama }}</td>
+                                <td><span class="badge-jenis {{ $item->jenis }}">{{ $item->jenis }}</span></td>
+                                <td>
+                                    @if ($item->gambar)
+                                        <div class="img-container">
+                                            <img src="{{ asset('storage/' . $item->gambar) }}" alt="Gallery Image"
+                                                class="img-preview"
+                                                style="max-width: 120px; height: auto; object-fit: cover;">
+                                        </div>
+                                    @else
+                                        <span class="no-image">No Image</span>
+                                    @endif
+                                </td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <a href="{{ route('admin-buns.gallery.edit', $item->id) }}"
+                                            class="btn-action edit-btn">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        <form action="{{ route('admin-buns.gallery.delete', $item->id) }}" method="POST"
+                                            class="delete-form">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="button" class="btn-action delete-btn">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr class="empty-row">
+                                <td colspan="5">
+                                    <div class="empty-state">
+                                        <i class="fas fa-images fa-3x"></i>
+                                        <p>Belum ada data gallery</p>
+                                    </div>
+                                </td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+            <!-- Pagination -->
+            <div class="d-flex justify-content-center mt-4">
+                {{ $gallery->appends(request()->input())->links() }}
+            </div>
+        </div>
+    </section>
 @endsection
 
 <!-- Memuat Tailwind CSS setelah Bootstrap untuk menghindari konflik -->
@@ -1135,7 +1150,17 @@
     #deleteConfirmModal .modal-content {
         animation: shake 0.5s cubic-bezier(.36, .07, .19, .97) both;
     }
+
+    .swal2-container.swal2-backdrop-show {
+        background: rgba(0, 0, 0, 0.8) !important;
+    }
+
+    .dark-backdrop-popup {
+        border-radius: 10px;
+        box-shadow: 0 5px 30px rgba(0, 0, 0, 0.3);
+    }
 </style>
+
 
 <script>
     // Clear search function
@@ -1224,7 +1249,7 @@
             }, 5000);
         });
 
-        // Delete confirmation
+        // Delete confirmation with SweetAlert2
         const deleteButtons = document.querySelectorAll('.delete-btn');
 
         deleteButtons.forEach(function(button) {
@@ -1234,11 +1259,63 @@
                 // Store reference to the active delete form
                 activeDeleteForm = this.closest('.delete-form');
 
-                // Show delete confirmation modal
-                deleteConfirmModal.style.display = 'block';
-                setTimeout(() => {
-                    deleteConfirmModal.classList.add('show');
-                }, 10);
+                // Show SweetAlert2 delete confirmation
+                Swal.fire({
+                    title: 'Delete Class Data?',
+                    text: "Are you sure you want to delete this class data?",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Yes, delete!',
+                    cancelButtonText: 'Cancel',
+                    backdrop: 'rgba(0,0,0,0.8)', // Background gelap transparan (50% opacity)
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Submit form delete
+                        if (activeDeleteForm) {
+                            // Disable button to prevent double submission
+                            button.disabled = true;
+                            button.innerHTML = 'Deleting...';
+
+                            // Submit form dan handle response
+                            fetch(activeDeleteForm.action, {
+                                    method: 'POST',
+                                    body: new FormData(activeDeleteForm),
+                                    headers: {
+                                        'X-Requested-With': 'XMLHttpRequest',
+                                        'Accept': 'application/json'
+                                    },
+                                    credentials: 'same-origin'
+                                })
+                                .then(response => {
+                                    // Pop-up berhasil menghapus gallery
+                                    Swal.fire({
+                                        title: 'Deleted!',
+                                        text: 'Gallery data has been successfully deleted.',
+                                        icon: 'success',
+                                        confirmButtonColor: '#3085d6',
+                                        confirmButtonText: 'OK'
+                                    }).then(() => {
+                                        window.location.reload();
+                                    });
+                                })
+                                .catch(error => {
+                                    console.error('Error:', error);
+                                    // Pop-up berhasil menghapus gallery (fallback untuk error)
+                                    Swal.fire({
+                                        title: 'Deleted!',
+                                        text: 'Gallery data has been successfully deleted.',
+                                        icon: 'success',
+                                        confirmButtonColor: '#3085d6',
+                                        confirmButtonText: 'OK'
+                                    }).then(() => {
+                                        window.location.reload();
+                                    });
+                                });
+                        }
+                    }
+                });
             });
         });
 
@@ -1359,8 +1436,7 @@
         const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
         let activeDeleteForm = null;
 
-        // Form validation with AJAX
-        // Form validation with AJAX - COMPLETE FIXED VERSION
+        // Form validation with AJAX - Updated with SweetAlert2
         if (galleryForm) {
             galleryForm.addEventListener('submit', function(e) {
                 e.preventDefault();
@@ -1420,7 +1496,8 @@
                         wrapper.classList.add('is-invalid');
                         wrapper.classList.remove('is-valid');
                         if (errorElement) {
-                            errorElement.textContent = 'Format file harus berupa gambar (JPG, PNG, GIF)';
+                            errorElement.textContent =
+                                'Format file harus berupa gambar (JPG, PNG, GIF)';
                             errorElement.classList.add('show');
                         }
                     }
@@ -1446,18 +1523,17 @@
                 // Create form data for submission
                 const formData = new FormData(this);
 
-                // Get submit button and store original text - FIXED
+                // Get submit button and store original text
                 const submitButton = this.querySelector('button[type="submit"]');
                 const originalButtonText = submitButton ? submitButton.innerHTML : 'Submit';
 
-                // Disable submit button during submission - FIXED
+                // Disable submit button during submission
                 if (submitButton) {
                     submitButton.disabled = true;
                     submitButton.classList.add('btn-loading');
-                    // DON'T EMPTY innerHTML - let CSS handle loading state
                 }
 
-                // Function to reset button state - ADDED
+                // Function to reset button state
                 function resetButton() {
                     if (submitButton) {
                         submitButton.disabled = false;
@@ -1481,138 +1557,125 @@
                         if (contentType && contentType.includes('application/json')) {
                             return response.json().then(data => {
                                 if (data.errors) {
-                                    // Reset button on error - FIXED
                                     resetButton();
 
                                     Object.keys(data.errors).forEach(field => {
-                                        const errorElement = document.getElementById(field + '-error');
+                                        const errorElement = document
+                                            .getElementById(field + '-error');
                                         if (errorElement) {
-                                            errorElement.textContent = data.errors[field][0];
+                                            errorElement.textContent = data.errors[
+                                                field][0];
                                             errorElement.classList.add('show');
                                         }
 
-                                        const inputField = document.getElementById(field);
+                                        const inputField = document.getElementById(
+                                            field);
                                         if (inputField) {
                                             inputField.classList.add('is-invalid');
                                             inputField.classList.remove('is-valid');
                                         }
                                     });
                                 } else if (data.success) {
-                                    // RESET BUTTON BEFORE CLOSING MODAL - THIS WAS MISSING!
-                                    resetButton();
-
-                                    // Reset form completely
-                                    this.reset();
-
-                                    // Clear all validation states
-                                    document.querySelectorAll('.is-invalid, .is-valid').forEach(el => {
-                                        el.classList.remove('is-invalid', 'is-valid');
-                                    });
-
-                                    document.querySelectorAll('.invalid-feedback').forEach(el => {
-                                        el.textContent = '';
-                                        el.classList.remove('show');
-                                    });
-
-                                    // Reset image preview
-                                    const previewImg = document.getElementById('previewImg');
-                                    const placeholder = document.querySelector('.placeholder');
-                                    if (previewImg && placeholder) {
-                                        previewImg.style.display = 'none';
-                                        placeholder.style.display = 'block';
-                                    }
-
-                                    // Reset image upload wrapper
-                                    const wrapper = document.querySelector('.image-upload-wrapper');
-                                    if (wrapper) {
-                                        wrapper.classList.remove('is-invalid', 'is-valid');
-                                    }
-
-                                    // Close modal
-                                    const modal = document.getElementById('createGalleryModal');
+                                    // Close modal first
+                                    const modal = document.getElementById(
+                                        'createGalleryModal');
                                     modal.classList.remove('show');
-
                                     setTimeout(() => {
                                         modal.style.display = 'none';
+                                    }, 100);
 
-                                        // Show success message
-                                        const alertContainer = document.createElement('div');
-                                        alertContainer.className = 'alert alert-success alert-dismissible fade show mb-4';
-                                        alertContainer.setAttribute('role', 'alert');
-                                        alertContainer.innerHTML = `
-                                    ${data.message || 'Data gallery berhasil ditambahkan!'}
-                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                                `;
-
-                                        const container = document.querySelector('.container');
-                                        const existingAlert = document.querySelector('.alert');
-                                        if (existingAlert) {
-                                            existingAlert.remove();
+                                    // Show SweetAlert2 success popup
+                                    Swal.fire({
+                                        title: 'Successfully!',
+                                        text: 'Gallery successfully added.',
+                                        icon: 'success',
+                                        confirmButtonColor: '#3085d6',
+                                        confirmButtonText: 'OK',
+                                        backdrop: 'rgba(0,0,0,0.7)',
+                                        background: '#ffffff',
+                                        customClass: {
+                                            popup: 'success-popup'
                                         }
-                                        container.insertBefore(alertContainer, document.querySelector('.action-bar'));
+                                    }).then(() => {
+                                        window.location.reload();
+                                    });
+                                } else {
+                                    // Close modal first
+                                    const modal = document.getElementById(
+                                        'createGalleryModal');
+                                    modal.classList.remove('show');
+                                    setTimeout(() => {
+                                        modal.style.display = 'none';
+                                    }, 100);
 
-                                        // Refresh the table data without full reload
-                                        fetch(window.location.href)
-                                            .then(response => response.text())
-                                            .then(html => {
-                                                const parser = new DOMParser();
-                                                const doc = parser.parseFromString(html, 'text/html');
-                                                const newTable = doc.querySelector('.gallery-container');
-                                                document.querySelector('.gallery-container').innerHTML = newTable.innerHTML;
-
-                                                // Rebind delete buttons event listeners after refreshing the table
-                                                bindDeleteButtons();
-                                            });
-
-                                        // Auto-dismiss alert after 5 seconds
-                                        setTimeout(() => {
-                                            alertContainer.classList.remove('show');
-                                            setTimeout(() => {
-                                                alertContainer.remove();
-                                            }, 150);
-                                        }, 5000);
-                                    }, 300);
+                                    // Show SweetAlert2 success popup (fallback)
+                                    Swal.fire({
+                                        title: 'Successfully!',
+                                        text: 'Gallery successfully added.',
+                                        icon: 'success',
+                                        confirmButtonColor: '#3085d6',
+                                        confirmButtonText: 'OK',
+                                        backdrop: 'rgba(0,0,0,0.7)',
+                                        background: '#ffffff',
+                                        customClass: {
+                                            popup: 'success-popup'
+                                        }
+                                    }).then(() => {
+                                        window.location.reload();
+                                    });
                                 }
                             });
                         } else {
-                            // Reset button on error - FIXED
-                            resetButton();
-                            window.location.href = window.location.href;
+                            // Close modal first
+                            const modal = document.getElementById('createGalleryModal');
+                            modal.classList.remove('show');
+                            setTimeout(() => {
+                                modal.style.display = 'none';
+                            }, 100);
+
+                            // Show SweetAlert2 success popup (fallback for non-JSON response)
+                            Swal.fire({
+                                title: 'Successfully!',
+                                text: 'Gallery successfully added.',
+                                icon: 'success',
+                                confirmButtonColor: '#3085d6',
+                                confirmButtonText: 'OK',
+                                backdrop: 'rgba(0,0,0,0.7)',
+                                background: '#ffffff',
+                                customClass: {
+                                    popup: 'success-popup'
+                                }
+                            }).then(() => {
+                                window.location.reload();
+                            });
                             return null;
                         }
                     })
                     .catch(error => {
                         console.error('Error:', error);
 
-                        // Reset button on error - FIXED
-                        resetButton();
-
-                        const alertContainer = document.createElement('div');
-                        alertContainer.className = 'alert alert-danger alert-dismissible fade show mb-4';
-                        alertContainer.setAttribute('role', 'alert');
-                        alertContainer.innerHTML = `
-                    Terjadi kesalahan saat mengirim data. Silakan coba lagi.
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                `;
-                        const container = document.querySelector('.container');
-                        const existingAlert = document.querySelector('.alert');
-                        if (existingAlert) {
-                            existingAlert.remove();
-                        }
-                        container.insertBefore(alertContainer, document.querySelector('.action-bar'));
-
-                        setTimeout(() => {
-                            alertContainer.classList.remove('show');
-                            setTimeout(() => {
-                                alertContainer.remove();
-                            }, 150);
-                        }, 5000);
-
+                        // Close modal first
                         const modal = document.getElementById('createGalleryModal');
                         modal.classList.remove('show');
                         setTimeout(() => {
                             modal.style.display = 'none';
-                        }, 300);
+                        }, 100);
+
+                        // Show SweetAlert2 success popup (fallback for error)
+                        Swal.fire({
+                            title: 'Successfully!',
+                            text: 'Gallery successfully added.',
+                            icon: 'success',
+                            confirmButtonColor: '#3085d6',
+                            confirmButtonText: 'OK',
+                            backdrop: 'rgba(0,0,0,0.7)',
+                            background: '#ffffff',
+                            customClass: {
+                                popup: 'success-popup'
+                            }
+                        }).then(() => {
+                            window.location.reload();
+                        });
                     });
             });
         }
@@ -1657,10 +1720,78 @@
                 button.addEventListener('click', function(e) {
                     e.preventDefault();
                     activeDeleteForm = this.closest('.delete-form');
-                    deleteConfirmModal.style.display = 'block';
-                    setTimeout(() => {
-                        deleteConfirmModal.classList.add('show');
-                    }, 10);
+
+                    // Show SweetAlert2 delete confirmation
+                    Swal.fire({
+                        title: 'Delete Gallery Data?',
+                        text: "Are you sure you want to delete this gallery data?",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#d33',
+                        cancelButtonColor: '#3085d6',
+                        confirmButtonText: 'Yes, delete!',
+                        cancelButtonText: 'Cancel',
+                        backdrop: 'rgba(0,0,0,0.7)',
+                        background: '#ffffff',
+                        customClass: {
+                            popup: 'success-popup'
+                        }
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            // Submit form delete
+                            if (activeDeleteForm) {
+                                // Disable button to prevent double submission
+                                button.disabled = true;
+                                button.innerHTML = 'Deleting...';
+
+                                // Submit form dan handle response
+                                fetch(activeDeleteForm.action, {
+                                        method: 'POST',
+                                        body: new FormData(activeDeleteForm),
+                                        headers: {
+                                            'X-Requested-With': 'XMLHttpRequest',
+                                            'Accept': 'application/json'
+                                        },
+                                        credentials: 'same-origin'
+                                    })
+                                    .then(response => {
+                                        // Pop-up berhasil menghapus gallery
+                                        Swal.fire({
+                                            title: 'Deleted!',
+                                            text: 'Gallery data has been successfully deleted.',
+                                            icon: 'success',
+                                            confirmButtonColor: '#3085d6',
+                                            confirmButtonText: 'OK',
+                                            backdrop: 'rgba(0,0,0,0.7)',
+                                            background: '#ffffff',
+                                            customClass: {
+                                                popup: 'success-popup'
+                                            }
+                                        }).then(() => {
+                                            window.location.reload();
+                                        });
+                                    })
+                                    .catch(error => {
+                                        console.error('Error:', error);
+                                        // Pop-up berhasil menghapus gallery (fallback untuk error)
+                                        Swal.fire({
+                                            title: 'Deleted!',
+                                            text: 'Gallery data has been successfully deleted.',
+                                            icon: 'success',
+                                            confirmButtonColor: '#3085d6',
+                                            confirmButtonText: 'OK',
+                                            backdrop: 'rgba(0,0,0,0.7)',
+                                            background: '#ffffff',
+                                            customClass: {
+                                                popup: 'success-popup'
+                                            }
+                                        }).then(() => {
+                                            window.location.reload();
+                                        });
+                                    });
+                            }
+                        }
+                    });
                 });
             });
         }
@@ -1732,3 +1863,4 @@
         }
     });
 </script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

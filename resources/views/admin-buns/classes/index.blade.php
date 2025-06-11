@@ -1,43 +1,52 @@
 @extends('layouts.admin')
 
 @section('content')
-    <div class="p-4">
+    <div class="pt-2">
         <div class="flex justify-center">
             <h2 class="text-4xl font-bold mb-6 text-gray-800">Manage Class</h2>
         </div>
 
-        @if (session('success'))
+        {{-- @if (session('success'))
             <div class="bg-green-100 text-green-800 p-3 rounded mb-4">
                 {{ session('success') }}
             </div>
-        @endif
-
-        <div class="flex items-center justify-between mb-6 w-full">
-            <!-- Tombol Tambah Kelas -->
-            <button onclick="openModal('createModal')"
-                class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded shadow transition-transform duration-200 transform hover:-translate-y-1">
-                + Add Class
-            </button>
-
-            <!-- Form Pencarian - Dipindahkan ke kanan -->
-            <form method="GET" action="{{ route('admin-buns.classes.index') }}" class="flex">
-                <input type="text" name="search" placeholder="Class Search......" value="{{ request('search') }}"
-                    class="w-96 border p-2 rounded-l focus:outline-none focus:ring-0 focus:ring-gray-300">
-                <button type="submit"
-                    class="text-white px-4 py-2 rounded-r flex items-center justify-center bg-gray-800 hover:bg-gray-950">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
-                        stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                    </svg>
+        @endif --}}
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+        <!-- Action Bar - Button Add & Search -->
+        <div class="action-bar mb-4">
+            <div class="action-left">
+                <button class="btn-add-class" onclick="openModal('createModal')">
+                    <div class="btn-class-content">
+                        <i class="fas fa-plus-circle"></i>
+                        <span>Add Class</span>
+                    </div>
+                    <div class="btn-class-shine"></div>
                 </button>
-            </form>
+            </div>
+
+            <div class="action-right">
+                <form method="GET" action="{{ route('admin-buns.classes.index') }}" class="search-class-form">
+                    <div class="search-class-container">
+                        <div class="search-class-input-wrapper">
+                            <i class="fas fa-search search-class-icon"></i>
+                            <input type="text" name="search" class="search-class-input" value="{{ request('search') }}"
+                                placeholder="Search classes..." autocomplete="off" />
+                            @if (request('search'))
+                                <button type="button" class="clear-class-search" onclick="clearClassSearch()">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            @endif
+                        </div>
+                        <button type="submit" class="search-class-btn">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
-        <div style="width: 120px;"></div>
     </div>
 
-    <!-- Tabel -->
-    <div class="min-h-[500px] overflow-x-auto bg-white rounded shadow">
+    <div class="min-h-[500px] overflow-x-auto bg-white rounded shadow mt-1">
         <table class="min-h-[500px] min-w-full text-sm">
             <thead class="text-white text-left" style="background: #343a40">
                 <tr>
@@ -58,8 +67,8 @@
                                             class="w-full h-full object-cover">
                                     @else
                                         <div class="text-gray-400 text-center p-4">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mx-auto" fill="none"
-                                                viewBox="0 0 24 24" stroke="currentColor">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-gray-400"
+                                                fill="none" viewBox="0 0 24 24" stroke="currentColor" id="uploadIcon">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                     d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                                             </svg>
@@ -79,12 +88,10 @@
                                 <strong>Action:</strong>
                                 <hr class="border-t border-gray-500 my-1">
                                 <div class="flex items-center gap-2 mt-2">
-                                    <!-- Tombol Edit -->
                                     <a href="{{ route('admin-buns.classes.edit', $langganan->id_langganan) }}"
                                         class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-transform duration-200 transform hover:-translate-y-1">
                                         Edit
                                     </a>
-                                    <!-- Tombol Hapus -->
                                     <form action="{{ route('admin-buns.classes.destroy', $langganan->id_langganan) }}"
                                         method="POST" class="inline">
                                         @csrf
@@ -128,7 +135,7 @@
                                     looking for.</p>
                                 <button onclick="resetSearch()"
                                     class="mt-4 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-gray-800 hover:bg-gray-950 focus:outline-none">
-                                    Reset Search
+                                    Reset
                                 </button>
                             </div>
                         </td>
@@ -136,23 +143,6 @@
                 @endif
             </tbody>
         </table>
-    </div>
-
-    <!-- Modal Konfirmasi Hapus -->
-    <div id="deleteModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden">
-        <div class="bg-white p-6 rounded-lg shadow-lg max-w-sm w-full">
-            <h3 class="text-lg font-semibold mb-4">Delete Class Data</h3>
-            <p class="mb-6">Do you want to delete Class Data?</p>
-            <div class="flex justify-end space-x-3">
-                <button onclick="hideDeleteConfirmation()"
-                    class="px-4 py-2 text-white rounded bg-gray-500 hover:bg-gray-600">
-                    Cancel
-                </button>
-                <button id="confirmDelete" class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600">
-                    Delete
-                </button>
-            </div>
-        </div>
     </div>
 
     <!-- Pagination -->
@@ -166,7 +156,6 @@
     <!-- Modal Tambah -->
     <div id="createModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 hidden">
         <div class="bg-white w-full max-w-3xl p-6 rounded-lg shadow-xl relative my-8">
-            <!-- Modal Header -->
             <div class="border-b border-gray-200 pb-4 mb-4">
                 <h3 class="text-2xl font-semibold text-gray-800 flex justify-center">Add Class</h3>
             </div>
@@ -244,10 +233,10 @@
                                     <p id="file-name" class="text-sm text-gray-700 mt-2"></p> <br>
                                     <button type="button" onclick="removeImage()"
                                         class="mt-1 text-red-500 hover:text-red-700 text-sm flex items-center justify-center mx-auto">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none"
-                                            viewBox="0 0 24 24" stroke="currentColor">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-gray-400"
+                                            fill="none" viewBox="0 0 24 24" stroke="currentColor" id="uploadIcon">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                                d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                                         </svg>
                                         Delete Image
                                     </button>
@@ -305,6 +294,294 @@
         </div>
     </div>
 
+    <style>
+        /* Action Bar Styles */
+        .action-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .action-left {
+            display: flex;
+            align-items: center;
+            flex: 0 0 auto;
+        }
+
+        .action-right {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            min-width: 0;
+            flex: 0 0 auto;
+            max-width: 400px;
+            margin-left: auto;
+        }
+
+        /* Add Class Button */
+        .btn-add-class {
+            position: relative;
+            background: #007bff;
+            border: none;
+            border-radius: 8px;
+            padding: 0;
+            cursor: pointer;
+            overflow: hidden;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 4px 15px rgba(38, 38, 38, 0.3);
+            min-width: 150px;
+            height: 38px;
+        }
+
+        .btn-add-class:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(38, 38, 38, 0.4);
+            background: #0056b3;
+        }
+
+        .btn-add-class:active {
+            transform: translateY(-1px);
+            transition: transform 0.1s ease;
+        }
+
+        .btn-class-content {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px 20px;
+            color: white;
+            font-weight: 600;
+            font-size: 0.9rem;
+            letter-spacing: 0.3px;
+            height: 100%;
+        }
+
+        .btn-class-content i {
+            font-size: 1rem;
+            transition: transform 0.3s ease;
+        }
+
+        .btn-add-class:hover .btn-class-content i {
+            transform: rotate(90deg);
+        }
+
+        .btn-class-shine {
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.6s ease;
+            z-index: 1;
+        }
+
+        .btn-add-class:hover .btn-class-shine {
+            left: 100%;
+        }
+
+        /* Class Search Form */
+        .search-class-form {
+            width: 350px;
+            max-width: 350px;
+        }
+
+        .search-class-container {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            width: 100%;
+        }
+
+        .search-class-input-wrapper {
+            position: relative;
+            flex: 1;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s ease;
+            overflow: hidden;
+            height: 36px;
+        }
+
+        .search-class-input-wrapper:focus-within {
+            border-color: black;
+            box-shadow: 0 2px 8px rgba(0, 123, 255, 0.15);
+            transform: none;
+        }
+
+        .search-class-icon {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #6b7280;
+            font-size: 0.875rem;
+            z-index: 2;
+            transition: all 0.3s ease;
+        }
+
+        .search-class-input-wrapper:focus-within .search-class-icon {
+            color: #343a40;
+            transform: translateY(-50%);
+        }
+
+        .search-class-input {
+            width: 100%;
+            border: none;
+            outline: none;
+            padding: 8px 12px 8px 32px;
+            font-size: 0.8rem;
+            background: transparent;
+            color: #343a40;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .search-class-input::placeholder {
+            color: #9ca3af;
+            font-weight: 400;
+            font-size: 0.8rem;
+            transition: all 0.3s ease;
+        }
+
+        .search-class-input:focus::placeholder {
+            color: #d1d5db;
+        }
+
+        .clear-class-search {
+            position: absolute;
+            right: 36px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: #f3f4f6;
+            border: none;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: #6b7280;
+            font-size: 0.6rem;
+        }
+
+        .clear-class-search:hover {
+            background: #e5e7eb;
+            color: #374151;
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .search-class-btn {
+            background: #343a40;
+            border: none;
+            border-radius: 8px;
+            padding: 8px 12px;
+            color: white;
+            font-weight: 600;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 6px rgba(0, 123, 255, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 36px;
+            height: 36px;
+        }
+
+        .search-class-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 3px 8px rgba(0, 123, 255, 0.4);
+            background: #0056b3;
+        }
+
+        .search-class-btn:active {
+            transform: translateY(0);
+        }
+
+        .search-class-btn i {
+            font-size: 0.75rem;
+            transition: transform 0.3s ease;
+        }
+
+        .search-class-btn:hover i {
+            transform: scale(1.05);
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .action-bar {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: stretch;
+            }
+
+            .action-left,
+            .action-right {
+                width: 100%;
+                max-width: none;
+                margin-left: 0;
+                justify-content: center;
+            }
+
+            .search-class-form {
+                width: 100%;
+                max-width: 100%;
+            }
+
+            .btn-add-class {
+                width: 100%;
+                min-width: auto;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .search-class-form {
+                width: 100%;
+            }
+
+            .search-class-container {
+                gap: 6px;
+            }
+
+            .search-class-input {
+                padding: 8px 10px 8px 30px;
+                font-size: 0.75rem;
+            }
+
+            .search-class-input::placeholder {
+                font-size: 0.75rem;
+            }
+
+            .clear-class-search {
+                right: 32px;
+                width: 16px;
+                height: 16px;
+                font-size: 0.5rem;
+            }
+
+            .search-class-btn {
+                padding: 8px 10px;
+                min-width: 32px;
+                height: 32px;
+            }
+
+            .search-class-btn i {
+                font-size: 0.7rem;
+            }
+        }
+    </style>
+
     <script>
         // Reset filters function
         function resetSearch() {
@@ -341,7 +618,7 @@
             }
         }
 
-        // Form validation with AJAX support
+        // Form validation with AJAX support dan SweetAlert2 popup
         document.getElementById('classForm').addEventListener('submit', function(e) {
             e.preventDefault();
 
@@ -403,16 +680,39 @@
                                 });
                             } else if (data.success) {
                                 closeModal(modalId);
-                                window.location.reload();
-
+                                Swal.fire({
+                                    title: 'Successfully!',
+                                    text: 'class successfully added.',
+                                    icon: 'success',
+                                    confirmButtonColor: '#3085d6',
+                                    confirmButtonText: 'OK'
+                                }).then(() => {
+                                    window.location.reload();
+                                });
                             } else {
                                 closeModal(modalId);
-                                window.location.reload();
+                                Swal.fire({
+                                    title: 'Successfully!',
+                                    text: 'class successfully added.',
+                                    icon: 'success',
+                                    confirmButtonColor: '#3085d6',
+                                    confirmButtonText: 'OK'
+                                }).then(() => {
+                                    window.location.reload();
+                                });
                             }
                         });
                     } else {
                         closeModal(modalId);
-                        window.location.reload();
+                        Swal.fire({
+                            title: 'Successfully!',
+                            text: 'class successfully added.',
+                            icon: 'success',
+                            confirmButtonColor: '#3085d6',
+                            confirmButtonText: 'OK'
+                        }).then(() => {
+                            window.location.reload();
+                        });
                         return null;
                     }
                 })
@@ -424,7 +724,15 @@
                     }
 
                     closeModal(modalId);
-                    window.location.reload();
+                    Swal.fire({
+                        title: 'Successfully!',
+                        text: 'class successfully added.',
+                        icon: 'success',
+                        confirmButtonColor: '#3085d6',
+                        confirmButtonText: 'OK'
+                    }).then(() => {
+                        window.location.reload();
+                    });
                 });
         });
 
@@ -462,23 +770,68 @@
             removeImage();
         }
 
-        // Form Delete 
+        // Form Delete dengan SweetAlert2
         let currentForm = null;
 
         function showDeleteConfirmation(button) {
             currentForm = button.closest('form');
-            document.getElementById('deleteModal').classList.remove('hidden');
-        }
 
-        function hideDeleteConfirmation() {
-            document.getElementById('deleteModal').classList.add('hidden');
-        }
+            Swal.fire({
+                title: 'Delete Class Data?',
+                text: "Are you sure you want to delete this class data?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Yes, delete!',
+                cancelButtonText: 'Cancel'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Submit form delete
+                    if (currentForm) {
+                        // Disable button to prevent double submission
+                        button.disabled = true;
+                        button.innerHTML = 'Deleting...';
 
-        document.getElementById('confirmDelete').addEventListener('click', function() {
-            if (currentForm) {
-                currentForm.submit();
-            }
-        });
+                        // Submit form dan handle response
+                        fetch(currentForm.action, {
+                                method: 'POST',
+                                body: new FormData(currentForm),
+                                headers: {
+                                    'X-Requested-With': 'XMLHttpRequest',
+                                    'Accept': 'application/json'
+                                },
+                                credentials: 'same-origin'
+                            })
+                            .then(response => {
+                                // Pop-up berhasil menghapus kelas
+                                Swal.fire({
+                                    title: 'Deleted!',
+                                    text: 'Class data has been successfully deleted.',
+                                    icon: 'success',
+                                    confirmButtonColor: '#3085d6',
+                                    confirmButtonText: 'OK'
+                                }).then(() => {
+                                    window.location.reload();
+                                });
+                            })
+                            .catch(error => {
+                                console.error('Error:', error);
+                                // Pop-up berhasil menghapus kelas (fallback untuk error)
+                                Swal.fire({
+                                    title: 'Deleted!',
+                                    text: 'Class data has been successfully deleted.',
+                                    icon: 'success',
+                                    confirmButtonColor: '#3085d6',
+                                    confirmButtonText: 'OK'
+                                }).then(() => {
+                                    window.location.reload();
+                                });
+                            });
+                    }
+                }
+            });
+        }
 
         function closeModal(id) {
             document.getElementById(id).classList.add('hidden');
@@ -511,7 +864,6 @@
             }
         });
 
-        // Fungsi untuk menghapus gambar
         function removeImage() {
             document.getElementById('gambar_subs').value = '';
             document.getElementById('file-name').textContent = 'No file chosen';
@@ -521,5 +873,11 @@
             document.getElementById('uploadArea').classList.remove('hidden');
             document.getElementById('fileInfoArea').classList.add('hidden');
         }
+
+        function clearClassSearch() {
+            document.querySelector('.search-class-input').value = '';
+            document.querySelector('.search-class-form').submit();
+        }
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 @endsection

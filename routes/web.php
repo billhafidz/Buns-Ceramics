@@ -64,6 +64,8 @@ Route::delete('/admin-buns/gallery/{id}', [GalleryController::class, 'delete'])-
 Route::get('/admin-buns/gallery/edit/{id}', [GalleryController::class, 'edit'])->name('admin-buns.gallery.edit');
 Route::put('/admin-buns/gallery/update/{id}', [GalleryController::class, 'update'])->name('admin-buns.gallery.update');
 
+Route::patch('/admin-buns/gallery/{id}/toggle-status', [GalleryController::class, 'toggleStatus'])->name('admin-buns.gallery.toggle-status');
+
 Route::get('/admin-buns/users', [AdminAccountController::class, 'index'])->name('admin-buns.users.index');
 
 Route::get('/gallery', [ListGalleryController::class, 'view'])->name('gallery');

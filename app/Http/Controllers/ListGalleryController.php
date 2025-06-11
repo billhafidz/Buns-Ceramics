@@ -16,16 +16,24 @@ class ListGalleryController extends Controller
         // Ambil data members
         $members = Member::all();
 
-        // Ambil semua data gallery 
-        $gallery = Gallery::when($search, function ($query, $search) {
-            return $query->where('nama', 'like', '%' . $search . '%')
-                ->orWhere('jenis', 'like', '%' . $search . '%');
-        })
-            ->when($jenis, function ($query, $jenis) {
-                return $query->where('jenis', $jenis);
-            })
-            ->orderBy('created_at', 'desc')
-            ->get();
+        // Start query with active status filter
+        $query = Gallery::where('status', 'active');
+
+        // Apply search filter
+        if ($search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('nama', 'like', '%' . $search . '%')
+                    ->orWhere('jenis', 'like', '%' . $search . '%');
+            });
+        }
+
+        // Apply type filter
+        if ($jenis) {
+            $query->where('jenis', $jenis);
+        }
+
+        // Get results
+        $gallery = $query->orderBy('created_at', 'desc')->get();
 
         return view('gallery', compact('gallery', 'members'));
     }

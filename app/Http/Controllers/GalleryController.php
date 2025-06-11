@@ -69,6 +69,7 @@ class GalleryController extends Controller
                 'nama' => $request->nama,
                 'jenis' => $request->jenis,
                 'gambar' => $path,
+                'status' => 'active', // Set default status to active
             ]);
 
             // Pesan sukses untuk respons AJAX atau redirect
@@ -110,6 +111,7 @@ class GalleryController extends Controller
             'jenis' => 'required|string|in:gelas,mangkuk,piring',
             'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:10000',
             'remove_image' => 'nullable|in:0,1',
+            'status' => 'nullable|in:active,deactive', // Add validation for status
         ]);
 
         // If validation fails
@@ -131,6 +133,10 @@ class GalleryController extends Controller
             $gallery->nama = $request->nama;
             $gallery->jenis = $request->jenis;
 
+            // Update status if provided
+            if ($request->has('status')) {
+                $gallery->status = $request->status;
+            }
 
             // Handle image removal
             if ($request->remove_image == '1') {
@@ -181,7 +187,6 @@ class GalleryController extends Controller
         }
     }
 
-
     public function delete($id)
     {
         try {
@@ -195,6 +200,23 @@ class GalleryController extends Controller
             $gallery->delete();
 
             return redirect()->route('admin-buns.gallery')->with('success', 'Data gallery berhasil dihapus!');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+        }
+    }
+
+    public function toggleStatus($id)
+    {
+        try {
+            $gallery = Gallery::findOrFail($id);
+
+            // Toggle status between active and deactive
+            $gallery->status = ($gallery->status === 'active') ? 'deactive' : 'active';
+            $gallery->save();
+
+            $statusText = ucfirst($gallery->status);
+
+            return redirect()->route('admin-buns.gallery')->with('success', "Status gallery berhasil diubah menjadi $statusText!");
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
         }

@@ -634,7 +634,7 @@
                         <div class="text-center">
                             <a href="{{ route('password.request') }}"
                                 class="text-sm text-gray-500 hover:text-gray-800 underline transition-all">
-                                Lupa Password?
+                                Forget Password?
                             </a>
                         </div>
                     </form>

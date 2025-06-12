@@ -1,18 +1,16 @@
 <?php
-
 namespace App\Console\Commands;
 
-use Illuminate\Console\Command;
-use App\Models\Member;
 use App\Models\Account;
-use App\Models\Transaction;
+use App\Models\Member;
+use Carbon\Carbon;
+use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
-use Carbon\Carbon;
 
 class CheckSubscription extends Command
 {
-    protected $signature = 'subscription:check';
+    protected $signature   = 'subscription:check';
     protected $description = 'Cek masa aktif subscription dan kirim notifikasi jika hampir habis atau habis. Hapus member expired.';
 
     public function handle()
@@ -26,12 +24,12 @@ class CheckSubscription extends Command
 
             if ($lastTransaction && $lastTransaction->ended_date) {
                 $endedDate = Carbon::parse($lastTransaction->ended_date);
-                $daysLeft = $now->diffInDays($endedDate, false);
+                $daysLeft  = $now->diffInDays($endedDate, false);
 
                 Log::info("Cek member: {$member->email_member} | Tanggal Berakhir: {$endedDate->toDateString()} | Sisa Hari: {$daysLeft}");
 
                 if ($daysLeft <= 5 && $daysLeft > 0) {
-                    Mail::raw("Halo {$member->nama_member}, langganan Anda akan berakhir dalam 5 hari. Jangan lupa perpanjang ya!", function ($message) use ($member) {
+                    Mail::send('emails.subscriptionWarning', ['member' => $member], function ($message) use ($member) {
                         $message->to($member->email_member)
                             ->subject('Peringatan: Langganan Akan Segera Berakhir');
                     });

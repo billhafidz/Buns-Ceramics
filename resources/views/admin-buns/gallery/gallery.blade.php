@@ -121,6 +121,7 @@
                                     {{ $errors->first('gambar') }}
                                     @endif
                                 </div>
+                                <p class="mt-1 text-xs text-gray-500">Format: JPG, PNG, JPEG. Maksimal 10MB.</p>
                             </div>
                             <!-- Status field is not needed in the form since it defaults to 'active' -->
 

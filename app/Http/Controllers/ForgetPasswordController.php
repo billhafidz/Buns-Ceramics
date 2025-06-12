@@ -23,9 +23,9 @@ class ForgetPasswordController extends Controller
         $otp = rand(100000, 999999);
         session(['reset_email' => $request->email, 'reset_otp' => $otp]);
 
-        Mail::raw("Kode OTP Anda untuk reset password adalah: $otp", function ($message) use ($request) {
+        Mail::send('emails.resetPassword', ['otp' => $otp], function ($message) use ($request) {
             $message->to($request->email)
-                    ->subject('Kode OTP Reset Password');
+                    ->subject('Reset Password - Kode OTP Verifikasi');
         });
 
         return redirect()->route('otp.form')->with('success', 'Kode OTP telah dikirim ke email Anda.');

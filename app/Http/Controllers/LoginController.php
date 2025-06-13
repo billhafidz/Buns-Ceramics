@@ -12,6 +12,13 @@ class LoginController extends Controller
     {
         $credentials = $request->only('username', 'password');
 
+        if (empty($credentials['username']) || empty($credentials['password'])) {
+            return back()->withErrors([
+                'username' => empty($credentials['username']) ? 'Username cannot be empty' : null,
+                'password' => empty($credentials['password']) ? 'Password cannot be empty' : null,
+            ])->withInput($request->except('password'));
+        }
+
         $user = Account::where('username', $credentials['username'])->first();
 
         if ($user && Hash::check($credentials['password'], $user->password)) {
@@ -19,7 +26,9 @@ class LoginController extends Controller
             return redirect('/')->with('success', 'Berhasil login');
         }
 
-        return back()->with('error', 'Username atau password salah.');
+        return back()->withErrors([
+            'login' => 'The account is not registered'
+        ])->withInput($request->except('password'));
     }
 
     public function logout(Request $request)
@@ -28,4 +37,3 @@ class LoginController extends Controller
         return redirect('/')->with('success', 'Berhasil logout');
     }
 }
-

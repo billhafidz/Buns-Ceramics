@@ -27,8 +27,11 @@
                                     <input type="text" name="pilihan_subs" value="{{ $langganan->pilihan_subs }}"
                                         required
                                         class="w-full p-2 md:p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-gray-300 focus:border-transparent">
-                                    <div class="text-red-500 text-xs md:text-sm mt-1 error-msg" id="error-pilihan_subs">
-                                    </div>
+                                    <span class="text-red-500 text-sm error-msg" id="error-pilihan_subs">
+                                        @if ($errors->has('pilihan_subs'))
+                                            {{ $errors->first('pilihan_subs') }}
+                                        @endif
+                                    </span>
                                 </td>
                             </tr>
 
@@ -39,7 +42,11 @@
                                     <input type="number" step="0.01" name="harga_subs"
                                         value="{{ $langganan->harga_subs }}" required
                                         class="w-full p-2 md:p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-gray-300 focus:border-transparent">
-                                    <div class="text-red-500 text-xs md:text-sm mt-1 error-msg" id="error-harga_subs"></div>
+                                    <span class="text-red-500 text-sm error-msg" id="error-harga_subs">
+                                        @if ($errors->has('harga_subs'))
+                                            {{ $errors->first('harga_subs') }}
+                                        @endif
+                                    </span>
                                 </td>
                             </tr>
 
@@ -49,8 +56,11 @@
                                 <td class="p-3 md:p-4">
                                     <textarea name="penjelasan_subs" required
                                         class="w-full h-24 md:h-32 p-2 md:p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-gray-300 focus:border-transparent">{{ $langganan->penjelasan_subs }}</textarea>
-                                    <div class="text-red-500 text-xs md:text-sm mt-1 error-msg" id="error-penjelasan_subs">
-                                    </div>
+                                    <span class="text-red-500 text-sm error-msg" id="error-penjelasan_subs">
+                                        @if ($errors->has('penjelasan_subs'))
+                                            {{ $errors->first('penjelasan_subs') }}
+                                        @endif
+                                    </span>
                                 </td>
                             </tr>
                             <!-- Gambar Kelas -->
@@ -117,9 +127,12 @@
                                             </button>
                                         </div>
                                     </div>
-                                    <p class="mt-1 text-xs text-gray-500">Format: JPG, PNG, JPEG. Maksimal 2MB.</p>
-                                    <div class="text-red-500 text-xs md:text-sm mt-1 error-msg" id="error-gambar_subs">
-                                    </div>
+                                    <p class="mt-1 text-xs text-gray-500">Format: JPG, PNG, JPEG. Maksimal 10MB.</p>
+                                    <span class="text-red-500 text-sm error-msg block mt-1" id="error-gambar_subs">
+                                        @if ($errors->has('gambar_subs'))
+                                            {{ $errors->first('gambar_subs') }}
+                                        @endif
+                                    </span>
                                 </td>
                             </tr>
 
@@ -145,6 +158,11 @@
                                             </div>
                                         @endforeach
                                     </div>
+                                    <span class="text-red-500 text-sm error-msg block mt-1" id="error-benefit_subs">
+                                        @if ($errors->has('benefit_subs'))
+                                            {{ $errors->first('benefit_subs') }}
+                                        @endif
+                                    </span>
                                     <button type="button" onclick="addBenefitEdit()"
                                         class="mt-2 flex items-center text-blue-600 hover:text-blue-800 text-sm">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 md:h-5 w-4 md:w-5 mr-1"

@@ -18,7 +18,8 @@ class StoreLanggananRequest extends FormRequest
             'penjelasan_subs' => 'required|string',
             'benefit_subs' => 'required|array|min:1',
             'harga_subs' => 'required|numeric',
-            'gambar_subs' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'gambar_subs' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:10248',
+            'status' => 'nullable|in:active,deactive',
         ];
     }
 

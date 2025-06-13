@@ -27,7 +27,7 @@ class LanggananController extends Controller
                 ->orWhere('harga_subs', 'like', '%' . $search . '%')
                 ->orWhereJsonContains('benefit_subs', $search);
         })
-            ->paginate(1)
+            ->paginate(5)
             ->appends(['search' => $search]);
 
         return view('admin-buns.classes.index', compact('langganans', 'search'));
@@ -37,6 +37,7 @@ class LanggananController extends Controller
     {
         $data = $request->validated();
         $data['benefit_subs'] = json_encode($data['benefit_subs']);
+        $data['status'] = 'active';
 
         if ($request->hasFile('gambar_subs')) {
             $imagePath = $request->file('gambar_subs')->store('langganan_images', 'public');
@@ -85,6 +86,11 @@ class LanggananController extends Controller
             $data['gambar_subs'] = basename($imagePath);
         }
 
+        // Update status if provided
+        if ($request->has('status')) {
+            $langganan->status = $request->status;
+        }
+
         $langganan->update($data);
 
         if ($request->ajax()) {
@@ -109,5 +115,22 @@ class LanggananController extends Controller
         $langganan->delete();
 
         return redirect()->route('admin-buns.classes.index')->with('success', 'Kelas berhasil dihapus.');
+    }
+
+    public function toggleStatus($id_langganan)
+    {
+        try {
+            $langganan = Langganan::findOrFail($id_langganan);
+
+            // Toggle status between active and deactive
+            $langganan->status = ($langganan->status === 'active') ? 'deactive' : 'active';
+            $langganan->save();
+
+            $statusText = ucfirst($langganan->status);
+
+            return redirect()->route('admin-buns.classes')->with('success', "Status Class berhasil diubah menjadi $statusText!");
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+        }
     }
 }

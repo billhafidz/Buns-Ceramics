@@ -16,7 +16,8 @@ class Langganan extends Model
         'penjelasan_subs',
         'benefit_subs',
         'harga_subs',
-        'gambar_subs'
+        'gambar_subs',
+        'status'
     ];
 
     protected $casts = [

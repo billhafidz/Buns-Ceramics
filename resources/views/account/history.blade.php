@@ -108,7 +108,7 @@
                                 </svg>
                                 Profile
                             </a>
-                            <a href="#"
+                            <a href="{{ route('account.history') }}"
                                 class="flex items-center gap-2 py-2 px-2 text-black hover:bg-[#662f28] hover:text-white hover:rounded transition-all duration-200">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
                                     viewBox="0 0 24 24" stroke="currentColor">
@@ -265,7 +265,8 @@
     <section class="pt-32 pb-16 px-6 md:px-20">
         <div class="container mx-auto">
             <div class="relative flex justify-center items-center mb-8">
-                <a href="/" class="absolute left-0 text-[#592727] hover:text-[#7D3E35] p-2 rounded-full">
+                <a href="{{ route('index') }}"
+                    class="absolute left-0 text-[#592727] hover:text-[#7D3E35] p-2 rounded-full">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24"
                         stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
@@ -274,9 +275,15 @@
                 <h1 class="history text-3xl md:text-4xl font-bold text-center text-[#262626]">History</h1>
             </div>
 
-            @if ($transactions->isEmpty())
-                <div class="text-center py-8">
-                    <p class="text-gray-500">You don't have any transaction history yet</p>
+            @if (!$member)
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                    <div class="text-center py-12">
+                        <p class="text-gray-500 text-lg mb-4">You don't have any transaction history yet</p>
+                        <a href="{{ route('class') }}"
+                            class="bg-[#592727] hover:bg-[#7D3E35] text-white font-bold py-2 px-6 rounded-lg inline-flex items-center transition-colors">
+                            Upgrade to Member
+                        </a>
+                    </div>
                 </div>
             @else
                 <div class="bg-white rounded-xl shadow-lg overflow-hidden">
@@ -307,11 +314,13 @@
                                     <tr>
                                         <td class="px-6 py-4 whitespace-nowrap">
                                             <div class="text-sm font-medium text-gray-900">
-                                                {{ $transaction->nama_kelas }}</div>
+                                                {{ $transaction->nama_kelas }}
+                                            </div>
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap">
                                             <div class="text-sm text-gray-500">
-                                                {{ $transaction->tanggal_transaksi->format('d M Y') }}</div>
+                                                {{ $transaction->tanggal_transaksi->format('d M Y') }}
+                                            </div>
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap">
                                             <div class="text-sm text-gray-500">
@@ -324,7 +333,7 @@
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                             <button onclick="showInvoiceModal('{{ $transaction->order_id }}')"
-                                                class="bg-[#592727] hover:bg-[#7D3E35] text-white font-bold py-2 px-4 rounded-lg inline-flex items-center">
+                                                class="bg-[#592727] hover:bg-[#7D3E35] text-white font-bold py-2 px-4 rounded-lg inline-flex items-center transition-colors">
                                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2"
                                                     fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -340,13 +349,14 @@
                         </table>
                     </div>
                 </div>
-                <div class="mt-8">
+                <div class="mt-8 flex justify-center">
                     {{ $transactions->links() }}
                 </div>
             @endif
         </div>
     </section>
 
+    <!-- Invoice Modal -->
     <div id="invoiceModal"
         class="fixed hidden inset-0 z-50 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center p-4">
         <div class="relative bg-white rounded-lg shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
@@ -403,145 +413,6 @@
                     <div class="flex justify-between items-center">
                         <button onclick="printInvoice()"
                             class="bg-[#592727] hover:bg-[#7D3E35] text-white font-bold py-2 px-4 rounded-lg inline-flex items-center transition-colors">
-                            <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd"
-                                    d="M5 4v3H4a2 2 0 00-2 2v3a2 2 0 002 2h1v2a2 2 0 002 2h6a2 2 0 002-2v-2h1a2 2 0 002-2V9a2 2 0 00-2-2h-1V4a2 2 0 00-2-2H7a2 2 0 00-2 2zm8 0H7v3h6V4zM5 14H4v-2h1v2zm1 0v2h6v-2H6zm9 0v-2h1v2h-1z"
-                                    clip-rule="evenodd"></path>
-                            </svg>
-                            Print
-                        </button>
-                        <button onclick="closeInvoiceModal()"
-                            class="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-100 transition-colors">
-                            Close
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div id="invoiceModal"
-        class="fixed hidden inset-0 z-50 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center p-4">
-        <div class="relative bg-white rounded-lg shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
-            <button onclick="closeInvoiceModal()"
-                class="absolute top-4 right-4 text-gray-500 hover:text-gray-700 transition-colors rounded-full w-8 h-8 flex items-center justify-center bg-white hover:bg-gray-100 z-10">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                    stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                </svg>
-            </button>
-
-            <div class="p-6 md:p-8">
-                <h2 class="text-2xl font-bold text-gray-800 mb-6">Invoice Details</h2>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                    <div>
-                        <h3 class="text-lg font-semibold text-gray-700 mb-2">Order Information</h3>
-                        <div class="space-y-3">
-                            <div>
-                                <p class="text-sm text-gray-500">Order ID</p>
-                                <p id="invoiceOrderId" class="font-medium text-gray-900"></p>
-                            </div>
-                            <div>
-                                <p class="text-sm text-gray-500">Class Name</p>
-                                <p id="invoiceClassName" class="font-medium text-gray-900"></p>
-                            </div>
-                            <div>
-                                <p class="text-sm text-gray-500">Order Date</p>
-                                <p id="invoiceOrderDate" class="font-medium text-gray-900"></p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div>
-                        <h3 class="text-lg font-semibold text-gray-700 mb-2">Payment Information</h3>
-                        <div class="space-y-3">
-                            <div>
-                                <p class="text-sm text-gray-500">Payment Method</p>
-                                <p id="invoicePaymentMethod" class="font-medium text-gray-900"></p>
-                            </div>
-                            <div>
-                                <p class="text-sm text-gray-500">Total Amount</p>
-                                <p id="invoiceAmount" class="font-medium text-gray-900"></p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="border-t border-gray-200 pt-6">
-                    <div class="flex justify-between items-center">
-                        <button onclick="printInvoice()"
-                            class="bg-[#592727] hover:bg-[#7D3E35] text-white font-bold py-2 px-4 rounded-lg inline-flex items-center transition-colors">
-                            <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd"
-                                    d="M5 4v3H4a2 2 0 00-2 2v3a2 2 0 002 2h1v2a2 2 0 002 2h6a2 2 0 002-2v-2h1a2 2 0 002-2V9a2 2 0 00-2-2h-1V4a2 2 0 00-2-2H7a2 2 0 00-2 2zm8 0H7v3h6V4zM5 14H4v-2h1v2zm1 0v2h6v-2H6zm9 0v-2h1v2h-1z"
-                                    clip-rule="evenodd"></path>
-                            </svg>
-                            Print
-                        </button>
-                        <button onclick="closeInvoiceModal()"
-                            class="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-100 transition-colors">
-                            Close
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Invoice Modal -->
-    <div id="invoiceModal"
-        class="fixed hidden inset-0 z-50 bg-black bg-opacity-50 backdrop-blur-sm items-center justify-center p-4">
-        <div class="relative bg-white rounded-lg shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
-            <button onclick="closeInvoiceModal()"
-                class="absolute top-4 right-4 text-gray-500 hover:text-gray-700 transition-colors rounded-full w-8 h-8 flex items-center justify-center bg-white hover:bg-gray-100">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                    stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                </svg>
-            </button>
-
-            <div class="p-6">
-                <h2 class="text-2xl font-bold text-gray-800 mb-6">Invoice Details</h2>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                    <div>
-                        <h3 class="text-lg font-semibold text-gray-700 mb-2">Order Information</h3>
-                        <div class="space-y-3">
-                            <div>
-                                <p class="text-sm text-gray-500">Order ID</p>
-                                <p id="invoiceOrderId" class="font-medium"></p>
-                            </div>
-                            <div>
-                                <p class="text-sm text-gray-500">Class Name</p>
-                                <p id="invoiceClassName" class="font-medium"></p>
-                            </div>
-                            <div>
-                                <p class="text-sm text-gray-500">Order Date</p>
-                                <p id="invoiceOrderDate" class="font-medium"></p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div>
-                        <h3 class="text-lg font-semibold text-gray-700 mb-2">Payment Information</h3>
-                        <div class="space-y-3">
-                            <div>
-                                <p class="text-sm text-gray-500">Payment Method</p>
-                                <p id="invoicePaymentMethod" class="font-medium"></p>
-                            </div>
-                            <div>
-                                <p class="text-sm text-gray-500">Total Amount</p>
-                                <p id="invoiceAmount" class="font-medium"></p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="border-t border-gray-200 pt-6">
-                    <div class="flex justify-between">
-                        <button onclick="printInvoice()"
-                            class="bg-[#592727] hover:bg-[#7D3E35] text-white font-bold py-2 px-4 rounded-lg inline-flex items-center">
                             <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd"
                                     d="M5 4v3H4a2 2 0 00-2 2v3a2 2 0 002 2h1v2a2 2 0 002 2h6a2 2 0 002-2v-2h1a2 2 0 002-2V9a2 2 0 00-2-2h-1V4a2 2 0 00-2-2H7a2 2 0 00-2 2zm8 0H7v3h6V4zM5 14H4v-2h1v2zm1 0v2h6v-2H6zm9 0v-2h1v2h-1z"
@@ -639,11 +510,10 @@
                         <div class="text-center">
                             <a href="{{ route('password.request') }}"
                                 class="text-sm text-gray-500 hover:text-gray-800 underline transition-all">
-                                Lupa Password?
+                                Forget Password?
                             </a>
                         </div>
                     </form>
-
 
                     <!-- Mobile Only Sign Up Link -->
                     <div class="sm:hidden mt-4 text-center">
@@ -850,20 +720,19 @@
                         document.getElementById('invoiceAmount').textContent = data.data.total_transaksi;
                         document.getElementById('invoiceCompletionDate').textContent = data.data.ended_date;
                     } else {
-                        alert('Gagal memuat data invoice');
+                        alert('Failed to load invoice data');
                         closeInvoiceModal();
                     }
                 })
                 .catch(error => {
                     console.error('Error:', error);
-                    alert('Terjadi kesalahan saat memuat data');
+                    alert('An error occurred while loading data');
                     closeInvoiceModal();
                 });
         }
 
         function closeInvoiceModal() {
-            const modal = document.getElementById('invoiceModal');
-            modal.classList.add('hidden');
+            document.getElementById('invoiceModal').classList.add('hidden');
             document.body.classList.remove('overflow-hidden');
         }
 
@@ -885,12 +754,29 @@
                 <div style="margin-top: 40px; text-align: center; font-size: 12px; color: #777;"><p>Thank you for choosing Buns Ceramics</p></div>
             </div>
         `;
+
             const printWindow = window.open('', '', 'width=800,height=600');
             printWindow.document.open();
-            printWindow.document.write(
-                `<html><head><title>Invoice</title></head><body>${printContent}<script>window.onload = function() { window.print(); setTimeout(function() { window.close(); }, 100); };<\/script></body></html>`
-                );
+            printWindow.document.write(`
+            <html>
+                <head>
+                    <title>Invoice</title>
+                    <style>
+                        body { font-family: Arial, sans-serif; margin: 0; padding: 20px; }
+                        h1 { color: #592727; }
+                        table { width: 100%; border-collapse: collapse; }
+                        td { padding: 8px 0; }
+                    </style>
+                </head>
+                <body>${printContent}</body>
+            </html>
+        `);
             printWindow.document.close();
+            printWindow.focus();
+            setTimeout(() => {
+                printWindow.print();
+                printWindow.close();
+            }, 500);
         }
     </script>
 </body>

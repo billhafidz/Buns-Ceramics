@@ -77,29 +77,41 @@ class AccountController extends Controller
         $accountId = $user->id_account;
         $member    = Member::where('id_account', $accountId)->first();
 
-        if (! $member) {
+        if ($member) {
+            $transactions = Transaction::where('id_pelanggan', $member->id_member)
+                ->orderBy('tanggal_transaksi', 'desc')
+                ->paginate(10);
+        }
+        else {
             $transactions = collect();
-            return view('account.history', [
-                'transactions' => \Illuminate\Pagination\Paginator::resolveCurrentPath($transactions),
-                'member'       => null,
-            ]);
         }
 
-        $transactions = Transaction::where('id_pelanggan', $member->id_member)
-            ->orderBy('tanggal_transaksi', 'desc')
-            ->paginate(10);
-
-        return view('account.history', compact('transactions', 'member'));
+        return view('account.history', [
+            'transactions' => $transactions,
+            'member'       => $member,
+        ]);
     }
 
     public function getInvoice($order_id)
     {
-        $user   = session('user');
+        $user = session('user');
+        if (! $user) {
+            return response()->json(['success' => false, 'message' => 'Unauthorized'], 401);
+        }
+
         $member = Member::where('id_account', $user->id_account)->first();
 
         $transaction = Transaction::where('order_id', $order_id)
-            ->where('id_pelanggan', $member->id_member)
-            ->firstOrFail();
+            ->when($member, function ($query) use ($member) {
+                return $query->where('id_pelanggan', $member->id_member);
+            }, function ($query) {
+                return $query->whereNull('id'); // Return empty result for non-members
+            })
+            ->first();
+
+        if (! $transaction) {
+            return response()->json(['success' => false, 'message' => 'Transaction not found'], 404);
+        }
 
         return response()->json([
             'success' => true,

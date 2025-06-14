@@ -207,151 +207,162 @@
 
         <div class="hidden lg:block">
             @if (session('user'))
-            @php
-            $role = strtolower(session('user')->role ?? '');
-            $canClick = $role === 'member';
-            @endphp
-            <div class="user-menu-wrapper flex items-center gap-3 order-1 lg:order-2">
-                <span
-                    class="role-badge bg-[#212529] bg-opacity-90 shadow-md border-white border-2 text-white px-4 py-1 rounded-full font-bold text-sm {{ $canClick ? 'cursor-pointer' : 'cursor-default' }}"
-                    @if ($canClick)
-                    onclick="showMemberInfo()"
-                    @endif>
-                    {{ strtoupper(session('user')->role ?? '') }}
-                </span>
-                <div class="user-menu group relative">
-                    <img src="{{ $member && $member->foto_profil ? asset('storage/' . $member->foto_profil) : asset('images/user-icon.png') }}"
-                        alt="User Icon"
-                        class="w-10 h-10 rounded-full cursor-pointer border-2 border-white object-cover transition duration-300 transform group-hover:scale-110">
-                    <div
-                        class="dropdown-content hidden absolute top-12 right-0 bg-white rounded-lg py-3 px-4 min-w-[220px] shadow-lg group-hover:block">
-                        <a href="{{ route('account.profile') }}"
-                            class="flex items-center gap-2 py-2 px-2 text-black hover:bg-[#662f28] hover:text-white hover:rounded transition-all duration-200">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
-                                viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                            </svg>
-                            Profile
-                        </a>
-                        <a href="{{ route('account.history') }}"
-                            class="flex items-center gap-2 py-2 px-2 text-black hover:bg-[#662f28] hover:text-white hover:rounded transition-all duration-200">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
-                                viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                            </svg>
-                            History
-                        </a>
-                        <form method="POST" action="/logout" class="w-full">
-                            @csrf
-                            <button type="submit"
-                                class="flex items-center gap-2 py-2 px-2 text-black hover:bg-[#662f28] hover:text-white hover:rounded transition-all duration-200 w-full text-left">
+                @php
+                    $role = strtolower(session('user')->role ?? '');
+                    $canClick = $role === 'member';
+                @endphp
+                <div class="user-menu-wrapper flex items-center gap-3 order-1 lg:order-2">
+                    <span
+                        class="role-badge bg-[#212529] bg-opacity-90 shadow-md border-white border-2 text-white px-4 py-1 rounded-full font-bold text-sm {{ $canClick ? 'cursor-pointer' : 'cursor-default' }}"
+                        @if ($canClick) onclick="showMemberInfo()" @endif>
+                        {{ strtoupper(session('user')->role ?? '') }}
+                    </span>
+                    <div class="user-menu group relative">
+                        <img src="{{ $member && $member->foto_profil ? asset('storage/' . $member->foto_profil) : asset('images/user-icon.png') }}"
+                            alt="User Icon"
+                            class="w-10 h-10 rounded-full cursor-pointer border-2 border-white object-cover transition duration-300 transform group-hover:scale-110">
+                        <div
+                            class="dropdown-content hidden absolute top-12 right-0 bg-white rounded-lg py-3 px-4 min-w-[220px] shadow-lg group-hover:block">
+                            <a href="{{ route('account.profile') }}"
+                                class="flex items-center gap-2 py-2 px-2 text-black hover:bg-[#662f28] hover:text-white hover:rounded transition-all duration-200">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
                                     viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                                        d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                                 </svg>
-                                Logout
-                            </button>
-                        </form>
+                                Profile
+                            </a>
+                            <a href="{{ route('account.history') }}"
+                                class="flex items-center gap-2 py-2 px-2 text-black hover:bg-[#662f28] hover:text-white hover:rounded transition-all duration-200">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
+                                    viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                                History
+                            </a>
+                            <form method="POST" action="/logout" class="w-full">
+                                @csrf
+                                <button type="submit"
+                                    class="flex items-center gap-2 py-2 px-2 text-black hover:bg-[#662f28] hover:text-white hover:rounded transition-all duration-200 w-full text-left">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
+                                        viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                                    </svg>
+                                    Logout
+                                </button>
+                            </form>
+                        </div>
                     </div>
                 </div>
-            </div>
             @else
-            <button onclick="openModal()"
-                class="order-1 lg:order-2 bg-[#262626] bg-opacity-90 shadow-md border-white border-2 text-white px-6 md:px-8 py-2 md:py-3 rounded-full font-bold hover:scale-105 transition-transform duration-200">
-                LOGIN
-            </button>
+                <button onclick="openModal()"
+                    class="order-1 lg:order-2 bg-[#262626] bg-opacity-90 shadow-md border-white border-2 text-white px-6 md:px-8 py-2 md:py-3 rounded-full font-bold hover:scale-105 transition-transform duration-200">
+                    LOGIN
+                </button>
             @endif
         </div>
     </header>
 
     <!-- Member Info Modal -->
     @if (session('user') && $member)
-    <div id="memberInfoModal"
-        class="fixed hidden inset-0 z-50 bg-black bg-opacity-50 backdrop-blur-sm items-center justify-center p-2 sm:p-4">
+        <div id="memberInfoModal"
+            class="fixed hidden inset-0 z-50 bg-black bg-opacity-50 backdrop-blur-sm items-center justify-center p-2 sm:p-4">
 
-        <div class="relative w-full max-w-sm sm:max-w-2xl bg-white rounded-xl sm:rounded-2xl shadow-2xl overflow-hidden">
-            <div class="flex flex-col sm:flex-row">
+            <div
+                class="relative w-full max-w-sm sm:max-w-2xl bg-white rounded-xl sm:rounded-2xl shadow-2xl overflow-hidden">
+                <div class="flex flex-col sm:flex-row">
 
-                <!-- Left Image Panel -->
-                <div class="w-full sm:w-1/2 bg-cover bg-center h-32 sm:h-auto sm:min-h-[300px] relative"
-                    style="background-image: url('{{ asset('images/login.png') }}');">
-                    <div class="absolute inset-0 bg-black bg-opacity-40 flex flex-col items-center justify-center text-center">
-                        <h3 class="font-playfair text-3xl font-semibold mb-2 text-white tracking-wide drop-shadow-lg">Buns</h3>
-                        <h3 class="font-playfair text-3xl font-light text-white tracking-widest drop-shadow-lg">Ceramics</h3>
-                    </div>
-                </div>
-
-                <!-- Right Member Card Panel -->
-                <div class="w-full sm:w-1/2 p-6" id="memberCardArea">
-                    <h2 class="text-xl font-bold text-gray-800 mb-6 text-center">Member Card</h2>
-
-                    <div class="text-center mb-4">
-                        <img src="{{ $member->foto_profil ? asset('storage/' . $member->foto_profil) : asset('images/user-icon.png') }}"
-                            alt="Profile Picture"
-                            class="w-20 h-20 rounded-full mx-auto object-cover shadow-lg">
-                    </div>
-
-                    <div class="space-y-4">
-                        <!-- Nama Member -->
-                        <div class="relative">
-                            <div class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
-                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
-                                </svg>
-                            </div>
-                            <div class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg bg-gray-50 text-gray-700 text-sm">
-                                {{ $member->nama_member }}
-                            </div>
-                        </div>
-
-                        <!-- Email Member -->
-                        <div class="relative">
-                            <div class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
-                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                                    <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"></path>
-                                    <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"></path>
-                                </svg>
-                            </div>
-                            <div class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg bg-gray-50 text-gray-700 text-sm">
-                                {{ $member->email_member }}
-                            </div>
-                        </div>
-
-                        <!-- Kelas Terakhir -->
-                        <div class="relative">
-                            <div class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
-                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                                    <path d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3zM3.31 9.397L5 10.12v4.102a8.969 8.969 0 00-1.05-.174 1 1 0 01-.89-.89 11.115 11.115 0 01.25-3.762zM9.3 16.573A9.026 9.026 0 007 14.935v-3.957l1.818.78a3 3 0 002.364 0l5.508-2.361a11.026 11.026 0 01.25 3.762 1 1 0 01-.89.89 8.968 8.968 0 00-5.75 2.524 9.026 9.026 0 00-.3.04z"></path>
-                                </svg>
-                            </div>
-                            <div class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg bg-gray-50 text-gray-700 text-sm">
-                                @php
-                                $latestTransaction = $member->transactions()->latest('created_at')->first();
-                                @endphp
-                                {{ $latestTransaction ? $latestTransaction->nama_kelas : 'Belum ada kelas' }}
-                            </div>
+                    <!-- Left Image Panel -->
+                    <div class="w-full sm:w-1/2 bg-cover bg-center h-32 sm:h-auto sm:min-h-[300px] relative"
+                        style="background-image: url('{{ asset('images/login.png') }}');">
+                        <div
+                            class="absolute inset-0 bg-black bg-opacity-40 flex flex-col items-center justify-center text-center">
+                            <h3
+                                class="font-playfair text-3xl font-semibold mb-2 text-white tracking-wide drop-shadow-lg">
+                                Buns</h3>
+                            <h3 class="font-playfair text-3xl font-light text-white tracking-widest drop-shadow-lg">
+                                Ceramics</h3>
                         </div>
                     </div>
 
-                    <!-- Tombol Print -->
-                    <div class="mt-6 flex justify-end no-print">
-                        <button
-                            type="button"
-                            onclick="printMemberCard()"
-                            class="px-4 py-2 bg-blue-600 text-white text-sm font-semibold rounded-lg shadow-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition ease-in-out duration-150 flex items-center gap-2">
-                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M6 2a2 2 0 00-2 2v4h12V4a2 2 0 00-2-2H6zM4 10v6a2 2 0 002 2h8a2 2 0 002-2v-6H4zm2 2h8v2H6v-2z" clip-rule="evenodd" />
-                            </svg>
-                            Print
-                        </button>
+                    <!-- Right Member Card Panel -->
+                    <div class="w-full sm:w-1/2 p-6" id="memberCardArea">
+                        <h2 class="text-xl font-bold text-gray-800 mb-6 text-center">Member Card</h2>
+
+                        <div class="text-center mb-4">
+                            <img src="{{ $member->foto_profil ? asset('storage/' . $member->foto_profil) : asset('images/user-icon.png') }}"
+                                alt="Profile Picture" class="w-20 h-20 rounded-full mx-auto object-cover shadow-lg">
+                        </div>
+
+                        <div class="space-y-4">
+                            <!-- Nama Member -->
+                            <div class="relative">
+                                <div class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
+                                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd"
+                                            d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                                            clip-rule="evenodd" />
+                                    </svg>
+                                </div>
+                                <div
+                                    class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg bg-gray-50 text-gray-700 text-sm">
+                                    {{ $member->nama_member }}
+                                </div>
+                            </div>
+
+                            <!-- Email Member -->
+                            <div class="relative">
+                                <div class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
+                                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                        <path
+                                            d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z">
+                                        </path>
+                                        <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"></path>
+                                    </svg>
+                                </div>
+                                <div
+                                    class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg bg-gray-50 text-gray-700 text-sm">
+                                    {{ $member->email_member }}
+                                </div>
+                            </div>
+
+                            <!-- Kelas Terakhir -->
+                            <div class="relative">
+                                <div class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
+                                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                        <path
+                                            d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3zM3.31 9.397L5 10.12v4.102a8.969 8.969 0 00-1.05-.174 1 1 0 01-.89-.89 11.115 11.115 0 01.25-3.762zM9.3 16.573A9.026 9.026 0 007 14.935v-3.957l1.818.78a3 3 0 002.364 0l5.508-2.361a11.026 11.026 0 01.25 3.762 1 1 0 01-.89.89 8.968 8.968 0 00-5.75 2.524 9.026 9.026 0 00-.3.04z">
+                                        </path>
+                                    </svg>
+                                </div>
+                                <div
+                                    class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg bg-gray-50 text-gray-700 text-sm">
+                                    @php
+                                        $latestTransaction = $member->transactions()->latest('created_at')->first();
+                                    @endphp
+                                    {{ $latestTransaction ? $latestTransaction->nama_kelas : 'Belum ada kelas' }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Tombol Print -->
+                        <div class="mt-6 flex justify-end no-print">
+                            <button type="button" onclick="printMemberCard()"
+                                class="px-4 py-2 bg-blue-600 text-white text-sm font-semibold rounded-lg shadow-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition ease-in-out duration-150 flex items-center gap-2">
+                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd"
+                                        d="M6 2a2 2 0 00-2 2v4h12V4a2 2 0 00-2-2H6zM4 10v6a2 2 0 002 2h8a2 2 0 002-2v-6H4zm2 2h8v2H6v-2z"
+                                        clip-rule="evenodd" />
+                                </svg>
+                                Print
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
     @endif
 
     <!-- Mobile Navigation Menu -->
@@ -368,10 +379,10 @@
                 class="nav-item font-bold text-xl text-white py-2 border-b border-gray-700">CONTACT</a>
 
             @if (!session('user'))
-            <button onclick="openModal(); toggleMobileMenu();"
-                class="mt-4 bg-[#262626] bg-opacity-90 shadow-md border-white border-2 text-white px-6 py-2 rounded-full font-bold hover:bg-gradient-to-r hover:from-[#212529] hover:to-[#3a4148] transition-all duration-300">
-                LOGIN
-            </button>
+                <button onclick="openModal(); toggleMobileMenu();"
+                    class="mt-4 bg-[#262626] bg-opacity-90 shadow-md border-white border-2 text-white px-6 py-2 rounded-full font-bold hover:bg-gradient-to-r hover:from-[#212529] hover:to-[#3a4148] transition-all duration-300">
+                    LOGIN
+                </button>
             @endif
         </nav>
     </div>
@@ -404,41 +415,64 @@
 
             <!-- Rekomendasi Class -->
             @foreach ($langganans as $index => $langganan)
-            <div
-                class="flex flex-wrap {{ $index % 2 == 1 ? 'md:flex-row-reverse' : '' }} items-center mb-12 md:mb-16">
-                <div class="w-full md:w-1/2 mb-6 md:mb-0">
-                    <img src="{{ asset('storage/langganan_images/' . $langganan->gambar_subs) }}"
-                        alt="{{ $langganan->pilihan_subs }}" class="rounded-lg shadow-lg mx-auto"
-                        style="width: 100%; height: 400px; object-fit: cover;" />
+                <div
+                    class="flex flex-wrap {{ $index % 2 == 1 ? 'md:flex-row-reverse' : '' }} items-center mb-12 md:mb-16">
+                    <div class="w-full md:w-1/2 mb-6 md:mb-0">
+                        @if ($langganan->gambar_subs)
+                            <img src="{{ asset('storage/langganan_images/' . $langganan->gambar_subs) }}"
+                                alt="{{ $langganan->pilihan_subs }}" class="rounded-lg shadow-lg mx-auto"
+                                style="width: 100%; height: 400px; object-fit: cover;" />
+                        @else
+                            <div class="flex flex-col items-center justify-center rounded-lg shadow-lg bg-gray-100"
+                                style="width: 100%; height: 400px;">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-24 w-24 text-gray-400"
+                                    fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                </svg>
+                                {{-- <p class="mt-2 text-gray-500 text-sm">No Image Available</p> --}}
+                            </div>
+                        @endif
+                    </div>
+                    <div class="w-full md:w-1/2 px-4 md:px-6">
+                        <h3 class="text-2xl md:text-3xl font-bold mb-3 md:mb-4">{{ $langganan->pilihan_subs }}</h3>
+                        <p class="text-base md:text-lg mb-4 md:mb-6">{{ $langganan->penjelasan_subs }}</p>
+                        <button
+                            class="bg-[#592727] text-white px-6 md:px-8 py-2 md:py-3 rounded-lg font-bold inline-block hover:bg-[#662f28] transition-all"
+                            data-langganan='@json($langganan)'
+                            onclick="showClassDetail({{ $langganan->id_langganan }})">
+                            DETAIL
+                        </button>
+                    </div>
                 </div>
-                <div class="w-full md:w-1/2 px-4 md:px-6">
-                    <h3 class="text-2xl md:text-3xl font-bold mb-3 md:mb-4">{{ $langganan->pilihan_subs }}</h3>
-                    <p class="text-base md:text-lg mb-4 md:mb-6">{{ $langganan->penjelasan_subs }}</p>
-                    <button class="bg-[#592727] text-white px-6 md:px-8 py-2 md:py-3 rounded-lg font-bold inline-block hover:bg-[#662f28] transition-all"
-                        data-langganan='@json($langganan)' onclick="showClassDetail({{ $langganan->id_langganan }})">
-                        DETAIL
-                    </button>
-                </div>
-            </div>
             @endforeach
 
             <!-- Detail Modal -->
-            <div id="classDetailModal" class="fixed inset-0 z-50 hidden bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center p-4">
+            <div id="classDetailModal"
+                class="fixed inset-0 z-50 hidden bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center p-4">
                 <div class="relative bg-white rounded-lg shadow-2xl w-full max-w-4xl mx-4" style="max-height: 90vh;">
 
                     <!-- Close Button -->
-                    <button onclick="closeClassDetail()" class="absolute top-4 right-4 text-gray-500 hover:text-gray-700 transition-colors rounded-full w-8 h-8 flex items-center justify-center bg-white hover:bg-gray-100">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    <button onclick="closeClassDetail()"
+                        class="absolute top-4 right-4 text-gray-500 hover:text-gray-700 transition-colors rounded-full w-8 h-8 flex items-center justify-center bg-white hover:bg-gray-100">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M6 18L18 6M6 6l12 12" />
                         </svg>
                     </button>
 
                     <!-- Modal Content -->
                     <div class="grid grid-cols-1 lg:grid-cols-2 h-full max-h-[90vh] overflow-y-auto scrollbar-hide">
-                        <div class="h-64 lg:h-auto bg-gray-100 flex items-center justify-center relative overflow-hidden rounded-l-lg">
-                            <img id="detailClassImage" src="" alt="Class Image" class="hidden absolute inset-0 w-full h-full object-cover">
-                            <svg id="detailClassImagePlaceholder" xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        <div
+                            class="h-64 lg:h-auto bg-gray-100 flex items-center justify-center relative overflow-hidden rounded-l-lg">
+                            <img id="detailClassImage" src="" alt="Class Image"
+                                class="hidden absolute inset-0 w-full h-full object-cover">
+                            <svg id="detailClassImagePlaceholder" xmlns="http://www.w3.org/2000/svg"
+                                class="h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                             </svg>
                         </div>
 
@@ -459,17 +493,16 @@
 
                             <div class="mt-auto pt-4 min-h-[50px]">
                                 <div class="flex justify-center">
-                                    @if(session('user'))
-                                    <a href="{{ route('subscribe') }}"
-                                        onclick="return onSubscribeClick()"
-                                        class="w-full md:w-auto px-8 py-3 bg-[#592727] text-white rounded-lg font-bold hover:bg-[#662f28] transition-colors text-center">
-                                        Subscribe Now
-                                    </a>
-
+                                    @if (session('user'))
+                                        <a href="{{ route('subscribe') }}" onclick="return onSubscribeClick()"
+                                            class="w-full md:w-auto px-8 py-3 bg-[#592727] text-white rounded-lg font-bold hover:bg-[#662f28] transition-colors text-center">
+                                            Subscribe Now
+                                        </a>
                                     @else
-                                    <button onclick="openModal(); closeClassDetail();" class="w-full md:w-auto px-8 py-3 bg-[#592727] text-white rounded-lg font-bold hover:bg-[#662f28] transition-colors">
-                                        Subscribe Now
-                                    </button>
+                                        <button onclick="openModal(); closeClassDetail();"
+                                            class="w-full md:w-auto px-8 py-3 bg-[#592727] text-white rounded-lg font-bold hover:bg-[#662f28] transition-colors">
+                                            Subscribe Now
+                                        </button>
                                     @endif
                                 </div>
                             </div>
@@ -597,32 +630,44 @@
                 <!-- Login Form -->
                 <div class="w-full sm:w-1/2 p-4 sm:p-6">
                     <h2 class="text-xl font-bold text-center mb-6">Welcome To Buns</h2>
+                    <div id="loginError" class="text-center text-red-500 text-sm mb-4 hidden">The account is not
+                        registered</div>
 
-                    <form method="POST" action="{{ route('login') }}" class="space-y-4">
+                    <form method="POST" action="{{ route('login') }}" class="space-y-4"
+                        onsubmit="return validateLoginForm()">
                         @csrf
-                        <div class="flex border rounded-lg overflow-hidden">
-                            <div class="bg-gray-100 p-3 flex items-center justify-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500"
-                                    viewBox="0 0 20 20" fill="currentColor">
-                                    <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
-                                        clip-rule="evenodd" />
-                                </svg>
+                        <div class="flex flex-col">
+                            <div class="flex border rounded-lg overflow-hidden">
+                                <div class="bg-gray-100 p-3 flex items-center justify-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500"
+                                        viewBox="0 0 20 20" fill="currentColor">
+                                        <path fill-rule="evenodd"
+                                            d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                                            clip-rule="evenodd" />
+                                    </svg>
+                                </div>
+                                <input type="text" id="loginUsername" name="username" placeholder="Username"
+                                    class="flex-1 p-2 outline-none" value="{{ old('username') }}">
                             </div>
-                            <input type="text" id="loginUsername" name="username" placeholder="Username"
-                                class="flex-1 p-2 outline-none" required>
+                            <span id="loginUsernameError" class="text-red-500 text-sm mt-1 hidden">Username cannot be
+                                empty</span>
                         </div>
 
-                        <div class="flex border rounded-lg overflow-hidden">
-                            <div class="bg-gray-100 p-3 flex items-center justify-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500"
-                                    viewBox="0 0 20 20" fill="currentColor">
-                                    <path fill-rule="evenodd"
-                                        d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
-                                        clip-rule="evenodd" />
-                                </svg>
+                        <div class="flex flex-col">
+                            <div class="flex border rounded-lg overflow-hidden">
+                                <div class="bg-gray-100 p-3 flex items-center justify-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500"
+                                        viewBox="0 0 20 20" fill="currentColor">
+                                        <path fill-rule="evenodd"
+                                            d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
+                                            clip-rule="evenodd" />
+                                    </svg>
+                                </div>
+                                <input type="password" id="loginPassword" name="password" placeholder="Password"
+                                    class="flex-1 p-2 outline-none">
                             </div>
-                            <input type="password" name="password" placeholder="Password"
-                                class="flex-1 p-2 outline-none" required>
+                            <span id="loginPasswordError" class="text-red-500 text-sm mt-1 hidden">Password cannot be
+                                empty</span>
                         </div>
 
                         <button type="submit"
@@ -634,7 +679,7 @@
                         <div class="text-center">
                             <a href="{{ route('password.request') }}"
                                 class="text-sm text-gray-500 hover:text-gray-800 underline transition-all">
-                                Lupa Password?
+                                Forget Password?
                             </a>
                         </div>
                     </form>
@@ -656,43 +701,55 @@
                 <div class="w-full sm:w-1/2 p-4 sm:p-6">
                     <h2 class="text-xl font-bold text-center mb-6">Register</h2>
 
-                    <form method="POST" action="{{ route('register.store') }}" class="space-y-4">
+                    <form method="POST" action="{{ route('register.store') }}" class="space-y-4"
+                        onsubmit="return validateRegisterForm()" novalidate>
                         @csrf
-                        <div class="flex border rounded-lg overflow-hidden">
-                            <div class="bg-gray-100 p-3 flex items-center justify-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500"
-                                    viewBox="0 0 20 20" fill="currentColor">
-                                    <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
-                                        clip-rule="evenodd" />
-                                </svg>
+                        <div class="flex flex-col">
+                            <div class="flex border rounded-lg overflow-hidden">
+                                <div class="bg-gray-100 p-3 flex items-center justify-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500"
+                                        viewBox="0 0 20 20" fill="currentColor">
+                                        <path fill-rule="evenodd"
+                                            d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                                            clip-rule="evenodd" />
+                                    </svg>
+                                </div>
+                                <input type="text" id="registerUsername" name="username" placeholder="Username"
+                                    class="flex-1 p-2 outline-none">
                             </div>
-                            <input type="text" id="registerUsername" name="username" placeholder="Username"
-                                class="flex-1 p-2 outline-none" required>
+                            <span id="registerUsernameError" class="text-red-500 text-sm mt-1 hidden"></span>
                         </div>
 
-                        <div class="flex border rounded-lg overflow-hidden">
-                            <div class="bg-gray-100 p-3 flex items-center justify-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500"
-                                    viewBox="0 0 20 20" fill="currentColor">
-                                    <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
-                                    <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
-                                </svg>
+                        <div class="flex flex-col">
+                            <div class="flex border rounded-lg overflow-hidden">
+                                <div class="bg-gray-100 p-3 flex items-center justify-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500"
+                                        viewBox="0 0 20 20" fill="currentColor">
+                                        <path
+                                            d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
+                                        <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
+                                    </svg>
+                                </div>
+                                <input type="text" name="email" placeholder="Email"
+                                    class="flex-1 p-2 outline-none">
                             </div>
-                            <input type="email" name="email" placeholder="Email" class="flex-1 p-2 outline-none"
-                                required>
+                            <span id="registerEmailError" class="text-red-500 text-sm mt-1 hidden"></span>
                         </div>
 
-                        <div class="flex border rounded-lg overflow-hidden">
-                            <div class="bg-gray-100 p-3 flex items-center justify-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500"
-                                    viewBox="0 0 20 20" fill="currentColor">
-                                    <path fill-rule="evenodd"
-                                        d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
-                                        clip-rule="evenodd" />
-                                </svg>
+                        <div class="flex flex-col">
+                            <div class="flex border rounded-lg overflow-hidden">
+                                <div class="bg-gray-100 p-3 flex items-center justify-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500"
+                                        viewBox="0 0 20 20" fill="currentColor">
+                                        <path fill-rule="evenodd"
+                                            d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
+                                            clip-rule="evenodd" />
+                                    </svg>
+                                </div>
+                                <input type="password" name="password" placeholder="Password"
+                                    class="flex-1 p-2 outline-none">
                             </div>
-                            <input type="password" name="password" placeholder="Password"
-                                class="flex-1 p-2 outline-none" required>
+                            <span id="registerPasswordError" class="text-red-500 text-sm mt-1 hidden"></span>
                         </div>
 
                         <button type="submit"
@@ -793,20 +850,47 @@
             window.closeModal = function() {
                 document.getElementById('authModal').classList.add('hidden');
                 document.getElementById('authModal').classList.remove('flex');
+                // Reset all error messages and input values when closing modal
+                document.getElementById('loginUsername').value = '';
+                document.getElementById('loginPassword').value = '';
+                document.getElementById('registerUsername').value = '';
+                document.querySelector('#registerPanel input[name="email"]').value = '';
+                document.querySelector('#registerPanel input[name="password"]').value = '';
+                document.getElementById('loginUsernameError').classList.add('hidden');
+                document.getElementById('loginPasswordError').classList.add('hidden');
+                document.getElementById('loginError').classList.add('hidden');
+                document.getElementById('registerUsernameError').classList.add('hidden');
+                document.getElementById('registerEmailError').classList.add('hidden');
+                document.getElementById('registerPasswordError').classList.add('hidden');
             };
 
             window.showLogin = function() {
                 document.getElementById('loginPanel').classList.remove('hidden');
                 document.getElementById('registerPanel').classList.add('hidden');
                 document.getElementById('backButton').classList.add('hidden');
+                // Reset login form inputs
+                document.getElementById('loginUsername').value = '';
+                document.getElementById('loginPassword').value = '';
                 document.getElementById('loginUsername').focus();
+                // Reset error messages
+                document.getElementById('loginUsernameError').classList.add('hidden');
+                document.getElementById('loginPasswordError').classList.add('hidden');
+                document.getElementById('loginError').classList.add('hidden');
             };
 
             window.showRegister = function() {
                 document.getElementById('loginPanel').classList.add('hidden');
                 document.getElementById('registerPanel').classList.remove('hidden');
                 document.getElementById('backButton').classList.remove('hidden');
+                // Reset register form inputs
+                document.getElementById('registerUsername').value = '';
+                document.querySelector('#registerPanel input[name="email"]').value = '';
+                document.querySelector('#registerPanel input[name="password"]').value = '';
                 document.getElementById('registerUsername').focus();
+                // Reset error messages
+                document.getElementById('registerUsernameError').classList.add('hidden');
+                document.getElementById('registerEmailError').classList.add('hidden');
+                document.getElementById('registerPasswordError').classList.add('hidden');
             };
 
             document.getElementById('authModal').addEventListener('click', function(event) {
@@ -857,8 +941,111 @@
                 hamburgerBtn.addEventListener('click', toggleMobileMenu);
                 mobileMenuOverlay.addEventListener('click', toggleMobileMenu);
             }
+
+            // Check for any errors and open modal
+            @if ($errors->any())
+                document.getElementById('authModal').classList.remove('hidden');
+                document.getElementById('authModal').classList.add('flex');
+                showLogin();
+
+                // Check for login error (wrong credentials)
+                @if ($errors->has('login'))
+                    document.getElementById('loginError').textContent = '{{ $errors->first('login') }}';
+                    document.getElementById('loginError').classList.remove('hidden');
+                @endif
+
+                // Check for validation errors (empty fields)
+                @if ($errors->has('username'))
+                    document.getElementById('loginUsernameError').textContent = '{{ $errors->first('username') }}';
+                    document.getElementById('loginUsernameError').classList.remove('hidden');
+                @endif
+
+                @if ($errors->has('password'))
+                    document.getElementById('loginPasswordError').textContent = '{{ $errors->first('password') }}';
+                    document.getElementById('loginPasswordError').classList.remove('hidden');
+                @endif
+            @endif
         });
 
+        function validateLoginForm() {
+            let isValid = true;
+            const username = document.getElementById('loginUsername').value.trim();
+            const password = document.getElementById('loginPassword').value.trim();
+            const usernameError = document.getElementById('loginUsernameError');
+            const passwordError = document.getElementById('loginPasswordError');
+
+            // Reset error messages
+            usernameError.classList.add('hidden');
+            passwordError.classList.add('hidden');
+            document.getElementById('loginError').classList.add('hidden');
+
+            // Check for empty fields
+            if (!username) {
+                usernameError.textContent = 'Username cannot be empty';
+                usernameError.classList.remove('hidden');
+                isValid = false;
+            }
+            if (!password) {
+                passwordError.textContent = 'Password cannot be empty';
+                passwordError.classList.remove('hidden');
+                isValid = false;
+            }
+
+            return isValid;
+        }
+
+        function validateRegisterForm() {
+            let isValid = true;
+            const username = document.getElementById('registerUsername').value.trim();
+            const email = document.querySelector('#registerPanel input[name="email"]').value.trim();
+            const password = document.querySelector('#registerPanel input[name="password"]').value.trim();
+            const usernameError = document.getElementById('registerUsernameError');
+            const emailError = document.getElementById('registerEmailError');
+            const passwordError = document.getElementById('registerPasswordError');
+
+            // Reset error messages
+            usernameError.classList.add('hidden');
+            emailError.classList.add('hidden');
+            passwordError.classList.add('hidden');
+
+            // Username validation: 5-15 characters, no spaces, no special characters
+            const usernameRegex = /^[a-zA-Z0-9]{5,15}$/;
+            if (!username) {
+                usernameError.textContent = 'Username cannot be empty';
+                usernameError.classList.remove('hidden');
+                isValid = false;
+            } else if (!usernameRegex.test(username)) {
+                usernameError.textContent = 'Username must be 5-15 characters, no spaces or special characters';
+                usernameError.classList.remove('hidden');
+                isValid = false;
+            }
+
+            // Email validation: valid email format, no spaces
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!email) {
+                emailError.textContent = 'Email cannot be empty';
+                emailError.classList.remove('hidden');
+                isValid = false;
+            } else if (!emailRegex.test(email)) {
+                emailError.textContent = 'Please enter a valid email address';
+                emailError.classList.remove('hidden');
+                isValid = false;
+            }
+
+            // Password validation: 8-12 characters, no spaces
+            const passwordRegex = /^[^\s]{8,12}$/;
+            if (!password) {
+                passwordError.textContent = 'Password cannot be empty';
+                passwordError.classList.remove('hidden');
+                isValid = false;
+            } else if (!passwordRegex.test(password)) {
+                passwordError.textContent = 'Password must be 8-12 characters long and must not contain spaces';
+                passwordError.classList.remove('hidden');
+                isValid = false;
+            }
+
+            return isValid;
+        }
 
         function showClassDetail(classId) {
             const classData = getClassData(classId);
@@ -879,7 +1066,8 @@
                 }
 
                 document.getElementById('detailClassName').textContent = classData.pilihan_subs;
-                document.getElementById('detailClassPrice').textContent = `Rp. ${parseInt(classData.harga_subs).toLocaleString()}`;
+                document.getElementById('detailClassPrice').textContent =
+                    `Rp. ${parseInt(classData.harga_subs).toLocaleString()}`;
                 document.getElementById('detailClassDescription').textContent = classData.penjelasan_subs;
 
                 const benefitsList = document.getElementById('detailClassBenefits');

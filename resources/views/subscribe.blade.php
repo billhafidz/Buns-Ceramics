@@ -115,46 +115,45 @@
         }
 
         document.addEventListener('DOMContentLoaded', function() {
-    document.getElementById('langganan_id').addEventListener('change', function() {
-        updateSubscriptionDetails();
-        updatePilihanHariHidden();
-    });
+            document.getElementById('langganan_id').addEventListener('change', function() {
+                updateSubscriptionDetails();
+                updatePilihanHariHidden();
+            });
 
-    document.getElementById('pilihan_hari').addEventListener('change', function() {
-        updatePrice();
-        updatePilihanHariHidden();
-    });
+            document.getElementById('pilihan_hari').addEventListener('change', function() {
+                updatePrice();
+                updatePilihanHariHidden();
+            });
 
-    // LocalStorage logic
-    const storedLangganan = localStorage.getItem('selectedLangganan');
-    if (storedLangganan) {
-        const langganan = JSON.parse(storedLangganan);
+            // LocalStorage logic
+            const storedLangganan = localStorage.getItem('selectedLangganan');
+            if (storedLangganan) {
+                const langganan = JSON.parse(storedLangganan);
 
-        const select = document.getElementById('langganan_id');
-        const options = select.options;
-        for (let i = 0; i < options.length; i++) {
-            if (options[i].getAttribute('data-id-langganan') == langganan.id_langganan) {
-                options[i].selected = true;
-                break;
+                const select = document.getElementById('langganan_id');
+                const options = select.options;
+                for (let i = 0; i < options.length; i++) {
+                    if (options[i].getAttribute('data-id-langganan') == langganan.id_langganan) {
+                        options[i].selected = true;
+                        break;
+                    }
+                }
+
+                updateSubscriptionDetails();
+                updatePilihanHariHidden();
+
+                localStorage.removeItem('selectedLangganan');
+            } else {
+                updateSubscriptionDetails();
+                updatePilihanHariHidden();
             }
+        });
+
+
+        function updatePilihanHariHidden() {
+            const duration = document.getElementById('pilihan_hari').value;
+            document.getElementById('pilihan_hari_hidden').value = duration;
         }
-
-        updateSubscriptionDetails();
-        updatePilihanHariHidden();
-
-        localStorage.removeItem('selectedLangganan');
-    } else {
-        updateSubscriptionDetails();
-        updatePilihanHariHidden();
-    }
-});
-
-
-    function updatePilihanHariHidden() {
-    const duration = document.getElementById('pilihan_hari').value;
-    document.getElementById('pilihan_hari_hidden').value = duration;
-}
-
     </script>
 </head>
 
@@ -213,7 +212,7 @@
                                 </svg>
                                 Profile
                             </a>
-                            <a href="#"
+                            <a href="{{ route('account.history') }}"
                                 class="flex items-center gap-2 py-2 px-2 text-black hover:bg-[#662f28] hover:text-white hover:rounded transition-all duration-200">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
                                     viewBox="0 0 24 24" stroke="currentColor">
@@ -280,8 +279,8 @@
                                 <div class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
                                     <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                                         <path fill-rule="evenodd"
-                                            d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
-                                            clip-rule="evenodd"></path>
+                                            d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd">
+                                        </path>
                                     </svg>
                                 </div>
                                 <div
@@ -370,9 +369,13 @@
     <div class="pt-28 pb-12 px-6 md:px-20 min-h-screen">
         <!-- Back Button -->
         <div class="max-w-4xl mx-auto mb-4">
-            <a href="{{ route('class') }}" class="inline-flex items-center text-[#7D3E35] hover:text-[#662f28] transition-colors">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
-                    <path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd" />
+            <a href="{{ route('class') }}"
+                class="inline-flex items-center text-[#7D3E35] hover:text-[#662f28] transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20"
+                    fill="currentColor">
+                    <path fill-rule="evenodd"
+                        d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z"
+                        clip-rule="evenodd" />
                 </svg>
                 Back to Classes
             </a>
@@ -387,12 +390,13 @@
                             class="w-full h-48 object-cover rounded-lg hidden md:block transform transition-all duration-300 hover:scale-105"
                             style="box-shadow: 8px 8px 0px rgba(0, 0, 0, 0.3);">
                     </div>
-                    
+
                     <div class="w-full">
                         <h3 class="text-xl font-bold text-gray-800 mb-4">Subscription Details</h3>
-                        
+
                         <div class="mb-4">
-                            <label for="pilihan_hari" class="block text-sm font-medium text-gray-700 mb-1">Duration</label>
+                            <label for="pilihan_hari"
+                                class="block text-sm font-medium text-gray-700 mb-1">Duration</label>
                             <select id="pilihan_hari" name="pilihan_hari"
                                 class="w-full border border-gray-300 rounded-lg py-2 px-3 focus:outline-none focus:ring-2 focus:ring-[#7D3E35] focus:border-[#7D3E35]">
                                 <option value="30">30 Days</option>
@@ -400,7 +404,7 @@
                                 <option value="5">5 Days</option>
                             </select>
                         </div>
-                        
+
                         <div class="mb-4">
                             <label class="block text-sm font-medium text-gray-700 mb-1">Benefits</label>
                             <ul id="benefitList" class="space-y-2">
@@ -413,25 +417,27 @@
                 <!-- Subscription Form -->
                 <div class="md:w-2/3 p-6">
                     <h2 class="text-2xl font-bold text-gray-800 mb-6">Subscription Form</h2>
-                    
+
                     <form method="POST" action="{{ route('subscribe.store') }}" class="space-y-4">
                         @csrf
                         <input type="hidden" name="email_member" value="{{ $data['email_member'] }}">
                         <input type="hidden" name="id_account" id="id_account" value="{{ $data['id_account'] }}">
                         <input type="hidden" name="pilihan_hari" id="pilihan_hari_hidden" value="30">
 
-                        
+
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
-                                <label for="nama_member" class="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+                                <label for="nama_member" class="block text-sm font-medium text-gray-700 mb-1">Full
+                                    Name</label>
                                 <input type="text" name="nama_member" id="nama_member"
                                     value="{{ old('nama_member', $data['nama_member']) }}"
                                     class="w-full border border-gray-300 rounded-lg py-2 px-3 focus:outline-none focus:ring-2 focus:ring-[#7D3E35] focus:border-[#7D3E35]"
                                     required>
                             </div>
-                            
+
                             <div>
-                                <label for="no_telp" class="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
+                                <label for="no_telp" class="block text-sm font-medium text-gray-700 mb-1">Phone
+                                    Number</label>
                                 <input type="text" name="no_telp" id="no_telp"
                                     value="{{ old('no_telp', $data['no_telp']) }}"
                                     class="w-full border border-gray-300 rounded-lg py-2 px-3 focus:outline-none focus:ring-2 focus:ring-[#7D3E35] focus:border-[#7D3E35]"
@@ -440,7 +446,8 @@
                         </div>
 
                         <div>
-                            <label for="alamat_member" class="block text-sm font-medium text-gray-700 mb-1">Address</label>
+                            <label for="alamat_member"
+                                class="block text-sm font-medium text-gray-700 mb-1">Address</label>
                             <input type="text" name="alamat_member" id="alamat_member"
                                 value="{{ old('alamat_member', $data['alamat_member']) }}"
                                 class="w-full border border-gray-300 rounded-lg py-2 px-3 focus:outline-none focus:ring-2 focus:ring-[#7D3E35] focus:border-[#7D3E35]"
@@ -448,14 +455,15 @@
                         </div>
 
                         <div>
-                            <label for="langganan_id" class="block text-sm font-medium text-gray-700 mb-1">Subscription Type</label>
+                            <label for="langganan_id"
+                                class="block text-sm font-medium text-gray-700 mb-1">Subscription Type</label>
                             <select name="pilihan_subs" id="langganan_id"
                                 class="w-full border border-gray-300 rounded-lg py-2 px-3 focus:outline-none focus:ring-2 focus:ring-[#7D3E35] focus:border-[#7D3E35]"
                                 required>
                                 <option value="">Select Subscription</option>
                                 @foreach ($data['langganans'] as $langganan)
                                     <option value="{{ $langganan->pilihan_subs }}"
-                                        data-id-langganan="{{ $langganan->id_langganan }}" 
+                                        data-id-langganan="{{ $langganan->id_langganan }}"
                                         data-harga="{{ $langganan->harga_subs }}"
                                         data-penjelasan="{{ $langganan->penjelasan_subs }}"
                                         data-benefits="{{ json_encode($langganan->benefit_subs) }}"
@@ -469,15 +477,17 @@
                         </div>
 
                         <div>
-                            <label for="penjelasan_subs" class="block text-sm font-medium text-gray-700 mb-1">Description</label>
+                            <label for="penjelasan_subs"
+                                class="block text-sm font-medium text-gray-700 mb-1">Description</label>
                             <textarea name="penjelasan_subs" id="penjelasan_subs"
                                 class="w-full border border-gray-300 rounded-lg py-2 px-3 focus:outline-none focus:ring-2 focus:ring-[#7D3E35] focus:border-[#7D3E35] h-32"
                                 readonly></textarea>
                         </div>
-                          <div class="mb-4">
+                        <div class="mb-4">
                             <label class="block text-sm font-medium text-gray-700 mb-1">Price</label>
                             <p id="harga_display" class="text-2xl font-bold text-[#7D3E35]">
-                                Rp {{ $selectedLangganan ? number_format($selectedLangganan->harga_subs, 0, ',', '.') : '0' }}
+                                Rp
+                                {{ $selectedLangganan ? number_format($selectedLangganan->harga_subs, 0, ',', '.') : '0' }}
                             </p>
                             <input type="hidden" name="harga_subs" id="harga_subs"
                                 value="{{ $selectedLangganan ? $selectedLangganan->harga_subs : '' }}">
@@ -535,32 +545,44 @@
                 <!-- Login Form -->
                 <div class="w-full sm:w-1/2 p-4 sm:p-6">
                     <h2 class="text-xl font-bold text-center mb-6">Welcome To Buns</h2>
+                    <div id="loginError" class="text-center text-red-500 text-sm mb-4 hidden">The account is not
+                        registered</div>
 
-                    <form method="POST" action="{{ route('login') }}" class="space-y-4">
+                    <form method="POST" action="{{ route('login') }}" class="space-y-4"
+                        onsubmit="return validateLoginForm()">
                         @csrf
-                        <div class="flex border rounded-lg overflow-hidden">
-                            <div class="bg-gray-100 p-3 flex items-center justify-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500"
-                                    viewBox="0 0 20 20" fill="currentColor">
-                                    <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
-                                        clip-rule="evenodd" />
-                                </svg>
+                        <div class="flex flex-col">
+                            <div class="flex border rounded-lg overflow-hidden">
+                                <div class="bg-gray-100 p-3 flex items-center justify-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500"
+                                        viewBox="0 0 20 20" fill="currentColor">
+                                        <path fill-rule="evenodd"
+                                            d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                                            clip-rule="evenodd" />
+                                    </svg>
+                                </div>
+                                <input type="text" id="loginUsername" name="username" placeholder="Username"
+                                    class="flex-1 p-2 outline-none" value="{{ old('username') }}">
                             </div>
-                            <input type="text" id="loginUsername" name="username" placeholder="Username"
-                                class="flex-1 p-2 outline-none" required>
+                            <span id="loginUsernameError" class="text-red-500 text-sm mt-1 hidden">Username cannot be
+                                empty</span>
                         </div>
 
-                        <div class="flex border rounded-lg overflow-hidden">
-                            <div class="bg-gray-100 p-3 flex items-center justify-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500"
-                                    viewBox="0 0 20 20" fill="currentColor">
-                                    <path fill-rule="evenodd"
-                                        d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
-                                        clip-rule="evenodd" />
-                                </svg>
+                        <div class="flex flex-col">
+                            <div class="flex border rounded-lg overflow-hidden">
+                                <div class="bg-gray-100 p-3 flex items-center justify-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500"
+                                        viewBox="0 0 20 20" fill="currentColor">
+                                        <path fill-rule="evenodd"
+                                            d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
+                                            clip-rule="evenodd" />
+                                    </svg>
+                                </div>
+                                <input type="password" id="loginPassword" name="password" placeholder="Password"
+                                    class="flex-1 p-2 outline-none">
                             </div>
-                            <input type="password" name="password" placeholder="Password"
-                                class="flex-1 p-2 outline-none" required>
+                            <span id="loginPasswordError" class="text-red-500 text-sm mt-1 hidden">Password cannot be
+                                empty</span>
                         </div>
 
                         <button type="submit"
@@ -568,13 +590,15 @@
                             Login
                         </button>
 
+                        {{-- Link lupa password --}}
                         <div class="text-center">
                             <a href="{{ route('password.request') }}"
                                 class="text-sm text-gray-500 hover:text-gray-800 underline transition-all">
-                                Forgot Password?
+                                Forget Password?
                             </a>
                         </div>
                     </form>
+
 
                     <!-- Mobile Only Sign Up Link -->
                     <div class="sm:hidden mt-4 text-center">
@@ -592,43 +616,55 @@
                 <div class="w-full sm:w-1/2 p-4 sm:p-6">
                     <h2 class="text-xl font-bold text-center mb-6">Register</h2>
 
-                    <form method="POST" action="{{ route('register.store') }}" class="space-y-4">
+                    <form method="POST" action="{{ route('register.store') }}" class="space-y-4"
+                        onsubmit="return validateRegisterForm()" novalidate>
                         @csrf
-                        <div class="flex border rounded-lg overflow-hidden">
-                            <div class="bg-gray-100 p-3 flex items-center justify-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500"
-                                    viewBox="0 0 20 20" fill="currentColor">
-                                    <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
-                                        clip-rule="evenodd" />
-                                </svg>
+                        <div class="flex flex-col">
+                            <div class="flex border rounded-lg overflow-hidden">
+                                <div class="bg-gray-100 p-3 flex items-center justify-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500"
+                                        viewBox="0 0 20 20" fill="currentColor">
+                                        <path fill-rule="evenodd"
+                                            d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                                            clip-rule="evenodd" />
+                                    </svg>
+                                </div>
+                                <input type="text" id="registerUsername" name="username" placeholder="Username"
+                                    class="flex-1 p-2 outline-none">
                             </div>
-                            <input type="text" id="registerUsername" name="username" placeholder="Username"
-                                class="flex-1 p-2 outline-none" required>
+                            <span id="registerUsernameError" class="text-red-500 text-sm mt-1 hidden"></span>
                         </div>
 
-                        <div class="flex border rounded-lg overflow-hidden">
-                            <div class="bg-gray-100 p-3 flex items-center justify-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500"
-                                    viewBox="0 0 20 20" fill="currentColor">
-                                    <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
-                                    <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
-                                </svg>
+                        <div class="flex flex-col">
+                            <div class="flex border rounded-lg overflow-hidden">
+                                <div class="bg-gray-100 p-3 flex items-center justify-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500"
+                                        viewBox="0 0 20 20" fill="currentColor">
+                                        <path
+                                            d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
+                                        <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
+                                    </svg>
+                                </div>
+                                <input type="text" name="email" placeholder="Email"
+                                    class="flex-1 p-2 outline-none">
                             </div>
-                            <input type="email" name="email" placeholder="Email" class="flex-1 p-2 outline-none"
-                                required>
+                            <span id="registerEmailError" class="text-red-500 text-sm mt-1 hidden"></span>
                         </div>
 
-                        <div class="flex border rounded-lg overflow-hidden">
-                            <div class="bg-gray-100 p-3 flex items-center justify-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500"
-                                    viewBox="0 0 20 20" fill="currentColor">
-                                    <path fill-rule="evenodd"
-                                        d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
-                                        clip-rule="evenodd" />
-                                </svg>
+                        <div class="flex flex-col">
+                            <div class="flex border rounded-lg overflow-hidden">
+                                <div class="bg-gray-100 p-3 flex items-center justify-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500"
+                                        viewBox="0 0 20 20" fill="currentColor">
+                                        <path fill-rule="evenodd"
+                                            d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
+                                            clip-rule="evenodd" />
+                                    </svg>
+                                </div>
+                                <input type="password" name="password" placeholder="Password"
+                                    class="flex-1 p-2 outline-none">
                             </div>
-                            <input type="password" name="password" placeholder="Password"
-                                class="flex-1 p-2 outline-none" required>
+                            <span id="registerPasswordError" class="text-red-500 text-sm mt-1 hidden"></span>
                         </div>
 
                         <button type="submit"
@@ -677,20 +713,47 @@
             window.closeModal = function() {
                 document.getElementById('authModal').classList.add('hidden');
                 document.getElementById('authModal').classList.remove('flex');
+                // Reset all error messages and input values when closing modal
+                document.getElementById('loginUsername').value = '';
+                document.getElementById('loginPassword').value = '';
+                document.getElementById('registerUsername').value = '';
+                document.querySelector('#registerPanel input[name="email"]').value = '';
+                document.querySelector('#registerPanel input[name="password"]').value = '';
+                document.getElementById('loginUsernameError').classList.add('hidden');
+                document.getElementById('loginPasswordError').classList.add('hidden');
+                document.getElementById('loginError').classList.add('hidden');
+                document.getElementById('registerUsernameError').classList.add('hidden');
+                document.getElementById('registerEmailError').classList.add('hidden');
+                document.getElementById('registerPasswordError').classList.add('hidden');
             };
 
             window.showLogin = function() {
                 document.getElementById('loginPanel').classList.remove('hidden');
                 document.getElementById('registerPanel').classList.add('hidden');
                 document.getElementById('backButton').classList.add('hidden');
+                // Reset login form inputs
+                document.getElementById('loginUsername').value = '';
+                document.getElementById('loginPassword').value = '';
                 document.getElementById('loginUsername').focus();
+                // Reset error messages
+                document.getElementById('loginUsernameError').classList.add('hidden');
+                document.getElementById('loginPasswordError').classList.add('hidden');
+                document.getElementById('loginError').classList.add('hidden');
             };
 
             window.showRegister = function() {
                 document.getElementById('loginPanel').classList.add('hidden');
                 document.getElementById('registerPanel').classList.remove('hidden');
                 document.getElementById('backButton').classList.remove('hidden');
+                // Reset register form inputs
+                document.getElementById('registerUsername').value = '';
+                document.querySelector('#registerPanel input[name="email"]').value = '';
+                document.querySelector('#registerPanel input[name="password"]').value = '';
                 document.getElementById('registerUsername').focus();
+                // Reset error messages
+                document.getElementById('registerUsernameError').classList.add('hidden');
+                document.getElementById('registerEmailError').classList.add('hidden');
+                document.getElementById('registerPasswordError').classList.add('hidden');
             };
 
             document.getElementById('authModal').addEventListener('click', function(event) {
@@ -741,7 +804,111 @@
                 hamburgerBtn.addEventListener('click', toggleMobileMenu);
                 mobileMenuOverlay.addEventListener('click', toggleMobileMenu);
             }
+
+            // Check for any errors and open modal
+            @if ($errors->any())
+                document.getElementById('authModal').classList.remove('hidden');
+                document.getElementById('authModal').classList.add('flex');
+                showLogin();
+
+                // Check for login error (wrong credentials)
+                @if ($errors->has('login'))
+                    document.getElementById('loginError').textContent = '{{ $errors->first('login') }}';
+                    document.getElementById('loginError').classList.remove('hidden');
+                @endif
+
+                // Check for validation errors (empty fields)
+                @if ($errors->has('username'))
+                    document.getElementById('loginUsernameError').textContent = '{{ $errors->first('username') }}';
+                    document.getElementById('loginUsernameError').classList.remove('hidden');
+                @endif
+
+                @if ($errors->has('password'))
+                    document.getElementById('loginPasswordError').textContent = '{{ $errors->first('password') }}';
+                    document.getElementById('loginPasswordError').classList.remove('hidden');
+                @endif
+            @endif
         });
+
+        function validateLoginForm() {
+            let isValid = true;
+            const username = document.getElementById('loginUsername').value.trim();
+            const password = document.getElementById('loginPassword').value.trim();
+            const usernameError = document.getElementById('loginUsernameError');
+            const passwordError = document.getElementById('loginPasswordError');
+
+            // Reset error messages
+            usernameError.classList.add('hidden');
+            passwordError.classList.add('hidden');
+            document.getElementById('loginError').classList.add('hidden');
+
+            // Check for empty fields
+            if (!username) {
+                usernameError.textContent = 'Username cannot be empty';
+                usernameError.classList.remove('hidden');
+                isValid = false;
+            }
+            if (!password) {
+                passwordError.textContent = 'Password cannot be empty';
+                passwordError.classList.remove('hidden');
+                isValid = false;
+            }
+
+            return isValid;
+        }
+
+        function validateRegisterForm() {
+            let isValid = true;
+            const username = document.getElementById('registerUsername').value.trim();
+            const email = document.querySelector('#registerPanel input[name="email"]').value.trim();
+            const password = document.querySelector('#registerPanel input[name="password"]').value.trim();
+            const usernameError = document.getElementById('registerUsernameError');
+            const emailError = document.getElementById('registerEmailError');
+            const passwordError = document.getElementById('registerPasswordError');
+
+            // Reset error messages
+            usernameError.classList.add('hidden');
+            emailError.classList.add('hidden');
+            passwordError.classList.add('hidden');
+
+            // Username validation: 5-15 characters, no spaces, no special characters
+            const usernameRegex = /^[a-zA-Z0-9]{5,15}$/;
+            if (!username) {
+                usernameError.textContent = 'Username cannot be empty';
+                usernameError.classList.remove('hidden');
+                isValid = false;
+            } else if (!usernameRegex.test(username)) {
+                usernameError.textContent = 'Username must be 5-15 characters, no spaces or special characters';
+                usernameError.classList.remove('hidden');
+                isValid = false;
+            }
+
+            // Email validation: valid email format, no spaces
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!email) {
+                emailError.textContent = 'Email cannot be empty';
+                emailError.classList.remove('hidden');
+                isValid = false;
+            } else if (!emailRegex.test(email)) {
+                emailError.textContent = 'Please enter a valid email address';
+                emailError.classList.remove('hidden');
+                isValid = false;
+            }
+
+            // Password validation: 8-12 characters, no spaces
+            const passwordRegex = /^[^\s]{8,12}$/;
+            if (!password) {
+                passwordError.textContent = 'Password cannot be empty';
+                passwordError.classList.remove('hidden');
+                isValid = false;
+            } else if (!passwordRegex.test(password)) {
+                passwordError.textContent = 'Password must be 8-12 characters long and must not contain spaces';
+                passwordError.classList.remove('hidden');
+                isValid = false;
+            }
+
+            return isValid;
+        }
 
         function showMemberInfo() {
             document.getElementById('memberInfoModal').classList.remove('hidden');
@@ -759,4 +926,5 @@
         });
     </script>
 </body>
+
 </html>

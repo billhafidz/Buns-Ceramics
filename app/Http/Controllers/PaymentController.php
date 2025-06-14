@@ -48,7 +48,7 @@ class PaymentController extends Controller
 
     private function createXenditInvoice($data)
     {
-        $xenditSecretKey = env('XENDIT_SECRET_KEY');
+        $xenditSecretKey = 'xnd_development_wFRy1oH2SkdwUXqNeYWczX0j06oe6DbjbZlwnPYroOWNTBsh3B2NW6zCL2igtO';
         $orderId         = 'SUB-' . time() . '-' . $data['id_account'];
         $amount          = (float) $data['harga_subs'];
 
@@ -161,7 +161,7 @@ class PaymentController extends Controller
 
             $paymentMethod = 'SABAR BANG, KALO GA KEUBAH WEBHOOKNYA YANG MASALAH BUKAN KODENYA';
 
-            $xenditSecretKey = env('XENDIT_SECRET_KEY');
+            $xenditSecretKey = 'xnd_development_wFRy1oH2SkdwUXqNeYWczX0j06oe6DbjbZlwnPYroOWNTBsh3B2NW6zCL2igtO';
             $invoiceResponse = Http::withHeaders([
                 'Authorization' => 'Basic ' . base64_encode($xenditSecretKey . ':'),
             ])->get("https://api.xendit.co/v2/invoices/{$invoiceId}");

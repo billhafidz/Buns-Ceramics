@@ -46,8 +46,8 @@
         </div>
     </div>
 
-    <div class="min-h-[500px] overflow-x-auto bg-white rounded shadow mt-1">
-        <table class="min-h-[500px] min-w-full text-sm">
+    <div class="overflow-x-auto bg-white rounded shadow mt-1">
+        <table class="min-w-full text-sm">
             <thead class="text-white text-left" style="background: #343a40">
                 <tr>
                     <th class="py-3 px-3 border-b text-center w-[5%]">#</th>
@@ -234,11 +234,6 @@
                                             accept="image/*">
                                     </label>
                                 </div>
-                                <span class="text-red-500 text-sm error-msg" id="error-gambar_subs">
-                                    @if ($errors->has('gambar_subs'))
-                                        {{ $errors->first('gambar_subs') }}
-                                    @endif
-                                </span>
 
                                 <div id="imagePreviewContainer" class="hidden mt-2">
                                     <img id="imagePreview" class="max-h-40 mx-auto rounded" alt="Preview">
@@ -257,7 +252,12 @@
                                     </button>
                                 </div>
                             </div>
-                            <p class="mt-1 text-xs text-gray-500">Format: JPG, PNG, JPEG. Maksimal 2MB.</p>
+                            <p class="mt-1 text-xs text-gray-500">Format: JPG, PNG, JPEG. Maksimal 10MB.</p>
+                            <span class="text-red-500 text-sm error-msg block mt-1" id="error-gambar_subs">
+                                @if ($errors->has('gambar_subs'))
+                                    {{ $errors->first('gambar_subs') }}
+                                @endif
+                            </span>
                         </div>
 
                         <!-- Benefit Section -->
@@ -277,7 +277,7 @@
                                     </button>
                                 </div>
                             </div>
-                            <span class="text-red-500 text-sm error-msg" id="error-benefit_subs">
+                            <span class="text-red-500 text-sm error-msg block mt-1" id="error-benefit_subs">
                                 @if ($errors->has('benefit_subs'))
                                     {{ $errors->first('benefit_subs') }}
                                 @endif
@@ -842,14 +842,14 @@
             const div = document.createElement('div');
             div.classList.add('flex', 'items-center', 'gap-2', 'mb-2');
             div.innerHTML = `
-        <input type="text" name="benefit_subs[]" placeholder="Masukkan Benefit"
-               class="flex-1 p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-gray-300 focus:border-transparent benefit-input">
-        <button type="button" onclick="removeBenefit(this)" class="text-gray-500 hover:text-red-500 p-1">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-            </svg>
-        </button>
-    `;
+            <input type="text" name="benefit_subs[]" placeholder="Masukkan Benefit"
+                   class="flex-1 p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-gray-300 focus:border-transparent benefit-input">
+            <button type="button" onclick="removeBenefit(this)" class="text-gray-500 hover:text-red-500 p-1">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+        `;
             container.appendChild(div);
         }
 
@@ -876,17 +876,18 @@
             const modalId = 'createModal';
             const form = this;
 
+            // Collect benefit values - fixed logic
             const benefitInputs = document.querySelectorAll('.benefit-input');
             let benefits = [];
 
-            benefitInputs.forEach(input => {
+            // Clear existing benefit_subs entries in formData
+            formData.delete('benefit_subs[]');
+
+            benefitInputs.forEach((input, index) => {
                 if (input.value.trim() !== '') {
                     benefits.push(input.value.trim());
+                    formData.append('benefit_subs[]', input.value.trim());
                 }
-            });
-
-            benefits.forEach((benefit, index) => {
-                formData.append(`benefit_subs[${index}]`, benefit);
             });
 
             const submitButton = form.querySelector('button[type="submit"]');
@@ -915,18 +916,27 @@
                                     submitButton.innerText = 'Save';
                                 }
 
+                                // Enhanced error handling
                                 Object.keys(data.errors).forEach(field => {
                                     const errorElement = document.getElementById('error-' +
                                         field);
                                     if (errorElement) {
                                         errorElement.textContent = data.errors[field][0];
+
+                                        // Special handling for benefit_subs error display
+                                        if (field === 'benefit_subs') {
+                                            errorElement.style.display = 'block';
+                                        }
                                     }
                                 });
+
+                                // Show validation errors in console for debugging
+                                console.log('Validation errors:', data.errors);
                             } else if (data.success) {
                                 closeModal(modalId);
                                 Swal.fire({
                                     title: 'Successfully!',
-                                    text: 'class successfully added.',
+                                    text: 'Class successfully added.',
                                     icon: 'success',
                                     confirmButtonColor: '#3085d6',
                                     confirmButtonText: 'OK'
@@ -937,7 +947,7 @@
                                 closeModal(modalId);
                                 Swal.fire({
                                     title: 'Successfully!',
-                                    text: 'class successfully added.',
+                                    text: 'Class successfully added.',
                                     icon: 'success',
                                     confirmButtonColor: '#3085d6',
                                     confirmButtonText: 'OK'
@@ -950,7 +960,7 @@
                         closeModal(modalId);
                         Swal.fire({
                             title: 'Successfully!',
-                            text: 'class successfully added.',
+                            text: 'Class successfully added.',
                             icon: 'success',
                             confirmButtonColor: '#3085d6',
                             confirmButtonText: 'OK'
@@ -967,15 +977,12 @@
                         submitButton.innerText = 'Save';
                     }
 
-                    closeModal(modalId);
                     Swal.fire({
-                        title: 'Successfully!',
-                        text: 'class successfully added.',
-                        icon: 'success',
-                        confirmButtonColor: '#3085d6',
+                        title: 'Error!',
+                        text: 'Something went wrong. Please try again.',
+                        icon: 'error',
+                        confirmButtonColor: '#d33',
                         confirmButtonText: 'OK'
-                    }).then(() => {
-                        window.location.reload();
                     });
                 });
         });
@@ -995,21 +1002,22 @@
             // Menghapus semua pesan error
             document.querySelectorAll('.error-msg').forEach(function(el) {
                 el.textContent = '';
+                el.style.display = '';
             });
 
             // Reset benefit inputs to just one
             const container = document.getElementById('benefitList');
             container.innerHTML = `
-        <div class="flex items-center gap-2 mb-2">
-            <input type="text" name="benefit_subs[]" placeholder="Masukkan Benefit"
-                    class="flex-1 p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-gray-300 focus:border-transparent benefit-input">
-            <button type="button" onclick="removeBenefit(this)" class="text-gray-500 hover:text-red-500 p-1">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                </svg>
-            </button>
-        </div>
-    `;
+            <div class="flex items-center gap-2 mb-2">
+                <input type="text" name="benefit_subs[]" placeholder="Masukkan Benefit"
+                        class="flex-1 p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-gray-300 focus:border-transparent benefit-input">
+                <button type="button" onclick="removeBenefit(this)" class="text-gray-500 hover:text-red-500 p-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+        `;
 
             removeImage();
         }
@@ -1096,6 +1104,9 @@
 
             document.getElementById('uploadArea').classList.add('hidden');
             document.getElementById('fileInfoArea').classList.remove('hidden');
+
+            // Clear any existing error message for image
+            document.getElementById('error-gambar_subs').textContent = '';
 
             // Preview gambar
             if (fileInput.files && fileInput.files[0]) {

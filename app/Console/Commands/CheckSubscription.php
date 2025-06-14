@@ -26,7 +26,7 @@ class CheckSubscription extends Command
                 $endedDate = Carbon::parse($lastTransaction->ended_date);
                 $daysLeft  = $now->diffInDays($endedDate, false);
 
-                Log::info("Cek member: {$member->email_member} | Tanggal Berakhir: {$endedDate->toDateString()} | Sisa Hari: {$daysLeft}");
+                Log::channel('member')->info("Cek member: {$member->email_member} | Tanggal Berakhir: {$endedDate->toDateString()} | Sisa Hari: {$daysLeft}");
 
                 if ($daysLeft <= 5 && $daysLeft > 0) {
                     Mail::send('emails.subscriptionWarning', ['member' => $member], function ($message) use ($member) {
@@ -34,7 +34,7 @@ class CheckSubscription extends Command
                             ->subject('Peringatan: Langganan Akan Segera Berakhir');
                     });
 
-                    Log::info("Email peringatan dikirim ke {$member->email_member}");
+                    Log::channel('member')->info("Email peringatan dikirim ke {$member->email_member}");
                 }
 
                 if ($daysLeft < 0) {
@@ -43,20 +43,20 @@ class CheckSubscription extends Command
                         $account->role = 'Non Member';
                         $account->save();
 
-                        Log::info("Role {$member->email_member} diubah jadi Non Member karena langganan habis.");
+                        Log::channel('member')->info("Role {$member->email_member} diubah jadi Non Member karena langganan habis.");
                     }
 
                     if ($daysLeft < -1) {
-                        Log::info("Member {$member->email_member} expired > 1 hari, menghapus field day...");
+                        Log::channel('member')->info("Member {$member->email_member} expired > 1 hari, menghapus field day...");
 
                         $member->day = null;
                         $member->save();
 
-                        Log::info("Field day untuk member {$member->email_member} berhasil dihapus (di-set null/0).");
+                        Log::channel('member')->info("Field day untuk member {$member->email_member} berhasil dihapus (di-set null/0).");
                     }
                 }
             } else {
-                Log::warning("Member {$member->email_member} belum punya transaksi atau ended_date kosong.");
+                Log::channel('member')->warning("Member {$member->email_member} belum punya transaksi atau ended_date kosong.");
             }
         }
 

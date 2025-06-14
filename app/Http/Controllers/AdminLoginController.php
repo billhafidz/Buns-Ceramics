@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Admin;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Artisan;
 
 class AdminLoginController extends Controller
 {
@@ -33,6 +34,8 @@ class AdminLoginController extends Controller
         if ($admin && Hash::check($request->password, $admin->password)) {
             Session::put('admin_logged_in', true);
             Session::put('admin_nama', $admin->nama);
+
+            Artisan::call('subscription:check');
             return redirect()->route('admin.dashboard');
         }
 

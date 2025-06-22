@@ -818,7 +818,7 @@
                 <div>
                     <a href="{{ route('index') }}" class="block mb-4 hover:text-red-400">Home</a>
                     <a href="{{ route('class') }}" class="block mb-4 hover:text-red-400">Class</a>
-                    <a href="#" class="block mb-4 hover:text-red-400">Gallery</a>
+                    <a href="{{ route('gallery') }}" class="block mb-4 hover:text-red-400">Gallery</a>
                     <a href="{{ route('contact') }}" class="block mb-4 hover:text-red-400">Contact</a>
                 </div>
 

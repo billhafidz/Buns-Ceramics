@@ -149,12 +149,6 @@
       </button>
     </form>
 
-    <div class="mt-6 pt-6 border-t border-gray-100">
-      <button class="text-sm text-gray-600 hover:text-black transition duration-200 flex items-center justify-center gap-1 mx-auto">
-        <i class="fas fa-redo text-xs"></i>
-        <span>Kirim ulang kode OTP</span>
-      </button>
-    </div>
   </div>
 </body>
 

@@ -16,8 +16,9 @@ class GalleryController extends Controller
         $jenis = $request->input('jenis');
         $perPage = 5;
 
-        // Tambahkan ini untuk mengambil data members
-        $members = Member::all();
+        $members = Member::whereHas('account', function ($query) {
+            $query->where('role', 'Member');
+        })->get();
 
         $gallery = Gallery::when($search, function ($query, $search) {
             return $query->where('nama', 'like', '%' . $search . '%')
@@ -29,14 +30,15 @@ class GalleryController extends Controller
             ->orderBy('created_at', 'desc')
             ->paginate($perPage);
 
-        // Kirim kedua variable ke view
         return view('admin-buns.gallery.gallery', compact('gallery', 'members'));
     }
 
     public function create(Request $request)
     {
         // Fetch all members from the database
-        $members = Member::all();
+        $members = Member::whereHas('account', function ($query) {
+            $query->where('role', 'Member');
+        })->get();
 
         // Pass the fetched members to the view
         return view('admin-buns.gallery.create', compact('members'));
@@ -98,7 +100,9 @@ class GalleryController extends Controller
     public function edit($id)
     {
         $gallery = Gallery::findOrFail($id);
-        $members = Member::all();
+        $members = Member::whereHas('account', function ($query) {
+            $query->where('role', 'Member');
+        })->get();
 
         return view('admin-buns.gallery.editGallery', compact('gallery', 'members'));
     }

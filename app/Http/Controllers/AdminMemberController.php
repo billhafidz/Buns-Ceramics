@@ -9,6 +9,11 @@ class AdminMemberController extends Controller
 {
     public function index(Request $request)
     {
+        if (! session('admin_logged_in')) {
+            return redirect('/')->with('error', 'Trying IDOR?');
+        } else if ('user' == session('user')) {
+            return redirect('/')->with('error', 'nyasar bang?');
+        }
         $search = $request->input('search');
 
         $members = Member::with('account')
@@ -18,8 +23,8 @@ class AdminMemberController extends Controller
             ->when($search, function ($query) use ($search) {
                 $query->where(function ($q) use ($search) {
                     $q->where('nama_member', 'like', '%' . $search . '%')
-                      ->orWhere('email_member', 'like', '%' . $search . '%')
-                      ->orWhere('no_telp', 'like', '%' . $search . '%');
+                        ->orWhere('email_member', 'like', '%' . $search . '%')
+                        ->orWhere('no_telp', 'like', '%' . $search . '%');
                 });
             })
             ->orderBy('created_at', 'desc')

@@ -10,6 +10,11 @@ class AdminAccountController extends Controller
 {
     public function index(Request $request)
     {
+        if (! session('admin_logged_in')) {
+            return redirect('/')->with('error', 'Trying IDOR?');
+        } else if ('user' == session('user')) {
+            return redirect('/')->with('error', 'nyasar bang?');
+        }
         $search = $request->input('search');
 
         $accounts = Account::with('member')

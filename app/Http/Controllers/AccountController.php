@@ -11,6 +11,9 @@ class AccountController extends Controller
 {
     public function showProfile()
     {
+    if (!session()->has('user')) {
+        return redirect('/')->with('error', 'Silahkan login terlebih dahulu');
+    }
         $user      = session('user');
         $accountId = $user->id_account;
 
@@ -71,7 +74,7 @@ class AccountController extends Controller
     {
         $user = session('user');
         if (! $user) {
-            return redirect('/login')->with('error', 'Silakan login terlebih dahulu.');
+            return redirect('/')->with('error', 'Silakan login terlebih dahulu.');
         }
 
         $accountId = $user->id_account;
